@@ -1,0 +1,1184 @@
+{
+  "_about": "Full export of the current Wix site (droniso.wixstudio.com/home), extracted 2026-11-15. Source of truth for the rebuild - every item here must exist in the new site (see scripts/verify-content in phase 2).",
+  "site": {
+    "name": "DronISO",
+    "tagline": {
+      "en": "Drone Solutions",
+      "he": "Drone Solutions"
+    },
+    "heroTitle": {
+      "en": "ABOVE AND BEYOND PHOTOGRAPHY",
+      "he": "ABOVE AND BEYOND PHOTOGRAPHY",
+      "_note": "On Wix each letter is a separate element; DOM order reads 'PHOTOGYRAPH' (accessibility bug). Hebrew version keeps the English slogan."
+    },
+    "owner": "Omer Helled",
+    "languages": [
+      "en",
+      "he"
+    ],
+    "originalLanguage": "en",
+    "copyright": "© DRONISO. All Rights Reserved",
+    "brandColors": {
+      "blueLight": "#24a3d1",
+      "blueDark": "#3b70ab",
+      "background": "#222222 (approx.)",
+      "_source": "logo SVG gradient"
+    },
+    "fontsOnWix": [
+      "almoni-dl-aaa (Hebrew, 300/400/700)",
+      "Madefor",
+      "Poppins ExtraLight",
+      "DIN Next Light",
+      "Helvetica"
+    ]
+  },
+  "contact": {
+    "email": "dronisoil@gmail.com",
+    "whatsapp": "https://api.whatsapp.com/send?phone=972509023898",
+    "phoneE164": "+972509023898",
+    "instagram": "https://www.instagram.com/omerhelled/",
+    "linkedin": "https://www.linkedin.com/in/omerhelled/",
+    "form": {
+      "fields": [
+        {
+          "name": "firstName",
+          "label": {
+            "en": "First name",
+            "he": "שם פרטי"
+          },
+          "required": true
+        },
+        {
+          "name": "lastName",
+          "label": {
+            "en": "Last name",
+            "he": "שם משפחה"
+          },
+          "required": true
+        },
+        {
+          "name": "phone",
+          "label": {
+            "en": "Phone",
+            "he": "טלפון"
+          },
+          "required": false
+        },
+        {
+          "name": "email",
+          "label": {
+            "en": "Email",
+            "he": "אימייל"
+          },
+          "required": true
+        },
+        {
+          "name": "message",
+          "label": {
+            "en": "Message",
+            "he": "הודעה"
+          },
+          "required": true
+        }
+      ],
+      "submit": {
+        "en": "Send",
+        "he": "שלח"
+      },
+      "success": {
+        "en": "Message sent, thank you !",
+        "he": "תודה, ההודעה נשלחה"
+      }
+    },
+    "channelLabels": {
+      "en": [
+        "WhatsApp",
+        "Email",
+        "Linkedin",
+        "Instagram"
+      ],
+      "he": [
+        "וואטסאפ",
+        "אימייל",
+        "לינקדאין",
+        "אינסטגרם"
+      ]
+    },
+    "pageBackground": "Same intro video as the home hero"
+  },
+  "navigation": {
+    "en": [
+      "Home",
+      "About",
+      "Projects ▾ (Landscapes, Real Estate, Hotels, Extreme, Commercials, Weddings & Events)",
+      "Q&A",
+      "Contact",
+      "EN | HE"
+    ],
+    "he": [
+      "בית",
+      "אודות",
+      "פרויקטים ▾ (צילומי נוף, נדל״ן, מלונות, אקסטרים, פרסומות, חתונות ואירועים)",
+      "שאלות ותשובות",
+      "צור קשר",
+      "EN | HE"
+    ]
+  },
+  "pageOrderOnWix": [
+    "Header",
+    "Hero video + slogan",
+    "Landscapes gallery",
+    "Real Estate gallery",
+    "About Me",
+    "Hotels gallery",
+    "Extreme gallery",
+    "Commercials gallery",
+    "Weddings & Events gallery",
+    "Q&A",
+    "Footer (logo, WhatsApp, Email, LinkedIn, Instagram, copyright)",
+    "Floating WhatsApp button"
+  ],
+  "about": {
+    "heading": {
+      "en": "About Me",
+      "he": "עליי"
+    },
+    "body": {
+      "en": [
+        "Tired of boring photos for your business? Photos that don’t manage to deliver any meaningful message?",
+        "My name is Omer, an aerial photographer with 4 years of experience in this amazing world of drone photography.",
+        "With every shot, I aim to bring a fresh, creative, and inspiring perspective – one that highlights the beauty in every detail of the footage.",
+        "I work with advanced equipment and make sure every frame is perfect, with a focus on professionalism and attention to every small detail.",
+        "Here on my website, you can see how my work turns every moment into a breathtaking story."
+      ],
+      "he": [
+        "נמאס לך מצילומים משעמים לעסק? צילומים שלא מצליחים להעביר שום מסר משמעותי?",
+        "אני עומר, צלם אווירי עם ניסיון של 4 שנים בעולם המדהים הזה של צילומים אוויריים עם רחפנים.",
+        "עם כל צילום, אני שואף להביא פרספקטיבה חדשה, יצירתית ומעוררת השראה – כזו שמדגישה את היופי שבכל פרט בתמונה.",
+        "אני עובד עם ציוד מתקדם ודואג שכל פריים ייצא מושלם, תוך הקפדה על מקצועיות ודיוק עד הפרט הקטן ביותר.",
+        "כאן באתר תוכל לראות איך העבודה שלי הופכת כל רגע לסיפור עוצר נשימה."
+      ]
+    },
+    "_notes": [
+      "Hebrew typo on Wix: 'משעמים' -> 'משעממים'",
+      "'4 years' is hard-coded - confirm the start year so it can be computed"
+    ],
+    "photos": [
+      "profile-1",
+      "profile-2"
+    ]
+  },
+  "faq": {
+    "heading": {
+      "en": "Q&A",
+      "he": "שאלות ותשובות"
+    },
+    "items": [
+      {
+        "q": {
+          "en": "What types of drone photography do you offer?",
+          "he": "איזה סוגי צילום אתה מציע?"
+        },
+        "a": {
+          "en": "I specialize in photography for events, weddings, real estate, hotels, commercials, marriage proposals, and especially landscapes.",
+          "he": "אני מתמחה בצילום אירועים, חתונות, נדל”ן, מלונות, פרסומות, הצעות נישואין ובעיקר נופים"
+        }
+      },
+      {
+        "q": {
+          "en": "Can you edit the footage?",
+          "he": "האם אתה גם עורך את הסרטונים?"
+        },
+        "a": {
+          "en": "Yes, if needed, I will edit your videos to the highest quality, I am using DaVinci Resolve, to achieve the best results.",
+          "he": "כן, במידת הצורך, אני אערוך את הסרטונים שלכם באיכות הכי גבוהה שיש, לפי הצרכים האישיים שלכם"
+        }
+      },
+      {
+        "q": {
+          "en": "Can you film in hard-to-reach locations?",
+          "he": "האם יש לך את האפשרות לצלם גם באזורים קשים לגישה?"
+        },
+        "a": {
+          "en": "It depends on the conditions. I have drones capable of providing solutions in such situations, including indoors when possible. We will evaluate this together.",
+          "he": "תלוי בתנאי השטח, אני מחזיק ברחפנים שיודעים לתת את הפתרון במצבים כאלה, גם בתוך חללים סגורים כשמתאפשר, אנחנו נבחן זאת יחד"
+        }
+      },
+      {
+        "q": {
+          "en": "What is the price range for drone photography services?",
+          "he": "מה טווח המחירים לצילום עם רחפן?"
+        },
+        "a": {
+          "en": "Prices vary depending on the type of project, location, length of the video and any special requests. Contact us for a personalized quote.",
+          "he": "המחירים משתנים בהתאם לסוג הפרויקט, מיקומו, אורך הסרטון ובקשות מיוחדות במידה ויש. צרו קשר להצעת מחיר מותאמת"
+        }
+      },
+      {
+        "q": {
+          "en": "What happens if the weather isn’t suitable for filming?",
+          "he": "מה קורה אם מזג האוויר אינו מתאים לצילום?"
+        },
+        "a": {
+          "en": "We’ll check the forecast in advance and reschedule if necessary.",
+          "he": "נבדוק את התחזית מבעוד מועד, ובמידת הצורך נתאם תאריך חלופי"
+        }
+      },
+      {
+        "q": {
+          "en": "Are your drone shoots safe?",
+          "he": "האם הצילומים בטוחים?"
+        },
+        "a": {
+          "en": "I strictly adhere to the highest safety standards to ensure safe and professional operations.",
+          "he": "אני מקפיד על כללי הבטיחות המחמירים ביותר כדי להבטיח עבודה בטוחה ומקצועית"
+        }
+      }
+    ],
+    "_notes": [
+      "On Wix the Hebrew question marks render on the wrong side ('?איזה סוגי...') - fixed above",
+      "Hebrew answer #2 omits 'DaVinci Resolve' that appears in English - align both"
+    ]
+  },
+  "seo": {
+    "title": "DronISO - Drone Solutions",
+    "description": "Tired of boring photos for your business? Photos that don’t manage to deliver any meaningful message? My name is Omer, an aerial photographer with 4 years of experience in this amazing world of drone photography. I work with advanced equipment and make sure every frame is perfect, with a focus on professionalism and attention to every small detail.",
+    "ogImage": "og-image",
+    "ogUrl": "https://www.droniso.com",
+    "googleSiteVerification": [
+      "W6gmGe8ExnkpEKpKgwvI3HDQG7NGrjh4hUyclOMh-6Q",
+      "z9W4UYkbwmZiWl11_HXmKH2cxQZ7SCDD9pkl07wKr-U"
+    ],
+    "_notes": [
+      "meta keywords on Wix were 'designer, design' (template leftover) - drop",
+      "favicon on Wix is the default Wix icon - create a real one from the logo mark",
+      "www.droniso.com currently returns 404 - domain/DNS must be checked"
+    ]
+  },
+  "wixUrls": [
+    "https://droniso.wixstudio.com/home",
+    "https://droniso.wixstudio.com/home/contact",
+    "https://droniso.wixstudio.com/home/he",
+    "https://droniso.wixstudio.com/home/he/contact"
+  ],
+  "categories": [
+    {
+      "slug": "landscapes",
+      "title": {
+        "en": "Landscapes",
+        "he": "צילומי נוף"
+      },
+      "wixGalleryId": "857b7d16-0140-472a-9be6-62886ec7c6ab",
+      "items": [
+        {
+          "order": 1,
+          "type": "image",
+          "title": "Taranaki volcano - New Zealand",
+          "wixId": "fdb09b_b6ec8385f53d4ca984831b4f5b3fd83b",
+          "originalFileName": "DJI_20231003204408_0100_D-optimised.jpg",
+          "width": 4536,
+          "height": 8064,
+          "source": "https://static.wixstatic.com/media/fdb09b_b6ec8385f53d4ca984831b4f5b3fd83b~mv2.jpg",
+          "orientation": "portrait",
+          "bytes": 6544343
+        },
+        {
+          "order": 2,
+          "type": "image",
+          "title": "Taranaki volcano - New Zealand",
+          "wixId": "fdb09b_8bf2e91590a34eafb3c5c9e6793cfa1a",
+          "originalFileName": "DJI_20231003221121_0134_D-optimised.jpg",
+          "width": 12220,
+          "height": 4432,
+          "source": "https://static.wixstatic.com/media/fdb09b_8bf2e91590a34eafb3c5c9e6793cfa1a~mv2.jpg",
+          "orientation": "panorama",
+          "bytes": 5782961
+        },
+        {
+          "order": 3,
+          "type": "image",
+          "title": "Ferry in New Zealand",
+          "wixId": "fdb09b_cd27e44f11344d30bde21a386990d2af",
+          "originalFileName": "DJI_20230930230311_0076_D-HDR-optimised.jpg",
+          "width": 4513,
+          "height": 8023,
+          "source": "https://static.wixstatic.com/media/fdb09b_cd27e44f11344d30bde21a386990d2af~mv2.jpg",
+          "orientation": "portrait",
+          "bytes": 7072572
+        },
+        {
+          "order": 4,
+          "type": "image",
+          "title": "",
+          "wixId": "fdb09b_4b394572f83c4805b25581856e2f6413",
+          "originalFileName": "DJI_20230929003324_0037_D.jpeg",
+          "width": 4536,
+          "height": 8064,
+          "source": "https://static.wixstatic.com/media/fdb09b_4b394572f83c4805b25581856e2f6413~mv2.jpeg",
+          "orientation": "portrait",
+          "bytes": 7624872
+        },
+        {
+          "order": 5,
+          "type": "video",
+          "title": "Lorne (Australia) Bridge",
+          "wixId": "fdb09b_93bb17fa97c6480a9b74bc1eaeb40d7c",
+          "originalFileName": "33 - V1-0016_Reels00001-optimised.mp4",
+          "width": 1080,
+          "height": 1920,
+          "durationSec": 12.8,
+          "source": "https://video.wixstatic.com/video/fdb09b_93bb17fa97c6480a9b74bc1eaeb40d7c/1080p/mp4/file.mp4",
+          "quality": "1080p",
+          "poster": "https://static.wixstatic.com/media/fdb09b_93bb17fa97c6480a9b74bc1eaeb40d7cf003.jpg",
+          "orientation": "portrait",
+          "bytes": 9837185
+        },
+        {
+          "order": 6,
+          "type": "image",
+          "title": "New Zealand river",
+          "wixId": "fdb09b_a4cde648a82c4b9cae710e47a158de6f",
+          "originalFileName": "DJI_20230929013547_0049_D-HDR-optimised.jpg",
+          "width": 8030,
+          "height": 4517,
+          "source": "https://static.wixstatic.com/media/fdb09b_a4cde648a82c4b9cae710e47a158de6f~mv2.jpg",
+          "orientation": "landscape",
+          "bytes": 7356342
+        },
+        {
+          "order": 7,
+          "type": "image",
+          "title": "Lake Taupo wharf",
+          "wixId": "fdb09b_2df90020e2f44491b523067e0f0948ed",
+          "originalFileName": "DJI_20231005073254_0214_D-HDR-optimised.jpg",
+          "width": 4528,
+          "height": 8050,
+          "source": "https://static.wixstatic.com/media/fdb09b_2df90020e2f44491b523067e0f0948ed~mv2.jpg",
+          "orientation": "portrait",
+          "bytes": 5583604
+        },
+        {
+          "order": 8,
+          "type": "image",
+          "title": "",
+          "wixId": "fdb09b_8ff95cecad0a44a882fa7481d2b2bf2d",
+          "originalFileName": "DJI_20250317094836_0167_D_1-optimised.jpg.jpg",
+          "width": 8064,
+          "height": 4536,
+          "source": "https://static.wixstatic.com/media/fdb09b_8ff95cecad0a44a882fa7481d2b2bf2d~mv2.jpg",
+          "orientation": "landscape",
+          "bytes": 6831311
+        },
+        {
+          "order": 9,
+          "type": "image",
+          "title": "",
+          "wixId": "fdb09b_929f4eed70134e43ab0efb47840cbd1f",
+          "originalFileName": "DJI_20241015130011_0454_D.jpg",
+          "width": 5644,
+          "height": 3175,
+          "source": "https://static.wixstatic.com/media/fdb09b_929f4eed70134e43ab0efb47840cbd1f~mv2.jpg",
+          "orientation": "landscape",
+          "bytes": 5723759
+        },
+        {
+          "order": 10,
+          "type": "image",
+          "title": "",
+          "wixId": "fdb09b_8054869aa95a4fccb28f2311e570cf28",
+          "originalFileName": "DJI_20250330083316_0243_D-optimised.jpg.jpg",
+          "width": 4536,
+          "height": 8064,
+          "source": "https://static.wixstatic.com/media/fdb09b_8054869aa95a4fccb28f2311e570cf28~mv2.jpg",
+          "orientation": "portrait",
+          "bytes": 10292720
+        },
+        {
+          "order": 11,
+          "type": "image",
+          "title": "Gold Coast - Australia",
+          "wixId": "fdb09b_762ffff973254f1a8b45a8c4602c5323",
+          "originalFileName": "dji_fly_20230123_112902_37_1674434609507_pano-optimised.jpg",
+          "width": 8192,
+          "height": 3314,
+          "source": "https://static.wixstatic.com/media/fdb09b_762ffff973254f1a8b45a8c4602c5323~mv2.jpg",
+          "orientation": "panorama",
+          "bytes": 1895556
+        },
+        {
+          "order": 12,
+          "type": "image",
+          "title": "",
+          "wixId": "fdb09b_748490a057c04b61979b0fabae38c37b",
+          "originalFileName": "DJI_20250706093338_0072_D.jpg",
+          "width": 8064,
+          "height": 4536,
+          "source": "https://static.wixstatic.com/media/fdb09b_748490a057c04b61979b0fabae38c37b~mv2.jpg",
+          "orientation": "landscape",
+          "bytes": 5157136
+        },
+        {
+          "order": 13,
+          "type": "image",
+          "title": "waiotapu thermals",
+          "wixId": "fdb09b_88b28bf46603411f9feba1f325c78045",
+          "originalFileName": "DJI_20231006032343_0249_D-HDR-optimised.jpg",
+          "width": 8050,
+          "height": 4528,
+          "source": "https://static.wixstatic.com/media/fdb09b_88b28bf46603411f9feba1f325c78045~mv2.jpg",
+          "orientation": "landscape",
+          "bytes": 7456613
+        },
+        {
+          "order": 14,
+          "type": "image",
+          "title": "",
+          "wixId": "fdb09b_b5eb00d9989d4bc8b0ea11da55c33aaf",
+          "originalFileName": "DJI_0355_1.jpg",
+          "width": 2822,
+          "height": 1587,
+          "source": "https://static.wixstatic.com/media/fdb09b_b5eb00d9989d4bc8b0ea11da55c33aaf~mv2.jpg",
+          "orientation": "landscape",
+          "bytes": 2162052
+        },
+        {
+          "order": 15,
+          "type": "image",
+          "title": "",
+          "wixId": "fdb09b_61346bfc732c4882b42e20bd85c6ba94",
+          "originalFileName": "DJI_0240-optimised.jpg",
+          "width": 2268,
+          "height": 4032,
+          "source": "https://static.wixstatic.com/media/fdb09b_61346bfc732c4882b42e20bd85c6ba94~mv2.jpg",
+          "orientation": "portrait",
+          "bytes": 1493625
+        },
+        {
+          "order": 16,
+          "type": "video",
+          "title": "Sunshine Coast's wharf",
+          "wixId": "fdb09b_66302d7e9ca34de1bb8e49d6f2a75fae",
+          "originalFileName": "34 - DJI_0053-optimised.MP4",
+          "width": 608,
+          "height": 1080,
+          "durationSec": 12.8,
+          "source": "https://video.wixstatic.com/video/fdb09b_66302d7e9ca34de1bb8e49d6f2a75fae/1080p/mp4/file.mp4",
+          "quality": "1080p",
+          "poster": "https://static.wixstatic.com/media/fdb09b_66302d7e9ca34de1bb8e49d6f2a75faef003.jpg",
+          "orientation": "portrait",
+          "bytes": 6233369
+        },
+        {
+          "order": 17,
+          "type": "image",
+          "title": "Byron Bay - Australia",
+          "wixId": "fdb09b_cc079f02f7c14bd7a2e24dc306b4a8c5",
+          "originalFileName": "Green Lighthouse Island with Shining Blue Water-optimised.jpg",
+          "width": 4032,
+          "height": 2268,
+          "source": "https://static.wixstatic.com/media/fdb09b_cc079f02f7c14bd7a2e24dc306b4a8c5~mv2.jpg",
+          "orientation": "landscape",
+          "bytes": 2367156
+        },
+        {
+          "order": 18,
+          "type": "image",
+          "title": "",
+          "wixId": "fdb09b_40eba2b018154f1ba07cda9c5a2e0811",
+          "originalFileName": "DJI_20250720083204_0086_D.jpg",
+          "width": 8064,
+          "height": 4536,
+          "source": "https://static.wixstatic.com/media/fdb09b_40eba2b018154f1ba07cda9c5a2e0811~mv2.jpg",
+          "orientation": "landscape",
+          "bytes": 5648621
+        },
+        {
+          "order": 19,
+          "type": "image",
+          "title": "",
+          "wixId": "fdb09b_c2fc331d7a5e4755be52b642bc84d0f5",
+          "originalFileName": "DJI_0091(1).jpg",
+          "width": 2240,
+          "height": 5175,
+          "source": "https://static.wixstatic.com/media/fdb09b_c2fc331d7a5e4755be52b642bc84d0f5~mv2.jpg",
+          "orientation": "portrait",
+          "bytes": 2395332
+        },
+        {
+          "order": 20,
+          "type": "image",
+          "title": "Milford sound - New Zealand",
+          "wixId": "fdb09b_da376e319d8b4abf951315d9410dfdb1",
+          "originalFileName": "IMG_8680-optimised.jpg",
+          "width": 7482,
+          "height": 5610,
+          "source": "https://static.wixstatic.com/media/fdb09b_da376e319d8b4abf951315d9410dfdb1~mv2.jpg",
+          "orientation": "landscape",
+          "bytes": 12081467
+        },
+        {
+          "order": 21,
+          "type": "image",
+          "title": "Taranaki hike - New Zealand",
+          "wixId": "fdb09b_d1b7149de4d84f018d7c1e03a4b498b6",
+          "originalFileName": "IMG_8914-optimised.jpg",
+          "width": 6048,
+          "height": 8064,
+          "source": "https://static.wixstatic.com/media/fdb09b_d1b7149de4d84f018d7c1e03a4b498b6~mv2.jpg",
+          "orientation": "portrait",
+          "bytes": 7014196
+        },
+        {
+          "order": 22,
+          "type": "image",
+          "title": "Tel Aviv highway",
+          "wixId": "fdb09b_a8104ea0a76d458586347b1765530505",
+          "originalFileName": "DJI_20240914205954_0416_D-min-optimised.jpg",
+          "width": 4536,
+          "height": 8064,
+          "source": "https://static.wixstatic.com/media/fdb09b_a8104ea0a76d458586347b1765530505~mv2.jpg",
+          "orientation": "portrait",
+          "bytes": 4240240
+        },
+        {
+          "order": 23,
+          "type": "image",
+          "title": "Byron Bay - Australia",
+          "wixId": "fdb09b_925f8818af264489ba0235395e2f83d9",
+          "originalFileName": "Lighthouse Beach in a Sunny Day-optimised.jpg",
+          "width": 4032,
+          "height": 2268,
+          "source": "https://static.wixstatic.com/media/fdb09b_925f8818af264489ba0235395e2f83d9~mv2.jpg",
+          "orientation": "landscape",
+          "bytes": 2077581
+        },
+        {
+          "order": 24,
+          "type": "image",
+          "title": "",
+          "wixId": "fdb09b_25321332474c4e858fa405884c7ea695",
+          "originalFileName": "DJI_20250408091357_0040_D-min.JPG",
+          "width": 4536,
+          "height": 8064,
+          "source": "https://static.wixstatic.com/media/fdb09b_25321332474c4e858fa405884c7ea695~mv2.jpg",
+          "orientation": "portrait",
+          "bytes": 5150070
+        },
+        {
+          "order": 25,
+          "type": "image",
+          "title": "Sydney - Australia",
+          "wixId": "fdb09b_4231c3a047844dfa928e9c97a0797130",
+          "originalFileName": "Sydney Harbour -optimised.jpg",
+          "width": 4032,
+          "height": 2268,
+          "source": "https://static.wixstatic.com/media/fdb09b_4231c3a047844dfa928e9c97a0797130~mv2.jpg",
+          "orientation": "landscape",
+          "bytes": 2271883
+        },
+        {
+          "order": 26,
+          "type": "image",
+          "title": "",
+          "wixId": "fdb09b_3d091ede1d3149af97e0eecdfb39a9fc",
+          "originalFileName": "Waves Break on the Rocks 2.jpg",
+          "width": 1586,
+          "height": 2821,
+          "source": "https://static.wixstatic.com/media/fdb09b_3d091ede1d3149af97e0eecdfb39a9fc~mv2.jpg",
+          "orientation": "portrait",
+          "bytes": 1268448
+        },
+        {
+          "order": 27,
+          "type": "image",
+          "title": "Salt mushrooms - Dead Sea",
+          "wixId": "fdb09b_9aa0e269487c47ddbdbb33815367f6c0",
+          "originalFileName": "DJI_20241022133709_0031_D-optimised.jpg",
+          "width": 4536,
+          "height": 8064,
+          "source": "https://static.wixstatic.com/media/fdb09b_9aa0e269487c47ddbdbb33815367f6c0~mv2.jpg",
+          "orientation": "portrait",
+          "bytes": 5776690
+        },
+        {
+          "order": 28,
+          "type": "image",
+          "title": "Salt mushrooms - Dead Sea",
+          "wixId": "fdb09b_76fb3e2668214d499a2fddc5cc99e115",
+          "originalFileName": "DJI_20241022133341_0019_D-HDR-optimised.jpg",
+          "width": 4517,
+          "height": 8030,
+          "source": "https://static.wixstatic.com/media/fdb09b_76fb3e2668214d499a2fddc5cc99e115~mv2.jpg",
+          "orientation": "portrait",
+          "bytes": 6591459
+        },
+        {
+          "order": 29,
+          "type": "image",
+          "title": "Salt mushrooms - Dead Sea",
+          "wixId": "fdb09b_0ed5b397abc74f5da5b75aae901b64e7",
+          "originalFileName": "DJI_20241022133548_0027_D-HDR-optimised.jpg",
+          "width": 4517,
+          "height": 8030,
+          "source": "https://static.wixstatic.com/media/fdb09b_0ed5b397abc74f5da5b75aae901b64e7~mv2.jpg",
+          "orientation": "portrait",
+          "bytes": 7184431
+        },
+        {
+          "order": 30,
+          "type": "image",
+          "title": "",
+          "wixId": "fdb09b_f23d36d309654e80b659350340ee43c9",
+          "originalFileName": "DJI_20241106161835_0065_D-Enhanced-NR_1-optimised.jpg",
+          "width": 8064,
+          "height": 4536,
+          "source": "https://static.wixstatic.com/media/fdb09b_f23d36d309654e80b659350340ee43c9~mv2.jpg",
+          "orientation": "landscape",
+          "bytes": 4617772
+        },
+        {
+          "order": 31,
+          "type": "image",
+          "title": "",
+          "wixId": "fdb09b_75fd58e61b2b43f18be20051bad652c0",
+          "originalFileName": "DJI_20231004025703_0155_D.jpg",
+          "width": 5644,
+          "height": 3175,
+          "source": "https://static.wixstatic.com/media/fdb09b_75fd58e61b2b43f18be20051bad652c0~mv2.jpg",
+          "orientation": "landscape",
+          "bytes": 6159027
+        },
+        {
+          "order": 32,
+          "type": "image",
+          "title": "",
+          "wixId": "fdb09b_3028df688b9b47c49dafcec2f3d7ddb4",
+          "originalFileName": "DJI_20250403025429_0007_D-optimised.jpg.jpg",
+          "width": 4536,
+          "height": 8064,
+          "source": "https://static.wixstatic.com/media/fdb09b_3028df688b9b47c49dafcec2f3d7ddb4~mv2.jpg",
+          "orientation": "portrait",
+          "bytes": 6359783
+        },
+        {
+          "order": 33,
+          "type": "image",
+          "title": "",
+          "wixId": "fdb09b_c542cb1bc8204685951ef285b04a02ef",
+          "originalFileName": "DJI_20250315103148_0132_D-optimised.jpg.jpg",
+          "width": 8064,
+          "height": 4536,
+          "source": "https://static.wixstatic.com/media/fdb09b_c542cb1bc8204685951ef285b04a02ef~mv2.jpg",
+          "orientation": "landscape",
+          "bytes": 2493574
+        }
+      ]
+    },
+    {
+      "slug": "real-estate",
+      "title": {
+        "en": "Real Estate",
+        "he": "נדל״ן"
+      },
+      "wixGalleryId": "9d1820c2-23b9-4b4b-a217-ed4444e10bf8",
+      "items": [
+        {
+          "order": 1,
+          "type": "image",
+          "title": "Sky Tower - Auckland",
+          "wixId": "fdb09b_f4dd6318ba6e4791b888174cbce7ec2b",
+          "originalFileName": "DJI_20231009025429_0261_D-HDR-optimised.jpg",
+          "width": 4528,
+          "height": 8050,
+          "source": "https://static.wixstatic.com/media/fdb09b_f4dd6318ba6e4791b888174cbce7ec2b~mv2.jpg",
+          "orientation": "portrait",
+          "bytes": 3716170
+        },
+        {
+          "order": 2,
+          "type": "video",
+          "title": "Construction inspection",
+          "wixId": "fdb09b_6f083a9456cf440e8334268ca16935ac",
+          "originalFileName": "04 - V1-0002_V1-0002_DJI_20240607140731_0369_D-optimised.mp4",
+          "width": 1920,
+          "height": 1080,
+          "durationSec": 22.9,
+          "source": "https://video.wixstatic.com/video/fdb09b_6f083a9456cf440e8334268ca16935ac/1080p/mp4/file.mp4",
+          "quality": "1080p",
+          "poster": "https://static.wixstatic.com/media/fdb09b_6f083a9456cf440e8334268ca16935acf003.jpg",
+          "orientation": "landscape",
+          "bytes": 17397482
+        },
+        {
+          "order": 3,
+          "type": "image",
+          "title": "",
+          "wixId": "fdb09b_4e3817a07f744b879a14f6700120aa5e",
+          "originalFileName": "DJI_20250320063914_0227_D-optimised.jpg.jpg",
+          "width": 8064,
+          "height": 4536,
+          "source": "https://static.wixstatic.com/media/fdb09b_4e3817a07f744b879a14f6700120aa5e~mv2.jpg",
+          "orientation": "landscape",
+          "bytes": 6211421
+        },
+        {
+          "order": 4,
+          "type": "image",
+          "title": "Construction inspection",
+          "wixId": "fdb09b_3c42630385274a54b44fe08373dbe195",
+          "originalFileName": "DJI_20240607141455_0376_D-min-optimised.jpg",
+          "width": 8064,
+          "height": 4536,
+          "source": "https://static.wixstatic.com/media/fdb09b_3c42630385274a54b44fe08373dbe195~mv2.jpg",
+          "orientation": "landscape",
+          "bytes": 4370453
+        },
+        {
+          "order": 5,
+          "type": "image",
+          "title": "Construction inspection",
+          "wixId": "fdb09b_0a32ca1b29e2406fbefae770fe61969f",
+          "originalFileName": "DJI_20240607141714_0382_D-HDR-min-optimised.jpg",
+          "width": 8030,
+          "height": 4517,
+          "source": "https://static.wixstatic.com/media/fdb09b_0a32ca1b29e2406fbefae770fe61969f~mv2.jpg",
+          "orientation": "landscape",
+          "bytes": 3282148
+        },
+        {
+          "order": 6,
+          "type": "image",
+          "title": "Tel aviv's Buildings line",
+          "wixId": "fdb09b_a85f626254404efa87a92f46baaab42b",
+          "originalFileName": "DJI_20240505160429_0359_D-HDR-optimised.jpg",
+          "width": 2264,
+          "height": 4025,
+          "source": "https://static.wixstatic.com/media/fdb09b_a85f626254404efa87a92f46baaab42b~mv2.jpg",
+          "orientation": "portrait",
+          "bytes": 1541372
+        },
+        {
+          "order": 7,
+          "type": "image",
+          "title": "Azrieli Towers - Tel Aviv",
+          "wixId": "fdb09b_c94efbd5292b4b3ea4cbaf1cf7ec2a99",
+          "originalFileName": "DJI_20240914210141_0420_D-HDR-min-optimised.jpg",
+          "width": 4509,
+          "height": 8016,
+          "source": "https://static.wixstatic.com/media/fdb09b_c94efbd5292b4b3ea4cbaf1cf7ec2a99~mv2.jpg",
+          "orientation": "portrait",
+          "bytes": 5524128
+        },
+        {
+          "order": 8,
+          "type": "image",
+          "title": "Construction inspection",
+          "wixId": "fdb09b_4077936f6e434bf0a5ea7d54b6795364",
+          "originalFileName": "DJI_20240914210415_0426_D-min-optimised.jpg",
+          "width": 7802,
+          "height": 4389,
+          "source": "https://static.wixstatic.com/media/fdb09b_4077936f6e434bf0a5ea7d54b6795364~mv2.jpg",
+          "orientation": "landscape",
+          "bytes": 6575454
+        },
+        {
+          "order": 9,
+          "type": "image",
+          "title": "",
+          "wixId": "fdb09b_6579215a442e431eaed8db52b24c750d",
+          "originalFileName": "DJI_20250319050828_0190_D-optimised.jpg.jpg",
+          "width": 4536,
+          "height": 8064,
+          "source": "https://static.wixstatic.com/media/fdb09b_6579215a442e431eaed8db52b24c750d~mv2.jpg",
+          "orientation": "portrait",
+          "bytes": 1352488
+        },
+        {
+          "order": 10,
+          "type": "video",
+          "title": "Tel aviv's Buildings line",
+          "wixId": "fdb09b_103234347a064202b0ae70cf552c5dd1",
+          "originalFileName": "13 - Untitled-optimised.mp4",
+          "width": 1920,
+          "height": 1080,
+          "durationSec": 14.1,
+          "source": "https://video.wixstatic.com/video/fdb09b_103234347a064202b0ae70cf552c5dd1/1080p/mp4/file.mp4",
+          "quality": "1080p",
+          "poster": "https://static.wixstatic.com/media/fdb09b_103234347a064202b0ae70cf552c5dd1f003.jpg",
+          "orientation": "landscape",
+          "bytes": 10764594
+        },
+        {
+          "order": 11,
+          "type": "image",
+          "title": "Road inspection",
+          "wixId": "fdb09b_f75e6422f3a94743af9b7950ca8d796e",
+          "originalFileName": "dji_fly_20230218_123752_231_1676684222210_photo-optimised.jpg",
+          "width": 4032,
+          "height": 2268,
+          "source": "https://static.wixstatic.com/media/fdb09b_f75e6422f3a94743af9b7950ca8d796e~mv2.jpg",
+          "orientation": "landscape",
+          "bytes": 1273014
+        },
+        {
+          "order": 12,
+          "type": "image",
+          "title": "Photography for renovation",
+          "wixId": "fdb09b_3fbddd3c473948528cf3d26a878e46b6",
+          "originalFileName": "dji_fly_20230728_161710_37_1690542954282_aeb-HDR-optimised.jpg",
+          "width": 4017,
+          "height": 3013,
+          "source": "https://static.wixstatic.com/media/fdb09b_3fbddd3c473948528cf3d26a878e46b6~mv2.jpg",
+          "orientation": "landscape",
+          "bytes": 2481752
+        },
+        {
+          "order": 13,
+          "type": "video",
+          "title": "Tel aviv's Buildings line",
+          "wixId": "fdb09b_be90d91564754c3facba1492bf995c9e",
+          "originalFileName": "18 - hilton.mov",
+          "width": 1920,
+          "height": 1080,
+          "durationSec": 3.5,
+          "source": "https://video.wixstatic.com/video/fdb09b_be90d91564754c3facba1492bf995c9e/1080p/mp4/file.mp4",
+          "quality": "1080p",
+          "poster": "https://static.wixstatic.com/media/fdb09b_be90d91564754c3facba1492bf995c9ef003.jpg",
+          "orientation": "landscape",
+          "bytes": 2864285
+        },
+        {
+          "order": 14,
+          "type": "image",
+          "title": "Opera House - Sydney",
+          "wixId": "fdb09b_dc455ce158e244c280afd8d5b6d304d3",
+          "originalFileName": "IMG_2598-optimised.jpeg",
+          "width": 3702,
+          "height": 2776,
+          "source": "https://static.wixstatic.com/media/fdb09b_dc455ce158e244c280afd8d5b6d304d3~mv2.jpeg",
+          "orientation": "landscape",
+          "bytes": 1744844
+        },
+        {
+          "order": 15,
+          "type": "image",
+          "title": "Opera House and Harbor Bridge - Sydney",
+          "wixId": "fdb09b_0c0a3c11c7bb4dd3a28ca8cffac5bbda",
+          "originalFileName": "Sydne Harbour 2-optimised.jpg",
+          "width": 4032,
+          "height": 2268,
+          "source": "https://static.wixstatic.com/media/fdb09b_0c0a3c11c7bb4dd3a28ca8cffac5bbda~mv2.jpg",
+          "orientation": "landscape",
+          "bytes": 2333154
+        }
+      ]
+    },
+    {
+      "slug": "hotels",
+      "title": {
+        "en": "Hotels",
+        "he": "מלונות"
+      },
+      "wixGalleryId": "baf7b1d0-0ebe-43da-bdf5-592d1f8f3f53",
+      "items": [
+        {
+          "order": 1,
+          "type": "image",
+          "title": "Novotel hotel - Sunshine coast",
+          "wixId": "fdb09b_5947803ecc464ea796e5018a6bc06cc6",
+          "originalFileName": "dji_fly_20230728_131436_20_1690515081987_aeb-HDR-optimised.jpg",
+          "width": 3013,
+          "height": 4017,
+          "source": "https://static.wixstatic.com/media/fdb09b_5947803ecc464ea796e5018a6bc06cc6~mv2.jpg",
+          "orientation": "portrait",
+          "bytes": 2553281
+        },
+        {
+          "order": 2,
+          "type": "image",
+          "title": "Novotel hotel - Sunshine coast",
+          "wixId": "fdb09b_4e0f23549c40455683a3a816e069abc2",
+          "originalFileName": "dji_fly_20230728_131824_27_1690515076871_aeb-HDR-optimised.jpg",
+          "width": 4017,
+          "height": 3013,
+          "source": "https://static.wixstatic.com/media/fdb09b_4e0f23549c40455683a3a816e069abc2~mv2.jpg",
+          "orientation": "landscape",
+          "bytes": 1479358
+        },
+        {
+          "order": 3,
+          "type": "image",
+          "title": "-420 Glemping - Dead Sea",
+          "wixId": "fdb09b_6d253b3007b14eb5acf1e86e1f67e312",
+          "originalFileName": "Image02.jpg",
+          "width": 8064,
+          "height": 4536,
+          "source": "https://static.wixstatic.com/media/fdb09b_6d253b3007b14eb5acf1e86e1f67e312~mv2.jpg",
+          "orientation": "landscape",
+          "bytes": 3647717
+        },
+        {
+          "order": 4,
+          "type": "image",
+          "title": "-420 Glemping - Dead Sea",
+          "wixId": "fdb09b_46ca273fc2294d58999f9a8402b12505",
+          "originalFileName": "Image01.jpg",
+          "width": 8064,
+          "height": 4536,
+          "source": "https://static.wixstatic.com/media/fdb09b_46ca273fc2294d58999f9a8402b12505~mv2.jpg",
+          "orientation": "landscape",
+          "bytes": 3626632
+        },
+        {
+          "order": 5,
+          "type": "image",
+          "title": "",
+          "wixId": "fdb09b_54c9eb5051a740cca1c8b2cc06495237",
+          "originalFileName": "Image03.jpg",
+          "width": 8064,
+          "height": 4536,
+          "source": "https://static.wixstatic.com/media/fdb09b_54c9eb5051a740cca1c8b2cc06495237~mv2.jpg",
+          "orientation": "landscape",
+          "bytes": 4028985
+        }
+      ]
+    },
+    {
+      "slug": "extreme",
+      "title": {
+        "en": "Extreme",
+        "he": "אקסטרים"
+      },
+      "wixGalleryId": "56121697-735f-46b8-a31d-d4ab394b33e9",
+      "items": [
+        {
+          "order": 1,
+          "type": "video",
+          "title": "",
+          "wixId": "fdb09b_15e803e56b2a4faa9d39be81a33ffd02",
+          "originalFileName": "V1-0002_DJI_20241001121648_0451_D-optimised.mp4",
+          "width": 1920,
+          "height": 1080,
+          "durationSec": 10.0,
+          "source": "https://video.wixstatic.com/video/fdb09b_15e803e56b2a4faa9d39be81a33ffd02/1080p/mp4/file.mp4",
+          "quality": "1080p",
+          "poster": "https://static.wixstatic.com/media/fdb09b_15e803e56b2a4faa9d39be81a33ffd02f003.jpg",
+          "orientation": "landscape",
+          "bytes": 7435564
+        },
+        {
+          "order": 2,
+          "type": "video",
+          "title": "Surfing",
+          "wixId": "fdb09b_3f5e0c0936cb4eeb82fb8d0d13f2d822",
+          "originalFileName": "16 - Untitled-optimised.mp4",
+          "width": 1920,
+          "height": 1080,
+          "durationSec": 5.9,
+          "source": "https://video.wixstatic.com/video/fdb09b_3f5e0c0936cb4eeb82fb8d0d13f2d822/1080p/mp4/file.mp4",
+          "quality": "1080p",
+          "poster": "https://static.wixstatic.com/media/fdb09b_3f5e0c0936cb4eeb82fb8d0d13f2d822f003.jpg",
+          "orientation": "landscape",
+          "bytes": 4682933
+        },
+        {
+          "order": 3,
+          "type": "video",
+          "title": "Abseiling in Israel",
+          "wixId": "fdb09b_b916b4b106604eecb194f74a89bb0763",
+          "originalFileName": "17 - climbing-optimised.mp4",
+          "width": 1920,
+          "height": 1080,
+          "durationSec": 7.1,
+          "source": "https://video.wixstatic.com/video/fdb09b_b916b4b106604eecb194f74a89bb0763/1080p/mp4/file.mp4",
+          "quality": "1080p",
+          "poster": "https://static.wixstatic.com/media/fdb09b_b916b4b106604eecb194f74a89bb0763f003.jpg",
+          "orientation": "landscape",
+          "bytes": 5206386
+        }
+      ]
+    },
+    {
+      "slug": "commercials",
+      "title": {
+        "en": "Commercials",
+        "he": "פרסומות"
+      },
+      "wixGalleryId": "8ec66eef-727c-4af2-bf1b-91a1430f31f4",
+      "items": [
+        {
+          "order": 1,
+          "type": "video",
+          "title": "",
+          "wixId": "fdb09b_34621730cd12483a88789d6c9935ef46",
+          "originalFileName": "10 - CAROSELA-optimised.mp4",
+          "width": 1920,
+          "height": 1080,
+          "durationSec": 16.4,
+          "source": "https://video.wixstatic.com/video/fdb09b_34621730cd12483a88789d6c9935ef46/1080p/mp4/file.mp4",
+          "quality": "1080p",
+          "poster": "https://static.wixstatic.com/media/fdb09b_34621730cd12483a88789d6c9935ef46f003.jpg",
+          "orientation": "landscape",
+          "bytes": 12529756
+        },
+        {
+          "order": 2,
+          "type": "video",
+          "title": "",
+          "wixId": "fdb09b_b11a736aad324ed8bfce28f39700cce0",
+          "originalFileName": "11 - Kid.mp4",
+          "width": 1920,
+          "height": 1080,
+          "durationSec": 12.4,
+          "source": "https://video.wixstatic.com/video/fdb09b_b11a736aad324ed8bfce28f39700cce0/1080p/mp4/file.mp4",
+          "quality": "1080p",
+          "poster": "https://static.wixstatic.com/media/fdb09b_b11a736aad324ed8bfce28f39700cce0f003.jpg",
+          "orientation": "landscape",
+          "bytes": 9520372
+        }
+      ]
+    },
+    {
+      "slug": "weddings-events",
+      "title": {
+        "en": "Weddings & Events",
+        "he": "חתונות ואירועים"
+      },
+      "wixGalleryId": "0726ec9e-54ca-41bc-bbcb-58aff4b2f999",
+      "items": [
+        {
+          "order": 1,
+          "type": "image",
+          "title": "Protest",
+          "wixId": "fdb09b_ddf827c3a44d4b9695606e5d25899886",
+          "originalFileName": "DJI_20240914205706_0411_D-min-optimised.jpg",
+          "width": 8064,
+          "height": 4536,
+          "source": "https://static.wixstatic.com/media/fdb09b_ddf827c3a44d4b9695606e5d25899886~mv2.jpg",
+          "orientation": "landscape",
+          "bytes": 3243060
+        },
+        {
+          "order": 2,
+          "type": "image",
+          "title": "Concert",
+          "wixId": "fdb09b_d9f3a3ae44d64e23afbc92bdc409338c",
+          "originalFileName": "IMG_5061-optimised.jpeg",
+          "width": 4032,
+          "height": 3024,
+          "source": "https://static.wixstatic.com/media/fdb09b_d9f3a3ae44d64e23afbc92bdc409338c~mv2.jpeg",
+          "orientation": "landscape",
+          "bytes": 898123
+        },
+        {
+          "order": 3,
+          "type": "video",
+          "title": "Bar & Ofri proposal",
+          "wixId": "fdb09b_a1ee443bf12841c1b836fcaded30f953",
+          "originalFileName": "03 - Timeline 1-optimised.mp4",
+          "width": 1080,
+          "height": 1920,
+          "durationSec": 50.7,
+          "source": "https://video.wixstatic.com/video/fdb09b_a1ee443bf12841c1b836fcaded30f953/1080p/mp4/file.mp4",
+          "quality": "1080p",
+          "poster": "https://static.wixstatic.com/media/fdb09b_a1ee443bf12841c1b836fcaded30f953f003.jpg",
+          "orientation": "portrait",
+          "bytes": 37044137
+        },
+        {
+          "order": 4,
+          "type": "image",
+          "title": "Bar & Ofri proposal",
+          "wixId": "fdb09b_e36b9f870a5d43ecac185a83b3c70ae0",
+          "originalFileName": "DJI_20240926181850_0431_D-optimised.jpg",
+          "width": 8064,
+          "height": 4536,
+          "source": "https://static.wixstatic.com/media/fdb09b_e36b9f870a5d43ecac185a83b3c70ae0~mv2.jpg",
+          "orientation": "landscape",
+          "bytes": 5768294
+        }
+      ]
+    }
+  ],
+  "siteAssets": [
+    {
+      "key": "hero-video",
+      "type": "video",
+      "source": "https://video.wixstatic.com/video/fdb09b_5af18c795a0945a4a4a1a75fad8088d2/1080p/mp4/file.mp4",
+      "note": "Intro/hero background video (also used as contact page background) 1920x1080",
+      "bytes": 19566755
+    },
+    {
+      "key": "hero-poster",
+      "type": "image",
+      "source": "https://static.wixstatic.com/media/fdb09b_5af18c795a0945a4a4a1a75fad8088d2f000.jpg",
+      "note": "Hero video poster frame",
+      "bytes": 435887
+    },
+    {
+      "key": "profile-1",
+      "type": "image",
+      "source": "https://static.wixstatic.com/media/fdb09b_c283e10fb3b844eaab8079f21a2d9fd2~mv2.jpg",
+      "note": "About Me – profile photo (back card) 2048x1366",
+      "bytes": 136256
+    },
+    {
+      "key": "profile-2",
+      "type": "image",
+      "source": "https://static.wixstatic.com/media/fdb09b_8cada923565e41c6a3a362e557e1a59d~mv2.jpg",
+      "note": "About Me – profile photo (front card, Omer launching drone) 2048x1366; also twitter:image",
+      "bytes": 150504
+    },
+    {
+      "key": "logo-white",
+      "type": "image",
+      "source": "https://static.wixstatic.com/media/fdb09b_8686510cd6334be1ae7cf80c39c0a9ce~mv2.png",
+      "note": "Omer Helled logo (white) 2363x2363",
+      "bytes": 140294
+    },
+    {
+      "key": "header-logo-svg",
+      "type": "image",
+      "source": "https://static.wixstatic.com/shapes/fdb09b_64690dfc9eb2450f8eaa9f33c742f08e.svg",
+      "note": "Header vector logo (SVG)",
+      "bytes": 7588
+    },
+    {
+      "key": "og-image",
+      "type": "image",
+      "source": "https://static.wixstatic.com/media/fdb09b_2bc2b1b775114edba11686cf517b1f70~mv2.png",
+      "note": "Social share image (og:image) 2500x1330",
+      "bytes": 187781
+    },
+    {
+      "key": "whatsapp-float-gif",
+      "type": "image",
+      "source": "https://static.wixstatic.com/media/fdb09b_7738f7f3393c412a8406935a507c313b~mv2.gif",
+      "note": "Floating WhatsApp button animation",
+      "bytes": 796494
+    }
+  ],
+  "replacedUiAssets": {
+    "_note": "UI icons/PNGs on Wix that will be replaced by crisp inline SVG icons - listed only so nothing is 'missing'",
+    "items": [
+      "https://static.wixstatic.com/media/11062b_a193068045064f4fa21b07cd12dae779~mv2.png (WhatsApp icon)",
+      "https://static.wixstatic.com/media/fdb09b_698cf4c1e7df477f8ed6c45c6447ff93~mv2.png (Email icon)",
+      "https://static.wixstatic.com/media/fdb09b_70d71908bea34fb8806eaa5b6b004e6f~mv2.png (LinkedIn icon)",
+      "https://static.wixstatic.com/media/81af6121f84c41a5b4391d7d37fce12a.png (Instagram icon, Wix library)",
+      "https://static.wixstatic.com/media/fdb09b_9a11d636349f4ff2963cb99dfcbc842f~mv2.png (Instagram, contact page)",
+      "https://static.wixstatic.com/media/fdb09b_d0fa09c731a1481ea7483e70c1e702c2~mv2.png (Email, contact page)",
+      "https://static.wixstatic.com/media/fdb09b_0087ae2676164ec4b7fd2ad3be10259f~mv2.png (WhatsApp, contact page)",
+      "https://static.wixstatic.com/media/fdb09b_767e4c29828f4d098e1a7a34e3eed347~mv2.png (LinkedIn, contact page)",
+      "https://video.wixstatic.com/video/11062b_9559c3746a104137a302d66942b589ce/1080p/mp4/file.mp4 (Wix stock animation in the menu/contact overlay - not your content)"
+    ]
+  },
+  "stats": {
+    "galleryItems": 62,
+    "images": 51,
+    "videos": 11,
+    "untitledItems": 21,
+    "originalsTotalMB": 375.3,
+    "heroVideo": "1920x1080, 25.9s, H.264 ~6 Mbps, 19.6 MB, audio track is effectively silent",
+    "photoMetadata": "Wix stripped EXIF/XMP (no GPS/altitude in the files)"
+  }
+}

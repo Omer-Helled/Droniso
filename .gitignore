@@ -1,0 +1,8 @@
+node_modules/
+.next/
+.vercel/
+.env*
+!.env.example
+# Original media (hundreds of MB) - backed up outside git
+media/
+.DS_Store
