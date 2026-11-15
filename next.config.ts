@@ -7,6 +7,10 @@ const NOT_LOCALIZED = "(?!en(?:/|$)|he(?:/|$)|_next|media|brand|fonts|favicon|ic
 const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
+  experimental: {
+    // app/global-not-found.tsx handles URLs that match no route (the root layout lives under [lang])
+    globalNotFound: true,
+  },
   turbopack: {
     rules: {
       "*.css": {

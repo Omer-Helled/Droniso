@@ -19,11 +19,13 @@ type Props = {
   /** Show title + telemetry overlay on hover (gallery). Selected work shows captions below instead. */
   overlay?: boolean;
   priority?: boolean;
+  /** Hint the browser to fetch this image first (likely LCP) */
+  highPriority?: boolean;
   className?: string;
   style?: CSSProperties;
 };
 
-export function MediaTile({ item, sizes, onOpen, openLabel, autoplayVideo, overlay, priority, className = "", style }: Props) {
+export function MediaTile({ item, sizes, onOpen, openLabel, autoplayVideo, overlay, priority, highPriority, className = "", style }: Props) {
   const ref = useRef<HTMLButtonElement>(null);
   const [inView, setInView] = useState(false);
   const [hover, setHover] = useState(false);
@@ -56,7 +58,8 @@ export function MediaTile({ item, sizes, onOpen, openLabel, autoplayVideo, overl
         alt={item.alt}
         width={item.width}
         height={item.height}
-        loading={priority ? "eager" : "lazy"}
+        loading={priority || highPriority ? "eager" : "lazy"}
+        fetchPriority={highPriority ? "high" : undefined}
         decoding="async"
       />
       {playPreview && item.video && (

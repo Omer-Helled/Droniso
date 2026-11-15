@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { notFound } from "next/navigation";
 import "../globals.css";
-import { dirOf, getDictionary, isLocale, localePath, locales, site, type Locale } from "@/lib/i18n";
+import { dirOf, getDictionary, isLive, isLocale, locales, site, type Locale } from "@/lib/i18n";
 import { RevealObserver } from "@/components/RevealObserver";
 
 export const ensureStatic = "navigation";
@@ -47,20 +47,10 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
   const t = getDictionary(lang);
   return {
     metadataBase: new URL(site.url),
-    title: t.meta.title,
+    title: { default: t.meta.title, template: `%s · ${site.name}` },
     description: t.meta.description,
-    alternates: {
-      canonical: localePath(lang, "/"),
-      languages: { he: localePath("he", "/"), en: localePath("en", "/"), "x-default": "/" },
-    },
-    openGraph: {
-      type: "website",
-      siteName: site.name,
-      title: t.meta.title,
-      description: t.meta.description,
-      locale: lang === "he" ? "he_IL" : "en_US",
-      images: [{ url: "/media/hero/poster-1080.jpg", width: 1920, height: 1080 }],
-    },
+    applicationName: site.name,
+    authors: [{ name: site.owner }],
     icons: {
       icon: [
         { url: "/brand/favicon.svg", type: "image/svg+xml" },
@@ -68,8 +58,8 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
       ],
       apple: "/brand/apple-touch-icon.png",
     },
-    // Prototype: keep it out of search engines until launch
-    robots: { index: false, follow: false },
+    // Search engines index the site only once NEXT_PUBLIC_SITE_LIVE=true (production, after launch)
+    robots: isLive ? { index: true, follow: true } : { index: false, follow: false },
     verification: {
       google: ["W6gmGe8ExnkpEKpKgwvI3HDQG7NGrjh4hUyclOMh-6Q", "z9W4UYkbwmZiWl11_HXmKH2cxQZ7SCDD9pkl07wKr-U"],
     },
@@ -94,6 +84,9 @@ export default async function LangLayout({ children, params }: LayoutProps<"/[la
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+        {/* Gallery media is served from the Wix CDN until phase 3 */}
+        <link rel="preconnect" href="https://static.wixstatic.com" />
+        <link rel="dns-prefetch" href="https://video.wixstatic.com" />
       </head>
       <body>
         {children}

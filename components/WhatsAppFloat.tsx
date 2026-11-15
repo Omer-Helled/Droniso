@@ -3,15 +3,17 @@
 import { useEffect, useState } from "react";
 import { WhatsApp } from "@/components/Icons";
 
-/** Floating WhatsApp button (kept from the Wix site). Hidden over the hero, which has its own CTAs. */
-export function WhatsAppFloat({ href, label }: { href: string; label: string }) {
-  const [show, setShow] = useState(false);
+/** Floating WhatsApp button (kept from the Wix site). On pages with a video hero it waits until the hero is scrolled past. */
+export function WhatsAppFloat({ href, label, delayed = false }: { href: string; label: string; delayed?: boolean }) {
+  const [pastHero, setPastHero] = useState(false);
   useEffect(() => {
-    const onScroll = () => setShow(window.scrollY > window.innerHeight * 0.7);
+    if (!delayed) return;
+    const onScroll = () => setPastHero(window.scrollY > window.innerHeight * 0.7);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [delayed]);
+  const show = !delayed || pastHero;
   return (
     <a
       href={href}

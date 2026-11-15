@@ -4,7 +4,7 @@
 האתר נבנה מחדש מ-Wix ל-Next.js, Vercel ו-Supabase.
 
 - תוכנית העבודה: [`docs/PLAN.md`](docs/PLAN.md)
-- האב-טיפוס ומה מחכה לאישור: [`docs/PROTOTYPE.md`](docs/PROTOTYPE.md)
+- סטטוס, בדיקות ומה הבא: [`docs/STATUS.md`](docs/STATUS.md)
 - מלאי התוכן מהאתר הנוכחי: [`docs/CONTENT-INVENTORY.md`](docs/CONTENT-INVENTORY.md)
 
 ## הרצה מקומית
@@ -14,11 +14,32 @@ npm install
 npm run dev
 ```
 
+## בדיקות
+
+| פקודה | מה היא בודקת |
+|---|---|
+| `npm run lint` | ESLint |
+| `npm run typecheck` | TypeScript |
+| `npm run build` | בונה את כל 35 העמודים |
+| `npm run verify -- http://localhost:3000` | שכל התוכן מ-Wix קיים באתר שרץ (813 בדיקות) |
+
+הכל רץ אוטומטית ב-GitHub Actions על כל push (`.github/workflows/ci.yml`).
+
+## משתני סביבה
+
+| משתנה | מתי |
+|---|---|
+| `NEXT_PUBLIC_SITE_LIVE=true` | רק ב-Production אחרי ההשקה. פותח את האתר לאינדוקס בגוגל |
+
 ## מבנה
 
 | נתיב | מה יש שם |
 |---|---|
-| `app/[lang]/` | עמודים. עברית ב-`/` (rewrite ל-`/he`), אנגלית ב-`/en` |
+| `app/[lang]/` | עמודים: בית, `work`, `work/[category]`, `about`, `contact`, `accessibility`, `privacy`. עברית ב-`/` (rewrite ל-`/he`), אנגלית ב-`/en` |
+| `components/Chrome.tsx` | המסגרת של כל עמוד: כותרת עליונה, פוטר וכפתור וואטסאפ |
+| `content/legal.ts` | טיוטות הצהרת הנגישות ומדיניות הפרטיות |
+| `lib/seo.ts` | metadata, hreflang ו-JSON-LD |
+| `lib/justify.ts` | פריסת הגלריה, מחושבת מראש לכל גודל מסך |
 | `components/` | Hero, גלריה, לייטבוקס, סקשנים, כותרת עליונה |
 | `lib/i18n.ts` | מילונים בעברית ובאנגלית ופרטי קשר |
 | `lib/portfolio.ts` | 62 הפריטים, הקטגוריות ושורות הטלמטריה |

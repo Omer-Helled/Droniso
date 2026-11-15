@@ -1,13 +1,15 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import { justify } from "@/lib/justify";
+import { Fragment, useEffect, useMemo, useState } from "react";
+import { planJustified, sizesFor } from "@/lib/justify";
 import type { CategorySlug, ClientItem } from "@/lib/portfolio";
 import { MediaTile } from "@/components/MediaTile";
 import { Lightbox, type LightboxLabels } from "@/components/Lightbox";
 import { fmt } from "@/lib/i18n";
 
 type Props = {
+  /** Show the category filter buttons (the /work page); category pages pass false */
+  showFilter?: boolean;
   items: ClientItem[];
   categories: { slug: CategorySlug; title: string; count: number }[];
   labels: { all: string; filterLabel: string; open: string } & LightboxLabels;
@@ -15,27 +17,14 @@ type Props = {
 };
 
 /** Category deep links look like #work/landscapes; single items like #p-<id> */
-export function Gallery({ items, categories, labels, dir }: Props) {
+export function Gallery({ items, categories, labels, dir, showFilter = true }: Props) {
   const [filter, setFilter] = useState<CategorySlug | "all">("all");
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const visible = useMemo(() => (filter === "all" ? items : items.filter((i) => i.category === filter)), [items, filter]);
 
-  // Measure the container; until then (server render) the CSS-only .justified fallback is used
-  const listRef = useRef<HTMLDivElement>(null);
-  const [width, setWidth] = useState<number | null>(null);
-  useEffect(() => {
-    const el = listRef.current;
-    if (!el) return;
-    const ro = new ResizeObserver(([e]) => setWidth(Math.floor(e.contentRect.width)));
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, []);
-  const gap = width !== null && width >= 640 ? 8 : 6;
-  const rows = useMemo(
-    () => (width ? justify(visible, (i) => i.width / i.height, width, gap) : null),
-    [visible, width, gap],
-  );
+  // Row layout is planned ahead per breakpoint (pure function of the items), so server and client render the same markup
+  const plan = useMemo(() => planJustified(visible.map((i) => i.width / i.height)), [visible]);
 
   useEffect(() => {
     const fromHash = () => {
@@ -60,6 +49,7 @@ export function Gallery({ items, categories, labels, dir }: Props) {
 
   return (
     <>
+      {showFilter && (
       <div role="group" aria-label={labels.filterLabel} className="no-scrollbar -mx-[var(--gutter)] mb-6 flex gap-2 overflow-x-auto px-[var(--gutter)] sm:mb-8">
         {filters.map((f) => {
           const active = filter === f.slug;
@@ -79,48 +69,30 @@ export function Gallery({ items, categories, labels, dir }: Props) {
           );
         })}
       </div>
+      )}
 
-      <div ref={listRef}>
-        {rows ? (
-          <ul className="flex flex-col" style={{ gap }} aria-live="polite">
-            {rows.map((row, r) => (
-              <li key={r} className="flex" style={{ gap, height: row.height }}>
-                {row.items.map((item) => {
-                  const i = visible.indexOf(item);
-                  const w = (item.width / item.height) * row.height;
-                  return (
-                    <MediaTile
-                      key={item.id}
-                      item={item}
-                      className="h-full shrink-0"
-                      style={{ width: w }}
-                      sizes={`${Math.ceil(w)}px`}
-                      overlay
-                      openLabel={fmt(labels.open, { title: item.title })}
-                      onOpen={() => setOpenIndex(i)}
-                    />
-                  );
-                })}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <ul className="justified">
-            {visible.map((item, i) => (
-              <li key={item.id} style={{ ["--r" as string]: (item.width / item.height).toFixed(4) }}>
-                <MediaTile
-                  item={item}
-                  className="size-full"
-                  sizes="(min-width: 1024px) 40vw, (min-width: 640px) 50vw, 70vw"
-                  overlay
-                  openLabel={fmt(labels.open, { title: item.title })}
-                  onOpen={() => setOpenIndex(i)}
-                />
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+      <ul className="jg">
+        {visible.map((item, i) => (
+          <Fragment key={item.id}>
+            <li className="it" style={{ ["--r" as string]: (item.width / item.height).toFixed(4) }}>
+              <MediaTile
+                item={item}
+                className="size-full"
+                sizes={sizesFor(plan.widths[i])}
+                priority={i < 6}
+                highPriority={i < 2}
+                overlay
+                openLabel={fmt(labels.open, { title: item.title })}
+                onOpen={() => setOpenIndex(i)}
+              />
+            </li>
+            {plan.breaksAfter[i].length > 0 && <li aria-hidden className={`br ${plan.breaksAfter[i].map((b) => `br-${b}`).join(" ")}`} />}
+          </Fragment>
+        ))}
+        {Object.entries(plan.fillers).map(([bp, g]) => (
+          <li key={bp} aria-hidden className={`fl fl-${bp}`} style={{ ["--g" as string]: g }} />
+        ))}
+      </ul>
 
       <Lightbox items={visible} index={openIndex} onClose={() => setOpenIndex(null)} labels={labels} dir={dir} />
     </>

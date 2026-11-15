@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowDown, Pause, Play } from "@/components/Icons";
 import { useClientValue } from "@/lib/hooks";
+import { autoplayAllowed, pickHeroSource } from "@/lib/hero-video";
 
 type Props = {
   sub: string;
@@ -16,15 +17,6 @@ type Props = {
 const SLOGAN = ["ABOVE AND BEYOND", "PHOTOGRAPHY"];
 const FPS = 30;
 
-function pickSource() {
-  const portrait = window.matchMedia("(max-width: 767px) and (orientation: portrait)").matches;
-  if (portrait) return "/media/hero/hero-vertical.mp4";
-  const conn = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
-  const slow = conn?.effectiveType && /(^|-)2g|3g/.test(conn.effectiveType);
-  if (window.innerWidth * window.devicePixelRatio <= 1280 || slow) return "/media/hero/hero-720.mp4";
-  return "/media/hero/hero-1080.mp4";
-}
-
 function timecode(t: number) {
   const total = Math.floor(t);
   const ff = Math.floor((t - total) * FPS);
@@ -36,7 +28,7 @@ export function Hero({ sub, ctaWork, ctaQuote, pauseLabel, playLabel, scrollLabe
   const videoRef = useRef<HTMLVideoElement>(null);
   const tcRef = useRef<HTMLSpanElement>(null);
   // Choose the right rendition once we know the viewport (client only)
-  const src = useClientValue(pickSource);
+  const src = useClientValue(pickHeroSource);
   const [playing, setPlaying] = useState(false);
   const [ready, setReady] = useState(false);
 
@@ -44,9 +36,7 @@ export function Hero({ sub, ctaWork, ctaQuote, pauseLabel, playLabel, scrollLabe
     // Respect reduced-motion and data-saver: show the poster and let the visitor press play
     const v = videoRef.current;
     if (!v || !src) return;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
-    if (reduce || saveData) return;
+    if (!autoplayAllowed()) return;
     v.play().catch(() => setPlaying(false));
   }, [src]);
 

@@ -187,37 +187,63 @@ body {
   }
 }
 
-/* Justified rows: flex-grow proportional to aspect ratio keeps every row at one height */
-.justified {
-  --row-h: 132px;
+/* Justified gallery (see lib/justify.ts): rows are planned per breakpoint at build time.
+   Items grow in proportion to their aspect ratio between invisible line breaks, so each row fills
+   the width and shares one height — with no JavaScript and no layout shift. */
+.jg {
+  --gap: 6px;
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  align-items: flex-start;
+  column-gap: var(--gap);
 }
-.justified::after {
-  content: "";
-  flex-grow: 1000000;
-}
-.justified > * {
-  flex-grow: calc(var(--r) * 100);
-  flex-basis: calc(var(--r) * var(--row-h));
+.jg > .it {
+  flex: calc(var(--r) * 1000) 1 0%;
   aspect-ratio: var(--r);
   min-width: 0;
+  margin-bottom: var(--gap);
 }
-@media (min-width: 640px) {
-  .justified {
-    --row-h: 190px;
-    gap: 8px;
+.jg > .br {
+  display: none;
+  flex-basis: 100%;
+  height: 0;
+}
+.jg > .fl {
+  display: none;
+  flex: calc(var(--g) * 1000) 1 0%;
+  height: 0;
+}
+@media (max-width: 639.98px) {
+  .jg > .br-s,
+  .jg > .fl-s {
+    display: block;
   }
 }
-@media (min-width: 1024px) {
-  .justified {
-    --row-h: 250px;
+@media (min-width: 640px) and (max-width: 1023.98px) {
+  .jg {
+    --gap: 8px;
+  }
+  .jg > .br-m,
+  .jg > .fl-m {
+    display: block;
   }
 }
-@media (min-width: 1600px) {
-  .justified {
-    --row-h: 300px;
+@media (min-width: 1024px) and (max-width: 1499.98px) {
+  .jg {
+    --gap: 8px;
+  }
+  .jg > .br-l,
+  .jg > .fl-l {
+    display: block;
+  }
+}
+@media (min-width: 1500px) {
+  .jg {
+    --gap: 8px;
+  }
+  .jg > .br-x,
+  .jg > .fl-x {
+    display: block;
   }
 }
 
