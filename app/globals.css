@@ -1,0 +1,420 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------------------------------
+ * Design tokens — "Flight log": graphite, bone, one brand blue used sparingly.
+ * ---------------------------------------------------------------------------------------- */
+:root {
+  --bg: #0e0f10;
+  --surface: #17191b;
+  --surface-2: #1f2225;
+  --line: rgb(236 234 228 / 0.14);
+  --line-strong: rgb(236 234 228 / 0.32);
+  --text: #eceae4;
+  --muted: #8c9196;
+  --accent: #24a3d1;
+  --accent-deep: #3b70ab;
+  --gutter: clamp(16px, 4vw, 48px);
+  --header-h: 72px;
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --font-sans: var(--font-latin), var(--font-hebrew), system-ui, sans-serif;
+  --font-mono: var(--font-mono-plex), ui-monospace, "SFMono-Regular", monospace;
+  --breakpoint-xs: 26rem;
+}
+
+@layer base {
+html {
+  background: var(--bg);
+  color: var(--text);
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--header-h);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--accent);
+  color: #06090b;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+}
+
+/* ------------------------------------------------------------------------------------------
+ * Building blocks
+ * ---------------------------------------------------------------------------------------- */
+@utility container-x {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* Small monospaced "telemetry" text */
+@utility telemetry {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  line-height: 1.4;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+@layer components {
+/* Telemetry is set LTR (coordinates, timecodes); in Hebrew pages keep it aligned to the right edge */
+[dir="rtl"] .telemetry {
+  text-align: right;
+}
+
+/* Section label: "01 — אודות" */
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+.section-label .num {
+  font-family: var(--font-mono);
+  color: var(--text);
+}
+.section-label::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+/* Viewfinder corner brackets — used on the hero and on media hover */
+.viewfinder {
+  --vf-size: 18px;
+  --vf-inset: 14px;
+  --vf-color: rgb(255 255 255 / 0.75);
+  pointer-events: none;
+  position: absolute;
+  inset: var(--vf-inset);
+  background:
+    linear-gradient(var(--vf-color), var(--vf-color)) top left / var(--vf-size) 1px,
+    linear-gradient(var(--vf-color), var(--vf-color)) top left / 1px var(--vf-size),
+    linear-gradient(var(--vf-color), var(--vf-color)) top right / var(--vf-size) 1px,
+    linear-gradient(var(--vf-color), var(--vf-color)) top right / 1px var(--vf-size),
+    linear-gradient(var(--vf-color), var(--vf-color)) bottom left / var(--vf-size) 1px,
+    linear-gradient(var(--vf-color), var(--vf-color)) bottom left / 1px var(--vf-size),
+    linear-gradient(var(--vf-color), var(--vf-color)) bottom right / var(--vf-size) 1px,
+    linear-gradient(var(--vf-color), var(--vf-color)) bottom right / 1px var(--vf-size);
+  background-repeat: no-repeat;
+}
+
+/* Media frame with blurred placeholder underneath the real image */
+.media-frame {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--ph-color, var(--surface));
+  background-image: var(--ph-blur);
+  background-size: cover;
+  background-position: center;
+}
+.media-frame > img,
+.media-frame > video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Hover viewfinder on interactive media */
+.media-hover .viewfinder {
+  opacity: 0;
+  transform: scale(1.03);
+  transition:
+    opacity 0.35s var(--ease-out),
+    transform 0.5s var(--ease-out);
+}
+.media-hover:hover .viewfinder,
+.media-hover:focus-visible .viewfinder {
+  opacity: 1;
+  transform: none;
+}
+.media-hover img {
+  transition: transform 1.2s var(--ease-out);
+}
+@media (hover: hover) {
+  .media-hover:hover img {
+    transform: scale(1.025);
+  }
+}
+
+/* Justified gallery (see lib/justify.ts): rows are planned per breakpoint at build time.
+   Items grow in proportion to their aspect ratio between invisible line breaks, so each row fills
+   the width and shares one height — with no JavaScript and no layout shift. */
+.jg {
+  --gap: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  column-gap: var(--gap);
+}
+.jg > .it {
+  flex: calc(var(--r) * 1000) 1 0%;
+  aspect-ratio: var(--r);
+  min-width: 0;
+  margin-bottom: var(--gap);
+}
+.jg > .br {
+  display: none;
+  flex-basis: 100%;
+  height: 0;
+}
+.jg > .fl {
+  display: none;
+  flex: calc(var(--g) * 1000) 1 0%;
+  height: 0;
+}
+@media (max-width: 639.98px) {
+  .jg > .br-s,
+  .jg > .fl-s {
+    display: block;
+  }
+}
+@media (min-width: 640px) and (max-width: 1023.98px) {
+  .jg {
+    --gap: 8px;
+  }
+  .jg > .br-m,
+  .jg > .fl-m {
+    display: block;
+  }
+}
+@media (min-width: 1024px) and (max-width: 1499.98px) {
+  .jg {
+    --gap: 8px;
+  }
+  .jg > .br-l,
+  .jg > .fl-l {
+    display: block;
+  }
+}
+@media (min-width: 1500px) {
+  .jg {
+    --gap: 8px;
+  }
+  .jg > .br-x,
+  .jg > .fl-x {
+    display: block;
+  }
+}
+
+/* Fixed editorial rows (selected work): widths proportional to ratio, equal heights */
+.ed-row {
+  display: flex;
+  gap: clamp(6px, 1vw, 14px);
+}
+.ed-row > * {
+  flex: calc(var(--r) * 1000) 1 0;
+  min-width: 0;
+}
+
+/* Scroll-reveal (only when JS is running, so content never stays hidden) */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.9s var(--ease-out),
+    transform 0.9s var(--ease-out);
+  transition-delay: calc(var(--d, 0) * 80ms);
+}
+.js [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Hero slogan letter reveal */
+@keyframes letter-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.35em);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+.slogan-letter {
+  display: inline-block;
+  animation: letter-in 1s var(--ease-out) both;
+  animation-delay: calc(var(--i) * 32ms + 250ms);
+}
+
+@keyframes rec-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+.rec-dot {
+  animation: rec-pulse 1.6s ease-in-out infinite;
+}
+
+/* FAQ disclosure */
+.faq summary {
+  list-style: none;
+  cursor: pointer;
+}
+.faq summary::-webkit-details-marker {
+  display: none;
+}
+.faq .faq-icon {
+  transition: transform 0.35s var(--ease-out);
+}
+.faq details[open] .faq-icon {
+  transform: rotate(45deg);
+}
+.faq details::details-content {
+  block-size: 0;
+  overflow-y: clip;
+  transition:
+    block-size 0.4s var(--ease-out),
+    content-visibility 0.4s allow-discrete;
+}
+.faq details[open]::details-content {
+  block-size: auto;
+}
+@supports (interpolate-size: allow-keywords) {
+  :root {
+    interpolate-size: allow-keywords;
+  }
+}
+
+/* Services index: show the preview of the hovered/focused row (desktop) */
+.services-preview > * {
+  opacity: 0;
+  transition: opacity 0.45s var(--ease-out);
+}
+.services-preview > [data-default] {
+  opacity: 1;
+}
+.services:has(li:hover) .services-preview > [data-default],
+.services:has(li:focus-within) .services-preview > [data-default] {
+  opacity: 0;
+}
+.services:has(li[data-i="0"]:is(:hover, :focus-within)) .services-preview > [data-i="0"],
+.services:has(li[data-i="1"]:is(:hover, :focus-within)) .services-preview > [data-i="1"],
+.services:has(li[data-i="2"]:is(:hover, :focus-within)) .services-preview > [data-i="2"],
+.services:has(li[data-i="3"]:is(:hover, :focus-within)) .services-preview > [data-i="3"],
+.services:has(li[data-i="4"]:is(:hover, :focus-within)) .services-preview > [data-i="4"],
+.services:has(li[data-i="5"]:is(:hover, :focus-within)) .services-preview > [data-i="5"] {
+  opacity: 1;
+}
+
+/* Lightbox */
+dialog.lightbox {
+  width: 100vw;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: #070808;
+  color: var(--text);
+}
+dialog.lightbox::backdrop {
+  background: #070808;
+}
+dialog.lightbox[open] {
+  animation: lb-in 0.3s var(--ease-out);
+}
+@keyframes lb-in {
+  from {
+    opacity: 0;
+  }
+}
+.lb-track {
+  display: flex;
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+}
+.lb-track::-webkit-scrollbar {
+  display: none;
+}
+.lb-slide {
+  flex: 0 0 100%;
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+  display: grid;
+  place-items: center;
+  padding: 64px 12px 96px;
+}
+@media (min-width: 768px) {
+  .lb-slide {
+    padding: 72px 88px 104px;
+  }
+}
+.lb-slide img,
+.lb-slide video {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+}

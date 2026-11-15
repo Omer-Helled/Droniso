@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+    branches: [main, "claude/**"]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm run build
+      - name: Verify that all content from the Wix site is on the new site
+        run: |
+          npm start -- -p 3000 > server.log 2>&1 &
+          for i in $(seq 1 30); do curl -sf http://localhost:3000 > /dev/null && break; sleep 1; done
+          npm run verify -- http://localhost:3000
