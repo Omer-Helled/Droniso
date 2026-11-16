@@ -1,15 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useId, useRef, useState, type FormEvent } from "react";
+import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import type { Dictionary } from "@/lib/i18n";
 import { fmt } from "@/lib/i18n";
+import { CONTACT_FIELDS, cleanContact, validateContact, type ContactErrors, type ContactField, type ContactValues } from "@/lib/contact";
 import { Mail, WhatsApp } from "@/components/Icons";
 
 type Labels = Dictionary["form"];
-type Fields = "firstName" | "lastName" | "phone" | "email" | "projectType" | "date" | "location" | "message";
-type Values = Record<Fields, string>;
-type Errors = Partial<Record<Fields, string>>;
+type Fields = ContactField;
+type Values = ContactValues;
 
 type Props = {
   labels: Labels;
@@ -20,19 +20,7 @@ type Props = {
   locale: "he" | "en";
 };
 
-const REQUIRED: Fields[] = ["firstName", "lastName", "email", "message"];
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-const PHONE_RE = /^\+?[\d\s\-()]{7,20}$/;
-
-function validate(v: Values, l: Labels): Errors {
-  const e: Errors = {};
-  for (const f of REQUIRED) if (!v[f].trim()) e[f] = l.errors.required;
-  if (v.email.trim() && !EMAIL_RE.test(v.email.trim())) e.email = l.errors.email;
-  if (v.phone.trim() && !PHONE_RE.test(v.phone.trim())) e.phone = l.errors.phone;
-  return e;
-}
-
-/** Message text used for the WhatsApp / email hand-off (phase 2, until the Supabase backend exists) */
+/** Message text for the WhatsApp / email hand-off, used only when the automatic email can't be sent */
 function compose(v: Values, l: Labels, projectTypes: Props["projectTypes"], locale: "he" | "en") {
   const type = projectTypes.find((p) => p.value === v.projectType)?.label;
   const lines: (string | null)[] = [
@@ -53,23 +41,50 @@ function compose(v: Values, l: Labels, projectTypes: Props["projectTypes"], loca
 export function ContactForm({ labels: l, projectTypes, privacyHref, whatsappNumber, email, locale }: Props) {
   const id = useId();
   const formRef = useRef<HTMLFormElement>(null);
-  const summaryRef = useRef<HTMLParagraphElement>(null);
-  const [errors, setErrors] = useState<Errors>({});
+  const openedAt = useRef(0);
+  const [codes, setCodes] = useState<ContactErrors>({});
+  const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
+  const [saved, setSaved] = useState<Values | null>(null); // what was last submitted, so "back to editing" keeps it
   const [ready, setReady] = useState<string | null>(null);
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    openedAt.current = Date.now();
+  }, []);
+
+  const errors: Partial<Record<Fields, string>> = Object.fromEntries(
+    Object.entries(codes).map(([f, code]) => [f, l.errors[code as keyof Labels["errors"]] ?? l.errors.required]),
+  );
+
+  const showErrors = (errs: ContactErrors) => {
+    setCodes(errs);
+    const first = CONTACT_FIELDS.find((f) => errs[f]);
+    if (first) requestAnimationFrame(() => formRef.current?.querySelector<HTMLElement>(`[name="${first}"]`)?.focus());
+  };
+
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (status === "sending") return;
     const data = new FormData(e.currentTarget);
-    const values = Object.fromEntries(
-      (["firstName", "lastName", "phone", "email", "projectType", "date", "location", "message"] as Fields[]).map((f) => [f, String(data.get(f) ?? "")]),
-    ) as Values;
-    const errs = validate(values, l);
-    setErrors(errs);
-    const first = Object.keys(errs)[0];
-    if (first) {
-      requestAnimationFrame(() => formRef.current?.querySelector<HTMLElement>(`[name="${first}"]`)?.focus());
-      return;
+    const values = cleanContact(Object.fromEntries(CONTACT_FIELDS.map((f) => [f, String(data.get(f) ?? "")])));
+    const errs = validateContact(values);
+    if (Object.keys(errs).length > 0) return showErrors(errs);
+    setCodes({});
+    setSaved(values);
+    setStatus("sending");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...values, website: String(data.get("website") ?? ""), elapsedMs: Date.now() - openedAt.current, locale }),
+      });
+      const body = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string; fields?: ContactErrors };
+      if (res.ok && body.ok) return setStatus("sent");
+      setStatus("idle");
+      if (res.status === 422 && body.fields) return showErrors(body.fields);
+    } catch {
+      setStatus("idle");
     }
+    // The email could not be sent (service not set up yet, network problem, rate limit): don't lose the message
     setReady(compose(values, l, projectTypes, locale));
   };
 
@@ -89,6 +104,7 @@ export function ContactForm({ labels: l, projectTypes, privacyHref, whatsappNumb
           id={inputId}
           name={name}
           type={opts.type ?? "text"}
+          defaultValue={saved?.[name] ?? ""}
           required={opts.required}
           aria-required={opts.required}
           autoComplete={opts.autoComplete}
@@ -109,6 +125,27 @@ export function ContactForm({ labels: l, projectTypes, privacyHref, whatsappNumb
 
   const errorCount = Object.keys(errors).length;
   const privacy = l.privacyNote.split("{link}");
+
+  if (status === "sent") {
+    return (
+      <div role="status" className="flex flex-col gap-4 border border-line bg-surface/90 p-6 sm:p-8">
+        <p className="telemetry !text-[0.75rem] !text-accent">SENT · OK</p>
+        <h2 className="text-[1.75rem] font-light">{l.success}</h2>
+        <p className="text-text/75">{l.sentBody}</p>
+        <button
+          type="button"
+          onClick={() => {
+            setSaved(null);
+            setStatus("idle");
+            openedAt.current = Date.now();
+          }}
+          className="mt-2 self-start text-[0.875rem] text-muted underline underline-offset-4 hover:text-text"
+        >
+          {l.sendAnother}
+        </button>
+      </div>
+    );
+  }
 
   if (ready) {
     const wa = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(ready)}`;
@@ -137,10 +174,17 @@ export function ContactForm({ labels: l, projectTypes, privacyHref, whatsappNumb
 
   return (
     <form ref={formRef} onSubmit={onSubmit} noValidate className="flex flex-col gap-7 border border-line bg-surface/90 p-6 sm:p-8">
+      {/* Spam trap: people never see or reach this field */}
+      <div hidden>
+        <label>
+          Website
+          <input name="website" type="text" tabIndex={-1} autoComplete="off" />
+        </label>
+      </div>
       <fieldset className="contents">
         <legend className="sr-only">{l.legend}</legend>
         {errorCount > 0 && (
-          <p ref={summaryRef} role="alert" className="border-s-2 border-[#ff7a6b] ps-3 text-[0.875rem] text-[#ff9c90]">
+          <p role="alert" className="border-s-2 border-[#ff7a6b] ps-3 text-[0.875rem] text-[#ff9c90]">
             {fmt(l.errors.summary, { n: errorCount })}
           </p>
         )}
@@ -159,7 +203,7 @@ export function ContactForm({ labels: l, projectTypes, privacyHref, whatsappNumb
             <select
               id={`${id}-projectType`}
               name="projectType"
-              defaultValue=""
+              defaultValue={saved?.projectType ?? ""}
               className="h-12 border-b border-line-strong bg-transparent text-[1.0625rem] text-text outline-none focus:border-accent [&>option]:bg-surface"
             >
               <option value="">{l.projectTypeAny}</option>
@@ -182,6 +226,7 @@ export function ContactForm({ labels: l, projectTypes, privacyHref, whatsappNumb
             id={`${id}-message`}
             name="message"
             rows={5}
+            defaultValue={saved?.message ?? ""}
             required
             aria-required
             aria-invalid={errors.message ? true : undefined}
@@ -203,8 +248,13 @@ export function ContactForm({ labels: l, projectTypes, privacyHref, whatsappNumb
           </Link>
           {privacy[1]}
         </p>
-        <button type="submit" className="inline-flex h-12 shrink-0 items-center justify-center bg-text px-8 font-medium text-bg transition-colors hover:bg-white">
-          {l.submit}
+        <button
+          type="submit"
+          aria-disabled={status === "sending"}
+          aria-busy={status === "sending"}
+          className="inline-flex h-12 shrink-0 items-center justify-center bg-text px-8 font-medium text-bg transition-colors hover:bg-white aria-disabled:opacity-60"
+        >
+          {status === "sending" ? l.sending : l.submit}
         </button>
       </div>
     </form>

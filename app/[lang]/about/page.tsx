@@ -1,11 +1,10 @@
 import { fmt, getDictionary, localePath, site } from "@/lib/i18n";
 import { items } from "@/lib/portfolio";
 import { resolveLocale } from "@/lib/route";
-import { breadcrumbJsonLd, pageMetadata, personJsonLd } from "@/lib/seo";
+import { breadcrumbJsonLd, pageMetadata, personJsonLd, profileOgImage } from "@/lib/seo";
 import { Chrome } from "@/components/Chrome";
 import { JsonLd } from "@/components/JsonLd";
-import { ContactCta, PageHeader, PROFILE_PHOTO, Process, ProfilePhoto, Services, yearsFlying } from "@/components/Sections";
-import { ogImage } from "@/lib/media-url";
+import { ContactCta, PageHeader, Process, ProfilePhoto, Services, yearsFlying } from "@/components/Sections";
 
 const ownerName = { he: "עומר הלד", en: "Omer Helled" } as const;
 
@@ -17,7 +16,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/about">) {
     path: "/about",
     title: t.about.pageTitle,
     description: fmt(t.about.pageIntro, { since: site.flyingSince }),
-    image: ogImage(PROFILE_PHOTO),
+    image: profileOgImage,
   });
 }
 

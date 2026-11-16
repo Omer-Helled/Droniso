@@ -132,7 +132,7 @@ export const privacy: Record<Locale, LegalDoc> = {
       },
       {
         h: "איפה המידע נשמר",
-        p: ["המידע נשמר אצל ספקי תשתית מאובטחים שמשמשים להפעלת האתר (אחסון האתר ומסד הנתונים), ובתיבת הדואר של DronISO. הגישה אליו מוגבלת לי בלבד."],
+        p: ["הפנייה נשלחת אליי במייל באמצעות ספקי תשתית מאובטחים שמשמשים להפעלת האתר (אחסון האתר ושירות שליחת המייל), ונשמרת בתיבת הדואר של DronISO. הגישה אליה מוגבלת לי בלבד."],
       },
       { h: "כמה זמן המידע נשמר", p: ["פניות נשמרות עד 24 חודשים מהפנייה האחרונה, אלא אם החוק מחייב לשמור אותן זמן רב יותר."] },
       {
@@ -169,7 +169,7 @@ export const privacy: Record<Locale, LegalDoc> = {
       },
       {
         h: "Where it is stored",
-        p: ["Information is stored with secure infrastructure providers used to run the site (website hosting and database) and in the DronISO mailbox. Only I have access to it."],
+        p: ["Your inquiry is emailed to me through secure infrastructure providers used to run the site (website hosting and an email delivery service) and is kept in the DronISO mailbox. Only I have access to it."],
       },
       { h: "How long it is kept", p: ["Inquiries are kept for up to 24 months after the last contact, unless the law requires keeping them longer."] },
       {

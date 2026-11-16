@@ -84,9 +84,6 @@ export default async function LangLayout({ children, params }: LayoutProps<"/[la
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
-        {/* Gallery media is served from the Wix CDN until phase 3 */}
-        <link rel="preconnect" href="https://static.wixstatic.com" />
-        <link rel="dns-prefetch" href="https://video.wixstatic.com" />
       </head>
       <body>
         {children}

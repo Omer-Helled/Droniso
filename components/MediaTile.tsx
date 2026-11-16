@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import type { ClientItem } from "@/lib/portfolio";
 import { Play } from "@/components/Icons";
-import { srcSetFor, wixImage } from "@/lib/media-url";
+import { Picture } from "@/components/Picture";
 import { usePrefersReducedMotion } from "@/lib/hooks";
 
 const videoBadge = (item: ClientItem) =>
@@ -51,16 +51,14 @@ export function MediaTile({ item, sizes, onOpen, openLabel, autoplayVideo, overl
       className={`media-frame media-hover group block w-full cursor-zoom-in text-start ${className}`}
       style={{ ["--ph-color" as string]: item.color, ["--ph-blur" as string]: `url("${item.blur}")`, ...style }}
     >
-      <img
-        src={wixImage(item.image, Math.min(1200, item.maxWidth))}
-        srcSet={srcSetFor(item.image, item.maxWidth)}
+      <Picture
+        img={item.img}
         sizes={sizes}
         alt={item.alt}
         width={item.width}
         height={item.height}
         loading={priority || highPriority ? "eager" : "lazy"}
         fetchPriority={highPriority ? "high" : undefined}
-        decoding="async"
       />
       {playPreview && item.video && (
         <video src={item.video.sd} muted loop playsInline autoPlay preload="metadata" aria-hidden className="pointer-events-none" />

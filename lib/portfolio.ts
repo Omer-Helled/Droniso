@@ -1,9 +1,7 @@
 import portfolio from "@/content/portfolio.json";
 import mediaMeta from "@/content/media-meta.json";
 import type { Locale, Localized } from "@/lib/i18n";
-import { srcSetFor, wixImage } from "@/lib/media-url";
-
-export { wixImage };
+import { videoUrl, type ImageRef } from "@/lib/media-url";
 
 export type CategorySlug = "landscapes" | "real-estate" | "hotels" | "extreme" | "commercials" | "weddings-events";
 
@@ -12,6 +10,8 @@ export type Category = {
   title: Localized;
   blurb: Localized;
   count: number;
+  /** id of the item used as the category's cover */
+  cover: string;
 };
 
 export type MediaItem = {
@@ -27,35 +27,34 @@ export type MediaItem = {
   draftTitle: boolean;
   year: number | null;
   coords: [number, number] | null;
+  /** Where the original came from on Wix. Provenance only: the site serves `img` / the local videos. */
   src: string;
   duration?: number;
   poster?: string;
   hasAudio?: boolean;
+  /** The photo, or the poster frame of a video */
+  img: ImageRef;
   color: string;
   blur: string;
 };
 
-const meta = mediaMeta as Record<string, { color: string; blur: string }>;
+type Meta = ImageRef & { color: string; blur: string; video?: boolean };
+const metaFile = mediaMeta as unknown as { items: Record<string, Meta>; profile: Meta };
+
+export const profileImage: ImageRef = { key: metaFile.profile.key, w: metaFile.profile.w, fb: metaFile.profile.fb };
 
 export const categories = portfolio.categories as Category[];
-export const items: MediaItem[] = (portfolio.items as Omit<MediaItem, "color" | "blur">[]).map((i) => ({
-  ...i,
-  coords: i.coords as [number, number] | null,
-  ...meta[i.id],
-}));
+export const items: MediaItem[] = (portfolio.items as Omit<MediaItem, "img" | "color" | "blur">[]).map((i) => {
+  const m = metaFile.items[i.id];
+  return { ...i, coords: i.coords as [number, number] | null, img: { key: m.key, w: m.w, fb: m.fb }, color: m.color, blur: m.blur };
+});
 export const selectedItems: MediaItem[] = portfolio.selected.map((id) => items.find((i) => i.id === id)!);
 export const itemsByCategory = (slug: CategorySlug) => items.filter((i) => i.category === slug);
 
-export function imageSrcSet(item: Pick<MediaItem, "src" | "poster" | "type" | "width">) {
-  const source = item.type === "video" ? item.poster! : item.src;
-  const max = item.type === "video" ? 1920 : item.width;
-  return { src: wixImage(source, Math.min(1200, max)), srcSet: srcSetFor(source, max) };
-}
-
-/** Wix stores each video in several renditions; pick one by height */
-export function videoUrl(item: Pick<MediaItem, "src">, quality: "480p" | "720p" | "1080p") {
-  return item.src.replace(/\/(360p|480p|720p|1080p)\/mp4\//, `/${quality}/mp4/`);
-}
+export const categoryCover = (slug: CategorySlug) => {
+  const id = categories.find((c) => c.slug === slug)!.cover;
+  return items.find((i) => i.id === id)!;
+};
 
 export const ratio = (i: Pick<MediaItem, "width" | "height">) => i.width / i.height;
 
@@ -93,9 +92,7 @@ export type ClientItem = {
   alt: string;
   draft: boolean;
   telemetry: string;
-  /** Wix source URL of the image (or the video poster) */
-  image: string;
-  maxWidth: number;
+  img: ImageRef;
   color: string;
   blur: string;
   video?: { sd: string; hd: string; hasAudio: boolean };
@@ -112,13 +109,12 @@ export function toClientItem(item: MediaItem, l: Locale): ClientItem {
     alt: item.alt[l],
     draft: item.draftTitle,
     telemetry: telemetry(item),
-    image: item.type === "video" ? item.poster! : item.src,
-    maxWidth: item.type === "video" ? 1920 : item.width,
+    img: item.img,
     color: item.color,
     blur: item.blur,
     video:
       item.type === "video"
-        ? { sd: videoUrl(item, "720p"), hd: videoUrl(item, "1080p"), hasAudio: Boolean(item.hasAudio) }
+        ? { sd: videoUrl(item.img.key, "sd"), hd: videoUrl(item.img.key, "hd"), hasAudio: Boolean(item.hasAudio) }
         : undefined,
   };
 }

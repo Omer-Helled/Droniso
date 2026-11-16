@@ -1,5 +1,5 @@
 import { fmt, getDictionary, localePath } from "@/lib/i18n";
-import { categories, items, toClientItem } from "@/lib/portfolio";
+import { categories, categoryCover, items, toClientItem } from "@/lib/portfolio";
 import { resolveLocale } from "@/lib/route";
 import { breadcrumbJsonLd, galleryJsonLd, itemImage, pageMetadata } from "@/lib/seo";
 import { Chrome } from "@/components/Chrome";
@@ -10,7 +10,7 @@ import { ContactCta, PageHeader } from "@/components/Sections";
 export async function generateMetadata({ params }: PageProps<"/[lang]/work">) {
   const locale = await resolveLocale(params);
   const t = getDictionary(locale);
-  return pageMetadata({ locale, path: "/work", title: t.work.title, description: t.work.metaDescription, image: itemImage(items[1]) });
+  return pageMetadata({ locale, path: "/work", title: t.work.title, description: t.work.metaDescription, image: itemImage(categoryCover("landscapes")) });
 }
 
 export default async function WorkPage({ params }: PageProps<"/[lang]/work">) {
