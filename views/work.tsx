@@ -24,7 +24,7 @@ export function WorkView({ locale }: { locale: Locale }) {
         <Gallery
           items={items.map((i) => toClientItem(i, locale))}
           categories={categories.map((c) => ({ slug: c.slug, title: c.title[locale], count: c.count }))}
-          labels={{ ...t.lightbox, draft: t.gallery.draft, open: t.gallery.open, all: t.gallery.all, filterLabel: t.gallery.filterLabel }}
+          labels={{ ...t.lightbox, open: t.gallery.open, all: t.gallery.all, filterLabel: t.gallery.filterLabel }}
           dir={locale === "he" ? "rtl" : "ltr"}
         />
       </section>

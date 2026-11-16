@@ -24,7 +24,6 @@ export type MediaItem = {
   title: Localized;
   alt: Localized;
   wixTitle: string;
-  draftTitle: boolean;
   year: number | null;
   coords: [number, number] | null;
   /** Where the original came from on Wix. Provenance only: the site serves `img` / the local videos. */
@@ -90,7 +89,6 @@ export type ClientItem = {
   height: number;
   title: string;
   alt: string;
-  draft: boolean;
   telemetry: string;
   img: ImageRef;
   color: string;
@@ -107,7 +105,6 @@ export function toClientItem(item: MediaItem, l: Locale): ClientItem {
     height: item.height,
     title: item.title[l],
     alt: item.alt[l],
-    draft: item.draftTitle,
     telemetry: telemetry(item),
     img: item.img,
     color: item.color,

@@ -46,6 +46,11 @@ for (const w of wixItems) {
   }
   if (w.title) ok(p.wixTitle === w.title, `${w.wixId} keeps its Wix title "${w.title}"`);
 }
+for (const l of ["he", "en"]) {
+  const titles = portfolio.items.map((i) => i.title[l]);
+  const dupes = titles.filter((t, i) => titles.indexOf(t) !== i);
+  ok(dupes.length === 0, `every ${l} title is unique${dupes.length ? ` (repeated: ${[...new Set(dupes)].join(", ")})` : ""}`);
+}
 for (const c of wix.categories) {
   const pc = portfolio.categories.find((x) => x.slug === c.slug);
   ok(pc && pc.count === c.items.length, `category ${c.slug} has ${c.items.length} items`);
