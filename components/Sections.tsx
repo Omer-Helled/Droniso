@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { cacheLife } from "next/cache";
 import type { ReactNode } from "react";
 import { fmt, getDictionary, localePath, site, type Dictionary, type Locale } from "@/lib/i18n";
 import { categories, categoryCover, profileImage, type CategorySlug } from "@/lib/portfolio";
@@ -10,6 +11,7 @@ export const SECTION_PAD = "pt-[clamp(88px,10vw,144px)]";
 
 export async function currentYear() {
   "use cache";
+  cacheLife("days"); // the year only changes once a year: no need to rebuild pages every few minutes
   return new Date().getFullYear();
 }
 

@@ -1,6 +1,5 @@
-import { fmt, getDictionary, localePath, site } from "@/lib/i18n";
+import { fmt, getDictionary, localePath, site, type Locale } from "@/lib/i18n";
 import { items } from "@/lib/portfolio";
-import { resolveLocale } from "@/lib/route";
 import { breadcrumbJsonLd, pageMetadata, personJsonLd, profileOgImage } from "@/lib/seo";
 import { Chrome } from "@/components/Chrome";
 import { JsonLd } from "@/components/JsonLd";
@@ -8,8 +7,7 @@ import { ContactCta, PageHeader, Process, ProfilePhoto, Services, yearsFlying } 
 
 const ownerName = { he: "עומר הלד", en: "Omer Helled" } as const;
 
-export async function generateMetadata({ params }: PageProps<"/[lang]/about">) {
-  const locale = await resolveLocale(params);
+export function aboutMetadata(locale: Locale) {
   const t = getDictionary(locale);
   return pageMetadata({
     locale,
@@ -20,8 +18,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/about">) {
   });
 }
 
-export default async function AboutPage({ params }: PageProps<"/[lang]/about">) {
-  const locale = await resolveLocale(params);
+export async function AboutView({ locale }: { locale: Locale }) {
   const t = getDictionary(locale);
   const years = await yearsFlying();
   const crumbs = [{ name: t.about.pageTitle, href: localePath(locale, "/about") }];

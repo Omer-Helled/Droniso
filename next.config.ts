@@ -1,14 +1,13 @@
 import type { NextConfig } from "next";
 
-// Hebrew is the default language and lives at the root (/, /work ...); English lives under /en.
-// Pages are generated under app/[lang]; the rewrite maps root URLs to the Hebrew pages internally.
-const NOT_LOCALIZED = "(?!en(?:/|$)|he(?:/|$)|api/|_next|media|brand|fonts|favicon|icon|apple-icon|robots|sitemap)";
+// Hebrew is the default language and lives at the root: app/(he). English lives under /en: app/en.
+// Both are plain routes (no rewrites), so page data and prefetching behave the same on every host.
 
 const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
   experimental: {
-    // app/global-not-found.tsx handles URLs that match no route (the root layout lives under [lang])
+    // app/global-not-found.tsx handles URLs that match no route (each language has its own root layout)
     globalNotFound: true,
   },
   turbopack: {
@@ -19,26 +18,16 @@ const nextConfig: NextConfig = {
       },
     },
   },
-  async rewrites() {
-    return {
-      beforeFiles: [],
-      afterFiles: [
-        { source: "/", destination: "/he" },
-        { source: `/:path(${NOT_LOCALIZED}.*)`, destination: "/he/:path" },
-      ],
-      fallback: [],
-    };
-  },
   async redirects() {
     return [
-      // /he/... is the internal path of the Hebrew site; the public URL has no prefix
+      // Hebrew has no prefix; send any /he/... link to the real address
       { source: "/he", destination: "/", permanent: true },
       { source: "/he/:path*", destination: "/:path*", permanent: true },
       // Old Wix URLs
       { source: "/home", destination: "/", permanent: true },
-      { source: "/home/contact", destination: "/#contact", permanent: true },
+      { source: "/home/contact", destination: "/contact", permanent: true },
       { source: "/home/he", destination: "/", permanent: true },
-      { source: "/home/he/contact", destination: "/#contact", permanent: true },
+      { source: "/home/he/contact", destination: "/contact", permanent: true },
     ];
   },
   async headers() {

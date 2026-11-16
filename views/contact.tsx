@@ -1,7 +1,6 @@
 import Link from "next/link";
-import { getDictionary, localePath, site } from "@/lib/i18n";
+import { getDictionary, localePath, site, type Locale } from "@/lib/i18n";
 import { categories } from "@/lib/portfolio";
-import { resolveLocale } from "@/lib/route";
 import { breadcrumbJsonLd, businessJsonLd, pageMetadata } from "@/lib/seo";
 import { Chrome } from "@/components/Chrome";
 import { JsonLd } from "@/components/JsonLd";
@@ -9,14 +8,12 @@ import { AmbientVideo } from "@/components/AmbientVideo";
 import { ContactForm } from "@/components/ContactForm";
 import { ContactChannels } from "@/components/Sections";
 
-export async function generateMetadata({ params }: PageProps<"/[lang]/contact">) {
-  const locale = await resolveLocale(params);
+export function contactMetadata(locale: Locale) {
   const t = getDictionary(locale);
   return pageMetadata({ locale, path: "/contact", title: t.contact.pageTitle, description: t.contact.pageIntro });
 }
 
-export default async function ContactPage({ params }: PageProps<"/[lang]/contact">) {
-  const locale = await resolveLocale(params);
+export function ContactView({ locale }: { locale: Locale }) {
   const t = getDictionary(locale);
   const crumbs = [{ name: t.contact.pageTitle, href: localePath(locale, "/contact") }];
   const projectTypes = [

@@ -1,27 +1,23 @@
 import { notFound } from "next/navigation";
 import { fmt, getDictionary, localePath, type Locale } from "@/lib/i18n";
 import { categories, categoryCover, itemsByCategory, toClientItem, type CategorySlug } from "@/lib/portfolio";
-import { resolveLocale } from "@/lib/route";
 import { breadcrumbJsonLd, galleryJsonLd, itemImage, pageMetadata } from "@/lib/seo";
 import { Chrome } from "@/components/Chrome";
 import { Gallery } from "@/components/Gallery";
 import { JsonLd } from "@/components/JsonLd";
 import { ContactCta, PageHeader, Services } from "@/components/Sections";
 
-export function generateStaticParams() {
-  return categories.map((c) => ({ category: c.slug }));
-}
+/** The six category pages that are built ahead of time */
+export const categoryParams = () => categories.map((c) => ({ category: c.slug }));
 
-async function resolve(params: Promise<{ lang: string; category: string }>) {
-  const locale = await resolveLocale(params);
-  const { category } = await params;
-  const cat = categories.find((c) => c.slug === category);
+function find(slug: string) {
+  const cat = categories.find((c) => c.slug === slug);
   if (!cat) notFound();
-  return { locale: locale as Locale, cat };
+  return cat;
 }
 
-export async function generateMetadata({ params }: PageProps<"/[lang]/work/[category]">) {
-  const { locale, cat } = await resolve(params);
+export function categoryMetadata(locale: Locale, slug: string) {
+  const cat = find(slug);
   const t = getDictionary(locale);
   return pageMetadata({
     locale,
@@ -32,8 +28,8 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/work/[cate
   });
 }
 
-export default async function CategoryPage({ params }: PageProps<"/[lang]/work/[category]">) {
-  const { locale, cat } = await resolve(params);
+export function CategoryView({ locale, slug }: { locale: Locale; slug: string }) {
+  const cat = find(slug);
   const t = getDictionary(locale);
   const path = `/work/${cat.slug}`;
   const list = itemsByCategory(cat.slug as CategorySlug);
