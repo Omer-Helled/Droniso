@@ -40,7 +40,10 @@ npm run dev
 
 | נתיב | מה יש שם |
 |---|---|
-| `app/[lang]/` | עמודים: בית, `work`, `work/[category]`, `about`, `contact`, `accessibility`, `privacy`. עברית ב-`/` (rewrite ל-`/he`), אנגלית ב-`/en` |
+| `app/(he)/` | העמודים בעברית, בכתובות בלי קידומת (`/`, `/work`, …). כל קובץ הוא עטיפה דקה שקוראת ל-view עם `locale="he"` |
+| `app/en/` | אותם עמודים באנגלית, תחת `/en` |
+| `views/` | התוכן של כל עמוד (בית, עבודות, תחום, אודות, צור קשר, 404), משותף לשתי השפות |
+| `app/root-document.tsx`, `app/fonts.ts` | מסמך ה-HTML והגופנים, משותפים לשני ה-layouts |
 | `components/Chrome.tsx` | המסגרת של כל עמוד: כותרת עליונה, פוטר וכפתור וואטסאפ |
 | `content/legal.ts` | טיוטות הצהרת הנגישות ומדיניות הפרטיות |
 | `lib/seo.ts` | metadata, hreflang ו-JSON-LD |

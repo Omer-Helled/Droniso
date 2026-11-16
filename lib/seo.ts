@@ -1,7 +1,31 @@
 import type { Metadata } from "next";
-import { getDictionary, localePath, site, type Locale } from "@/lib/i18n";
+import { getDictionary, isLive, localePath, site, type Locale } from "@/lib/i18n";
 import { categories, profileImage, type MediaItem } from "@/lib/portfolio";
 import { jpgUrl, ogUrl } from "@/lib/media-url";
+
+/** Site-wide defaults, set once per language in its root layout */
+export function siteMetadata(locale: Locale): Metadata {
+  const t = getDictionary(locale);
+  return {
+    metadataBase: new URL(site.url),
+    title: { default: t.meta.title, template: `%s · ${site.name}` },
+    description: t.meta.description,
+    applicationName: site.name,
+    authors: [{ name: site.owner }],
+    icons: {
+      icon: [
+        { url: "/brand/favicon.svg", type: "image/svg+xml" },
+        { url: "/brand/favicon-32.png", sizes: "32x32", type: "image/png" },
+      ],
+      apple: "/brand/apple-touch-icon.png",
+    },
+    // Search engines index the site only once NEXT_PUBLIC_SITE_LIVE=true (production, after launch)
+    robots: isLive ? { index: true, follow: true } : { index: false, follow: false },
+    verification: {
+      google: ["W6gmGe8ExnkpEKpKgwvI3HDQG7NGrjh4hUyclOMh-6Q", "z9W4UYkbwmZiWl11_HXmKH2cxQZ7SCDD9pkl07wKr-U"],
+    },
+  };
+}
 
 type PageMeta = { locale: Locale; path: string; title?: string; description: string; image?: string; absoluteTitle?: string };
 

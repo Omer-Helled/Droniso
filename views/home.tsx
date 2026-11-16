@@ -1,7 +1,6 @@
 import Link from "next/link";
-import { getDictionary, localePath } from "@/lib/i18n";
+import { getDictionary, localePath, type Locale } from "@/lib/i18n";
 import { items, selectedItems, toClientItem } from "@/lib/portfolio";
-import { resolveLocale } from "@/lib/route";
 import { businessJsonLd, faqJsonLd, pageMetadata } from "@/lib/seo";
 import { Chrome } from "@/components/Chrome";
 import { Hero } from "@/components/Hero";
@@ -9,14 +8,12 @@ import { SelectedWork } from "@/components/SelectedWork";
 import { JsonLd } from "@/components/JsonLd";
 import { AboutTeaser, ContactCta, Faq, Process, SECTION_PAD, SectionLabel, Services } from "@/components/Sections";
 
-export async function generateMetadata({ params }: PageProps<"/[lang]">) {
-  const locale = await resolveLocale(params);
+export function homeMetadata(locale: Locale) {
   const t = getDictionary(locale);
   return pageMetadata({ locale, path: "/", absoluteTitle: t.meta.title, description: t.meta.description });
 }
 
-export default async function Home({ params }: PageProps<"/[lang]">) {
-  const locale = await resolveLocale(params);
+export function HomeView({ locale }: { locale: Locale }) {
   const t = getDictionary(locale);
   const dir = locale === "he" ? "rtl" : "ltr";
   const lightboxLabels = { ...t.lightbox, draft: t.gallery.draft, open: t.gallery.open };

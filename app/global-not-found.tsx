@@ -1,20 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import localFont from "next/font/local";
 import "./globals.css";
+import { fontVariables } from "./fonts";
 import { getDictionary } from "@/lib/i18n";
 import { LogoMark } from "@/components/brand/Logo";
 
 // Any URL that matches no route at all. Bilingual, since the language can't be known here.
-const sans = localFont({
-  variable: "--font-latin",
-  src: [{ path: "./fonts/plex-sans-latin-300.woff2", weight: "300" }, { path: "./fonts/plex-sans-latin-400.woff2", weight: "400" }],
-});
-const hebrew = localFont({
-  variable: "--font-hebrew",
-  src: [{ path: "./fonts/plex-sans-hebrew-300.woff2", weight: "300" }, { path: "./fonts/plex-sans-hebrew-400.woff2", weight: "400" }],
-});
-const mono = localFont({ variable: "--font-mono-plex", src: "./fonts/plex-mono-400.woff2", preload: false });
 
 export const metadata: Metadata = {
   title: "404 · DronISO",
@@ -25,7 +16,7 @@ export default function GlobalNotFound() {
   const he = getDictionary("he");
   const en = getDictionary("en");
   return (
-    <html lang="he" dir="rtl" className={`${sans.variable} ${hebrew.variable} ${mono.variable}`}>
+    <html lang="he" dir="rtl" className={fontVariables}>
       <body>
         <main className="container-x flex min-h-svh flex-col justify-center gap-14 py-16">
           <Link href="/" aria-label="DronISO">
