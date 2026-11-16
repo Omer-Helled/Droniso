@@ -16,7 +16,7 @@ export function homeMetadata(locale: Locale) {
 export function HomeView({ locale }: { locale: Locale }) {
   const t = getDictionary(locale);
   const dir = locale === "he" ? "rtl" : "ltr";
-  const lightboxLabels = { ...t.lightbox, draft: t.gallery.draft, open: t.gallery.open };
+  const lightboxLabels = { ...t.lightbox, open: t.gallery.open };
 
   return (
     <Chrome locale={locale} path="/" overHero>

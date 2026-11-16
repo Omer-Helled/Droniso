@@ -54,7 +54,7 @@ export function CategoryView({ locale, slug }: { locale: Locale; slug: string })
           showFilter={false}
           items={list.map((i) => toClientItem(i, locale))}
           categories={[]}
-          labels={{ ...t.lightbox, draft: t.gallery.draft, open: t.gallery.open, all: t.gallery.all, filterLabel: t.gallery.filterLabel }}
+          labels={{ ...t.lightbox, open: t.gallery.open, all: t.gallery.all, filterLabel: t.gallery.filterLabel }}
           dir={locale === "he" ? "rtl" : "ltr"}
         />
       </section>

@@ -108,7 +108,6 @@ const he = {
     all: "הכל",
     open: "הגדלה: {title}",
     video: "וידאו",
-    draft: "כותרת זמנית",
   },
   lightbox: {
     close: "סגירה",
@@ -287,7 +286,6 @@ const en: Dictionary = {
     all: "All",
     open: "Enlarge: {title}",
     video: "Video",
-    draft: "Working title",
   },
   lightbox: {
     close: "Close",

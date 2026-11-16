@@ -24,7 +24,8 @@ CATEGORIES = {
 
 LRM = '‎'
 GLAMP_HE = f'גלמפינג {LRM}-420{LRM}, ים המלח'
-# (category, order): (title_en, title_he, alt_en, alt_he, place, draft)
+# (category, order): (title_en, title_he, alt_en, alt_he, place, untitled_on_wix)
+# The last field only records that Wix had no title for the item; every title below is approved.
 A = {
  ('landscapes', 1): ('Taranaki volcano, New Zealand', 'הר הגעש טאראנקי, ניו זילנד', 'Mount Taranaki at dusk, reflected in a still lake surrounded by forest', 'הר טאראנקי בדמדומים, משתקף באגם שקט מוקף יער', 'taranaki', False),
  ('landscapes', 2): ('Taranaki volcano, New Zealand', 'הר הגעש טאראנקי, ניו זילנד', 'Panorama of snow-capped Mount Taranaki and its ridges under a deep blue sky', 'פנורמה של הר טאראנקי המושלג והרכסים שסביבו תחת שמיים כחולים', 'taranaki', False),
@@ -90,6 +91,54 @@ A = {
  ('weddings-events', 4): ('Bar & Ofri\'s proposal', 'ההצעה של בר ועופרי', 'The proposal on the terrace by the pool, with guests watching', 'ההצעה במרפסת ליד הבריכה, והאורחים צופים', None, False),
 }
 
+GLAMP = f'{LRM}-420{LRM}'
+# Every item gets its own descriptive title (approved by Omer, Nov 2026). Places from the Wix titles are kept,
+# and service names (inspection, renovation) stay in front for real-estate clients. Overrides the titles in A.
+TITLES = {
+ ('landscapes', 1): ('Mount Taranaki at dusk, New Zealand', 'הר טאראנקי בדמדומים, ניו זילנד'),
+ ('landscapes', 2): ('Mount Taranaki panorama, New Zealand', 'פנורמה של הר טאראנקי, ניו זילנד'),
+ ('landscapes', 3): ('Ferry in a green bay, New Zealand', 'מעבורת במפרץ ירוק, ניו זילנד'),
+ ('landscapes', 5): ('Lorne bridge from above, Australia', 'הגשר בלורן ממבט על, אוסטרליה'),
+ ('landscapes', 6): ('Turquoise river, New Zealand', 'נהר טורקיז, ניו זילנד'),
+ ('landscapes', 11): ('Gold Coast skyline panorama, Australia', 'קו הרקיע של גולד קוסט, אוסטרליה'),
+ ('landscapes', 13): ('Wai-O-Tapu geothermal cliffs, New Zealand', 'המצוקים הגיאותרמיים בוואי-או-טאפו, ניו זילנד'),
+ ('landscapes', 16): ('Rock breakwater, Sunshine Coast, Australia', 'שובר הגלים בסאנשיין קוסט, אוסטרליה'),
+ ('landscapes', 17): ('Rocky headland, Byron Bay, Australia', 'לשון היבשה הסלעית, ביירון ביי, אוסטרליה'),
+ ('landscapes', 20): ('Forest reflections, Milford Sound, New Zealand', 'השתקפות היער, מילפורד סאונד, ניו זילנד'),
+ ('landscapes', 21): ('Boardwalk on the Taranaki trail, New Zealand', 'שביל העץ במסלול טאראנקי, ניו זילנד'),
+ ('landscapes', 22): ('Ayalon highway at night, Tel Aviv', 'נתיבי איילון בלילה, תל אביב'),
+ ('landscapes', 23): ('Cape Byron Lighthouse, Australia', 'המגדלור בכף ביירון, אוסטרליה'),
+ ('landscapes', 25): ('Sydney Harbour Bridge and skyline, Australia', 'גשר הנמל וקו הרקיע של סידני, אוסטרליה'),
+ ('landscapes', 27): ('Salt mushrooms along the shore, Dead Sea', 'פטריות מלח לאורך החוף, ים המלח'),
+ ('landscapes', 28): ('Salt mushrooms from directly above, Dead Sea', 'פטריות מלח ממבט על, ים המלח'),
+ ('landscapes', 29): ('A row of salt mushrooms, Dead Sea', 'שורת פטריות מלח, ים המלח'),
+ ('real-estate', 1): ('Sky Tower over the city, Auckland', 'סקיי טאוור מעל העיר, אוקלנד'),
+ ('real-estate', 2): ('Construction inspection – residential flyover', 'פיקוח בנייה – טיסה מעל בנייני מגורים'),
+ ('real-estate', 4): ('Construction inspection – scaffolded building', 'פיקוח בנייה – בניין בפיגומים'),
+ ('real-estate', 5): ('Construction inspection – tower cranes', 'פיקוח בנייה – עגורני צריח'),
+ ('real-estate', 6): ('Beachfront towers, Tel Aviv', 'מגדלי חוף הים, תל אביב'),
+ ('real-estate', 7): ('Azrieli Towers at night, Tel Aviv', 'מגדלי עזריאלי בלילה, תל אביב'),
+ ('real-estate', 8): ('Construction inspection – tower at night', 'פיקוח בנייה – מגדל בלילה'),
+ ('real-estate', 10): ('Along the hotel line, Tel Aviv', 'לאורך קו המלונות, תל אביב'),
+ ('real-estate', 11): ('Road inspection – winding loop', 'פיקוח כבישים – לולאה מתפתלת'),
+ ('real-estate', 12): ('Renovation shoot – building with vertical gardens', 'צילום לפרויקט שיפוץ – בניין עם גינות אנכיות'),
+ ('real-estate', 13): ('Beach and hotels, Tel Aviv', 'החוף והמלונות, תל אביב'),
+ ('real-estate', 14): ('Sydney Opera House from the harbour', 'בית האופרה של סידני מהנמל'),
+ ('real-estate', 15): ('Opera House through the Harbour Bridge, Sydney', 'בית האופרה מבעד לגשר הנמל, סידני'),
+ ('hotels', 1): ('Novotel resort and lagoon, Sunshine Coast', 'אתר הנופש נובוטל והלגונה, סאנשיין קוסט'),
+ ('hotels', 2): ('Novotel lagoon restaurant, Sunshine Coast', 'המסעדה על הלגונה בנובוטל, סאנשיין קוסט'),
+ ('hotels', 3): ('-420 Glamping – tents among the palms, Dead Sea', f'גלמפינג {GLAMP} – אוהלים בין הדקלים, ים המלח'),
+ ('hotels', 4): ('-420 Glamping from above, Dead Sea', f'גלמפינג {GLAMP} ממבט על, ים המלח'),
+ ('hotels', 5): ('-420 Glamping and the Dead Sea', f'גלמפינג {GLAMP} וים המלח'),
+ ('extreme', 2): ('Surfing by the city beach', 'גלישה מול חוף העיר'),
+ ('extreme', 3): ('Abseiling down a sandstone cliff, Israel', 'סנפלינג על מצוק אבן חול, ישראל'),
+ ('commercials', 2): ('Girl in the avenue', 'ילדה בשדרה'),
+ ('weddings-events', 1): ('Night protest, Tel Aviv', 'הפגנת לילה, תל אביב'),
+ ('weddings-events', 2): ('Concert crowd and stage', 'הקהל והבמה בהופעה'),
+ ('weddings-events', 3): ("Bar & Ofri's proposal – the film", 'ההצעה של בר ועופרי – הסרט'),
+ ('weddings-events', 4): ("Bar & Ofri's proposal by the pool", 'ההצעה של בר ועופרי ליד הבריכה'),
+}
+
 # Only this video has a real audio track (all others are silent)
 WITH_AUDIO = {'fdb09b_a1ee443bf12841c1b836fcaded30f953'}
 
@@ -102,12 +151,13 @@ for cat in wix['categories']:
     slug = cat['slug']
     cats.append({'slug': slug, 'title': {'he': CATEGORIES[slug]['he'], 'en': CATEGORIES[slug]['en']}, 'blurb': CATEGORIES[slug]['blurb'], 'count': len(cat['items'])})
     for it in cat['items']:
-        t_en, t_he, a_en, a_he, place, draft = A[(slug, it['order'])]
+        t_en, t_he, a_en, a_he, place, _untitled = A[(slug, it['order'])]
+        t_en, t_he = TITLES.get((slug, it['order']), (t_en, t_he))
         e = {
             'id': it['wixId'], 'category': slug, 'order': it['order'], 'type': it['type'],
             'width': it['width'], 'height': it['height'],
             'title': {'he': t_he, 'en': t_en}, 'alt': {'he': a_he, 'en': a_en},
-            'wixTitle': it['title'], 'draftTitle': draft,
+            'wixTitle': it['title'],
             'year': year_of(it['originalFileName']),
             'coords': list(PLACES[place]) if place else None,
             'src': it['source'],
@@ -129,4 +179,7 @@ for c in cats:
     c['cover'] = by_key[(c['slug'], COVERS[c['slug']])]
 out = {'categories': cats, 'items': items, 'selected': [by_key[k] for k in SELECTED]}
 (ROOT / 'content/portfolio.json').write_text(json.dumps(out, ensure_ascii=False, indent=1) + '\n')
-print('items', len(items), 'drafts', sum(i['draftTitle'] for i in items), 'with year', sum(1 for i in items if i['year']), 'with coords', sum(1 for i in items if i['coords']))
+for l in ('en', 'he'):
+    dupes = {t for t in [i['title'][l] for i in items] if [i['title'][l] for i in items].count(t) > 1}
+    assert not dupes, f'duplicate {l} titles: {dupes}'
+print('items', len(items), 'unique titles', len({i['title']['he'] for i in items}), 'with year', sum(1 for i in items if i['year']), 'with coords', sum(1 for i in items if i['coords']))

@@ -7,7 +7,7 @@ import { fmt } from "@/lib/i18n";
 import { jpgUrl } from "@/lib/media-url";
 import { Picture } from "@/components/Picture";
 
-export type LightboxLabels = { close: string; next: string; prev: string; of: string; draft: string };
+export type LightboxLabels = { close: string; next: string; prev: string; of: string };
 
 type Props = {
   items: ClientItem[];
@@ -168,7 +168,6 @@ export function Lightbox({ items, index, onClose, labels, dir }: Props) {
             <div className="fixed inset-x-0 bottom-0 px-4 pb-[max(16px,env(safe-area-inset-bottom))] pt-3 sm:px-6" aria-live="polite">
               <p className="text-[0.9375rem] text-white">
                 {item.title}
-                {item.draft && <span className="telemetry ms-2 !text-accent">{labels.draft}</span>}
               </p>
               {item.telemetry && <p className="telemetry mt-1 !text-white/60">{item.telemetry}</p>}
             </div>
