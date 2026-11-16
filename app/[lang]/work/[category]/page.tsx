@@ -1,12 +1,12 @@
 import { notFound } from "next/navigation";
 import { fmt, getDictionary, localePath, type Locale } from "@/lib/i18n";
-import { categories, itemsByCategory, toClientItem, type CategorySlug } from "@/lib/portfolio";
+import { categories, categoryCover, itemsByCategory, toClientItem, type CategorySlug } from "@/lib/portfolio";
 import { resolveLocale } from "@/lib/route";
 import { breadcrumbJsonLd, galleryJsonLd, itemImage, pageMetadata } from "@/lib/seo";
 import { Chrome } from "@/components/Chrome";
 import { Gallery } from "@/components/Gallery";
 import { JsonLd } from "@/components/JsonLd";
-import { ContactCta, PageHeader, Services, categoryCover } from "@/components/Sections";
+import { ContactCta, PageHeader, Services } from "@/components/Sections";
 
 export function generateStaticParams() {
   return categories.map((c) => ({ category: c.slug }));

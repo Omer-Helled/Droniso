@@ -156,7 +156,7 @@ body {
   background-size: cover;
   background-position: center;
 }
-.media-frame > img,
+.media-frame img,
 .media-frame > video {
   position: absolute;
   inset: 0;
@@ -390,22 +390,28 @@ dialog.lightbox[open] {
   display: none;
 }
 .lb-slide {
+  --lb-top: 64px;
+  --lb-bottom: 96px;
   flex: 0 0 100%;
   scroll-snap-align: center;
   scroll-snap-stop: always;
   display: grid;
   place-items: center;
-  padding: 64px 12px 96px;
+  padding: var(--lb-top) 12px var(--lb-bottom);
 }
 @media (min-width: 768px) {
   .lb-slide {
-    padding: 72px 88px 104px;
+    --lb-top: 72px;
+    --lb-bottom: 104px;
+    padding-inline: 88px;
   }
 }
+/* Limits are given in viewport units: a percentage height has nothing definite to resolve against here,
+   which let tall (portrait) photos run past the bottom of the screen. */
 .lb-slide img,
 .lb-slide video {
   max-width: 100%;
-  max-height: 100%;
+  max-height: calc(100dvh - var(--lb-top) - var(--lb-bottom));
   width: auto;
   height: auto;
   object-fit: contain;

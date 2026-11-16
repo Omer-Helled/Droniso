@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { getDictionary, localePath, site, type Locale } from "@/lib/i18n";
-import { categories, type MediaItem } from "@/lib/portfolio";
-import { ogImage } from "@/lib/media-url";
+import { categories, profileImage, type MediaItem } from "@/lib/portfolio";
+import { jpgUrl, ogUrl } from "@/lib/media-url";
 
 type PageMeta = { locale: Locale; path: string; title?: string; description: string; image?: string; absoluteTitle?: string };
 
@@ -9,7 +9,7 @@ type PageMeta = { locale: Locale; path: string; title?: string; description: str
 export function pageMetadata({ locale, path, title, description, image, absoluteTitle }: PageMeta): Metadata {
   const url = localePath(locale, path);
   const ogTitle = absoluteTitle ?? (title ? `${title} · ${site.name}` : site.name);
-  const images = [{ url: image ?? "/media/hero/poster-1080.jpg", width: 1200, height: 630 }];
+  const images = [{ url: image ?? "/media/hero/og.jpg", width: 1200, height: 630 }];
   return {
     title: absoluteTitle ? { absolute: absoluteTitle } : title,
     description,
@@ -31,7 +31,9 @@ export function pageMetadata({ locale, path, title, description, image, absolute
   };
 }
 
-export const itemImage = (i: MediaItem) => ogImage(i.type === "video" ? i.poster! : i.src);
+/** Social preview of an item. Only category covers have one (see scripts/process-media.mjs). */
+export const itemImage = (i: MediaItem) => ogUrl(i.img.key);
+export const profileOgImage = ogUrl(profileImage.key);
 
 /* ------------------------------------------ JSON-LD ------------------------------------------ */
 
@@ -50,7 +52,7 @@ export function businessJsonLd(locale: Locale) {
     url: site.url + localePath(locale, "/"),
     email: site.email,
     telephone: site.phoneE164,
-    image: `${site.url}/media/hero/poster-1080.jpg`,
+    image: `${site.url}/media/hero/og.jpg`,
     logo: `${site.url}/brand/droniso-logo.svg`,
     areaServed: { "@type": "Country", name: "Israel" },
     knowsAbout: categories.map((c) => c.title[locale]),
@@ -69,7 +71,7 @@ export function personJsonLd(locale: Locale) {
     jobTitle: locale === "he" ? "צלם אווירי" : "Aerial photographer",
     worksFor: { "@id": BUSINESS_ID },
     url: site.url + localePath(locale, "/about"),
-    image: "https://static.wixstatic.com/media/fdb09b_8cada923565e41c6a3a362e557e1a59d~mv2.jpg",
+    image: site.url + jpgUrl(profileImage),
     sameAs: [site.instagram, site.linkedin],
   };
 }
@@ -104,9 +106,10 @@ export function galleryJsonLd(locale: Locale, name: string, path: string, list: 
         "@type": "ImageObject",
         name: i.title[locale],
         description: i.alt[locale],
-        contentUrl: i.src,
-        width: i.width,
-        height: i.height,
+        contentUrl: site.url + jpgUrl(i.img),
+        thumbnailUrl: site.url + jpgUrl(i.img, "small"),
+        width: i.img.fb[i.img.fb.length - 1],
+        height: Math.round((i.img.fb[i.img.fb.length - 1] * i.height) / i.width),
         creator: { "@id": PERSON_ID },
         copyrightHolder: { "@id": PERSON_ID },
         ...(i.year ? { dateCreated: String(i.year) } : {}),

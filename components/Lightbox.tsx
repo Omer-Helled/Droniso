@@ -4,7 +4,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type { ClientItem } from "@/lib/portfolio";
 import { ChevronEnd, ChevronStart, Close } from "@/components/Icons";
 import { fmt } from "@/lib/i18n";
-import { srcSetFor, wixImage } from "@/lib/media-url";
+import { jpgUrl } from "@/lib/media-url";
+import { Picture } from "@/components/Picture";
 
 export type LightboxLabels = { close: string; next: string; prev: string; of: string; draft: string };
 
@@ -89,7 +90,8 @@ export function Lightbox({ items, index, onClose, labels, dir }: Props) {
     <dialog ref={dialogRef} className="lightbox" onClose={onClose} onKeyDown={onKeyDown} aria-label={item?.title ?? ""}>
       {open && (
         <>
-          <div ref={trackRef} className="lb-track" dir={dir}>
+          {/* Focusable so keyboard users can reach the scrolling area itself; arrow keys move between items */}
+          <div ref={trackRef} className="lb-track focus-visible:-outline-offset-4" dir={dir} tabIndex={0} role="group" aria-label={fmt(labels.of, { i: current + 1, n: items.length })}>
             {items.map((it, i) => {
               const near = Math.abs(i - current) <= 1;
               return (
@@ -97,8 +99,7 @@ export function Lightbox({ items, index, onClose, labels, dir }: Props) {
                   {it.type === "video" && it.video ? (
                     near ? (
                       <video
-                        src={it.video.hd}
-                        poster={wixImage(it.image, 1920)}
+                        poster={jpgUrl(it.img)}
                         controls
                         playsInline
                         muted={!it.video.hasAudio}
@@ -106,17 +107,21 @@ export function Lightbox({ items, index, onClose, labels, dir }: Props) {
                         preload="metadata"
                         style={{ aspectRatio: `${it.width} / ${it.height}` }}
                         aria-label={it.alt}
-                      />
+                      >
+                        {/* Phones get the lighter file, except the one video with sound (only its HD file has audio) */}
+                        {!it.video.hasAudio && <source src={it.video.sd} type="video/mp4" media="(max-width: 767px)" />}
+                        <source src={it.video.hd} type="video/mp4" />
+                      </video>
                     ) : null
                   ) : near ? (
-                    <img
-                      src={wixImage(it.image, Math.min(2800, it.maxWidth))}
-                      srcSet={srcSetFor(it.image, it.maxWidth)}
-                      sizes="100vw"
+                    <Picture
+                      img={it.img}
+                      // The image is limited by the viewport's height as well as its width
+                      sizes={`min(100vw, ${Math.round((it.width / it.height) * 100)}vh)`}
                       alt={it.alt}
                       width={it.width}
                       height={it.height}
-                      decoding="async"
+                      loading="eager"
                       style={{ backgroundColor: it.color }}
                     />
                   ) : null}

@@ -1,12 +1,12 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { fmt, getDictionary, localePath, site, type Dictionary, type Locale } from "@/lib/i18n";
-import { categories, imageSrcSet, items, wixImage, type CategorySlug } from "@/lib/portfolio";
+import { categories, categoryCover, profileImage, type CategorySlug } from "@/lib/portfolio";
+import { Picture } from "@/components/Picture";
 import { ArrowEnd, ArrowUpRight, Instagram, LinkedIn, Mail, Plus, WhatsApp } from "@/components/Icons";
 import { LogoMark } from "@/components/brand/Logo";
 
 export const SECTION_PAD = "pt-[clamp(88px,10vw,144px)]";
-export const PROFILE_PHOTO = "https://static.wixstatic.com/media/fdb09b_8cada923565e41c6a3a362e557e1a59d~mv2.jpg";
 
 export async function currentYear() {
   "use cache";
@@ -84,14 +84,7 @@ export function PageHeader({
 export function ProfilePhoto({ alt, sizes, className = "" }: { alt: string; sizes: string; className?: string }) {
   return (
     <div className={`media-frame ${className}`} style={{ ["--ph-color" as string]: "#6d7e9d" }}>
-      <img
-        src={wixImage(PROFILE_PHOTO, 900)}
-        srcSet={[480, 700, 900, 1300, 2048].map((w) => `${wixImage(PROFILE_PHOTO, w)} ${w}w`).join(", ")}
-        sizes={sizes}
-        alt={alt}
-        loading="lazy"
-        className="!object-[42%_50%]"
-      />
+      <Picture img={profileImage} sizes={sizes} alt={alt} className="!object-[42%_50%]" />
       <span className="viewfinder" aria-hidden style={{ ["--vf-inset" as string]: "12px" }} />
     </div>
   );
@@ -129,17 +122,6 @@ export async function AboutTeaser({ t, locale, num }: { t: Dictionary; locale: L
 }
 
 /* --------------------------------------------- Services --------------------------------------------- */
-
-const COVERS: Record<CategorySlug, number> = {
-  landscapes: 2,
-  "real-estate": 15,
-  hotels: 2,
-  extreme: 2,
-  commercials: 2,
-  "weddings-events": 4,
-};
-
-export const categoryCover = (slug: CategorySlug) => items.find((i) => i.category === slug && i.order === COVERS[slug])!;
 
 /** Numbered index of the six categories, each linking to its page */
 export function Services({
@@ -182,7 +164,7 @@ export function Services({
                   </span>
                   <span className="telemetry hidden shrink-0 sm:block">{fmt(t.services.works, { n: c.count })}</span>
                   <span className="media-frame size-14 shrink-0 lg:hidden" style={{ ["--ph-color" as string]: cover.color }}>
-                    <img src={wixImage(cover.type === "video" ? cover.poster! : cover.src, 160)} alt="" loading="lazy" />
+                    <Picture img={cover.img} sizes="56px" alt="" />
                   </span>
                   <ArrowEnd className="hidden size-5 shrink-0 text-muted transition-transform group-hover:translate-x-1 group-hover:text-text rtl:-scale-x-100 rtl:group-hover:-translate-x-1 lg:block" />
                   <span className="sr-only sm:hidden"> ({fmt(t.services.works, { n: c.count })})</span>
@@ -192,21 +174,18 @@ export function Services({
           })}
         </ol>
         <div className="services-preview relative hidden aspect-[4/5] lg:col-span-4 lg:col-start-9 lg:block" aria-hidden>
-          {covers.map((cover, i) => {
-            const { srcSet } = imageSrcSet(cover);
-            return (
-              <div
-                key={cover.id}
-                data-i={i}
-                {...(i === 0 ? { "data-default": "" } : {})}
-                className="media-frame absolute inset-0"
-                style={{ ["--ph-color" as string]: cover.color, ["--ph-blur" as string]: `url("${cover.blur}")` }}
-              >
-                <img srcSet={srcSet} sizes="34vw" alt="" loading="lazy" />
-                <span className="viewfinder" style={{ ["--vf-inset" as string]: "12px" }} />
-              </div>
-            );
-          })}
+          {covers.map((cover, i) => (
+            <div
+              key={cover.id}
+              data-i={i}
+              {...(i === 0 ? { "data-default": "" } : {})}
+              className="media-frame absolute inset-0"
+              style={{ ["--ph-color" as string]: cover.color, ["--ph-blur" as string]: `url("${cover.blur}")` }}
+            >
+              <Picture img={cover.img} sizes="34vw" alt="" />
+              <span className="viewfinder" style={{ ["--vf-inset" as string]: "12px" }} />
+            </div>
+          ))}
         </div>
       </div>
     </section>

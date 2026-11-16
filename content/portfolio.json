@@ -10,7 +10,8 @@
     "he": "הרים, חופים ואגמים בישראל, באוסטרליה ובניו זילנד",
     "en": "Mountains, coastlines and lakes in Israel, Australia and New Zealand"
    },
-   "count": 33
+   "count": 33,
+   "cover": "fdb09b_8bf2e91590a34eafb3c5c9e6793cfa1a"
   },
   {
    "slug": "real-estate",
@@ -22,7 +23,8 @@
     "he": "פרויקטים, מגדלים ומעקב אחרי אתרי בנייה",
     "en": "Developments, towers and construction progress"
    },
-   "count": 15
+   "count": 15,
+   "cover": "fdb09b_0c0a3c11c7bb4dd3a28ca8cffac5bbda"
   },
   {
    "slug": "hotels",
@@ -34,7 +36,8 @@
     "he": "מלונות, אתרי נופש וגלמפינג",
     "en": "Hotels, resorts and glamping"
    },
-   "count": 5
+   "count": 5,
+   "cover": "fdb09b_4e0f23549c40455683a3a816e069abc2"
   },
   {
    "slug": "extreme",
@@ -46,7 +49,8 @@
     "he": "גלישה, סנפלינג וספורט ימי",
     "en": "Surfing, abseiling and water sports"
    },
-   "count": 3
+   "count": 3,
+   "cover": "fdb09b_3f5e0c0936cb4eeb82fb8d0d13f2d822"
   },
   {
    "slug": "commercials",
@@ -58,7 +62,8 @@
     "he": "סרטוני פרסומת למותגים ולעסקים",
     "en": "Commercial videos for brands and businesses"
    },
-   "count": 2
+   "count": 2,
+   "cover": "fdb09b_b11a736aad324ed8bfce28f39700cce0"
   },
   {
    "slug": "weddings-events",
@@ -70,7 +75,8 @@
     "he": "חתונות, הצעות נישואין, הופעות ואירועים",
     "en": "Weddings, proposals, concerts and events"
    },
-   "count": 4
+   "count": 4,
+   "cover": "fdb09b_e36b9f870a5d43ecac185a83b3c70ae0"
   }
  ],
  "items": [

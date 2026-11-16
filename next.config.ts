@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 // Hebrew is the default language and lives at the root (/, /work ...); English lives under /en.
 // Pages are generated under app/[lang]; the rewrite maps root URLs to the Hebrew pages internally.
-const NOT_LOCALIZED = "(?!en(?:/|$)|he(?:/|$)|_next|media|brand|fonts|favicon|icon|apple-icon|robots|sitemap)";
+const NOT_LOCALIZED = "(?!en(?:/|$)|he(?:/|$)|api/|_next|media|brand|fonts|favicon|icon|apple-icon|robots|sitemap)";
 
 const nextConfig: NextConfig = {
   cacheComponents: true,
@@ -52,6 +52,7 @@ const nextConfig: NextConfig = {
         headers: [
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          { key: "X-Frame-Options", value: "DENY" },
           { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
         ],
       },

@@ -79,7 +79,7 @@ export function Gallery({ items, categories, labels, dir, showFilter = true }: P
                 item={item}
                 className="size-full"
                 sizes={sizesFor(plan.widths[i])}
-                priority={i < 6}
+                priority={i < 12}
                 highPriority={i < 2}
                 overlay
                 openLabel={fmt(labels.open, { title: item.title })}

@@ -124,6 +124,9 @@ SELECTED = [  # home page "selected work", in display order (rows defined in com
     ('landscapes', 28), ('real-estate', 1), ('landscapes', 5), ('extreme', 2), ('hotels', 2), ('landscapes', 9),
 ]
 by_key = {(i['category'], i['order']): i['id'] for i in items}
+COVERS = {'landscapes': 2, 'real-estate': 15, 'hotels': 2, 'extreme': 2, 'commercials': 2, 'weddings-events': 4}  # category cover = item order
+for c in cats:
+    c['cover'] = by_key[(c['slug'], COVERS[c['slug']])]
 out = {'categories': cats, 'items': items, 'selected': [by_key[k] for k in SELECTED]}
 (ROOT / 'content/portfolio.json').write_text(json.dumps(out, ensure_ascii=False, indent=1) + '\n')
 print('items', len(items), 'drafts', sum(i['draftTitle'] for i in items), 'with year', sum(1 for i in items if i['year']), 'with coords', sum(1 for i in items if i['coords']))
