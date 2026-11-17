@@ -2,12 +2,13 @@ import type { Metadata } from "next";
 import { getDictionary, isLive, localePath, site, type Locale } from "@/lib/i18n";
 import { categories, profileImage, type MediaItem } from "@/lib/portfolio";
 import { jpgUrl, ogUrl } from "@/lib/media-url";
+import { siteUrl } from "@/lib/site-url";
 
 /** Site-wide defaults, set once per language in its root layout */
 export function siteMetadata(locale: Locale): Metadata {
   const t = getDictionary(locale);
   return {
-    metadataBase: new URL(site.url),
+    metadataBase: new URL(siteUrl),
     title: { default: t.meta.title, template: `%s · ${site.name}` },
     description: t.meta.description,
     applicationName: site.name,
@@ -61,8 +62,8 @@ export const profileOgImage = ogUrl(profileImage.key);
 
 /* ------------------------------------------ JSON-LD ------------------------------------------ */
 
-const BUSINESS_ID = `${site.url}/#business`;
-const PERSON_ID = `${site.url}/#omer`;
+const BUSINESS_ID = `${siteUrl}/#business`;
+const PERSON_ID = `${siteUrl}/#omer`;
 
 export function businessJsonLd(locale: Locale) {
   const t = getDictionary(locale);
@@ -73,11 +74,11 @@ export function businessJsonLd(locale: Locale) {
     name: site.name,
     alternateName: "DronISO – Drone Solutions",
     description: t.meta.description,
-    url: site.url + localePath(locale, "/"),
+    url: siteUrl + localePath(locale, "/"),
     email: site.email,
     telephone: site.phoneE164,
-    image: `${site.url}/media/hero/og.jpg`,
-    logo: `${site.url}/brand/droniso-logo.svg`,
+    image: `${siteUrl}/media/hero/og.jpg`,
+    logo: `${siteUrl}/brand/droniso-logo.svg`,
     areaServed: { "@type": "Country", name: "Israel" },
     knowsAbout: categories.map((c) => c.title[locale]),
     founder: { "@id": PERSON_ID },
@@ -94,8 +95,8 @@ export function personJsonLd(locale: Locale) {
     alternateName: locale === "he" ? "עומר הלד" : undefined,
     jobTitle: locale === "he" ? "צלם אווירי" : "Aerial photographer",
     worksFor: { "@id": BUSINESS_ID },
-    url: site.url + localePath(locale, "/about"),
-    image: site.url + jpgUrl(profileImage),
+    url: siteUrl + localePath(locale, "/about"),
+    image: siteUrl + jpgUrl(profileImage),
     sameAs: [site.instagram, site.linkedin],
   };
 }
@@ -113,7 +114,7 @@ export function breadcrumbJsonLd(crumbs: { name: string; href: string }[]) {
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    itemListElement: crumbs.map((c, i) => ({ "@type": "ListItem", position: i + 1, name: c.name, item: site.url + c.href })),
+    itemListElement: crumbs.map((c, i) => ({ "@type": "ListItem", position: i + 1, name: c.name, item: siteUrl + c.href })),
   };
 }
 
@@ -122,7 +123,7 @@ export function galleryJsonLd(locale: Locale, name: string, path: string, list: 
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     name,
-    url: site.url + localePath(locale, path),
+    url: siteUrl + localePath(locale, path),
     isPartOf: { "@id": BUSINESS_ID },
     hasPart: list
       .filter((i) => i.type === "image")
@@ -130,8 +131,8 @@ export function galleryJsonLd(locale: Locale, name: string, path: string, list: 
         "@type": "ImageObject",
         name: i.title[locale],
         description: i.alt[locale],
-        contentUrl: site.url + jpgUrl(i.img),
-        thumbnailUrl: site.url + jpgUrl(i.img, "small"),
+        contentUrl: siteUrl + jpgUrl(i.img),
+        thumbnailUrl: siteUrl + jpgUrl(i.img, "small"),
         width: i.img.fb[i.img.fb.length - 1],
         height: Math.round((i.img.fb[i.img.fb.length - 1] * i.height) / i.width),
         creator: { "@id": PERSON_ID },
