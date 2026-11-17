@@ -4,6 +4,7 @@
 //   public/media/v1/<key>/<width>.jpg    fallback for browsers without AVIF
 //   public/media/v1/<key>/hd.mp4, sd.mp4 videos (lightbox / tile preview)
 //   public/media/v1/<key>/og.jpg         1200x630 social preview (category covers, profile)
+//   public/media/v1/<key>/<zoom>.avif    panoramas only: a wide version for the lightbox's zoom view
 //   public/media/hero/*                  the intro video in three renditions, with poster frames
 // and writes content/media-meta.json (key, widths, placeholder colour + blur per item).
 // Finished files are skipped, so it is safe to re-run. Use --force to redo everything.
@@ -66,10 +67,18 @@ async function images(file, key, { og = false } = {}) {
     const f = path.join(dir, "og.jpg");
     if (!(await exists(f))) await (await from()).resize(1200, 630, { fit: "cover", position: "attention" }).jpeg({ quality: 82, mozjpeg: true }).toFile(f);
   }
+  // Panoramas are tiny on a phone when fitted to the screen. The lightbox can show them at full screen
+  // height instead, panned sideways, which needs far more pixels than the regular sizes. Loaded only on demand.
+  let zoom;
+  if (srcW / srcH >= cfg.panorama.minRatio && srcW > cap) {
+    zoom = Math.min(srcW, cfg.panorama.zoomWidth);
+    const f = path.join(dir, `${zoom}.avif`);
+    if (!(await exists(f))) await sharp(file, { limitInputPixels: false }).rotate().resize({ width: zoom }).removeAlpha().avif({ quality: 50, effort: 4 }).toFile(f);
+  }
   const tiny = await from();
   const { data } = await tiny.clone().resize(1, 1, { fit: "fill" }).raw().toBuffer({ resolveWithObject: true });
   const blur = await (await from()).resize(24, 24, { fit: "inside" }).webp({ quality: 40 }).toBuffer();
-  return { key, w: widths, fb: fallback, color: toHex(data), blur: `data:image/webp;base64,${blur.toString("base64")}` };
+  return { key, w: widths, fb: fallback, ...(zoom && { zoom }), color: toHex(data), blur: `data:image/webp;base64,${blur.toString("base64")}` };
 }
 
 async function video(file, key, hasAudio) {

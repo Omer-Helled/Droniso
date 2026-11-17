@@ -45,7 +45,8 @@ export const profileImage: ImageRef = { key: metaFile.profile.key, w: metaFile.p
 export const categories = portfolio.categories as Category[];
 export const items: MediaItem[] = (portfolio.items as Omit<MediaItem, "img" | "color" | "blur">[]).map((i) => {
   const m = metaFile.items[i.id];
-  return { ...i, coords: i.coords as [number, number] | null, img: { key: m.key, w: m.w, fb: m.fb }, color: m.color, blur: m.blur };
+  const img = { key: m.key, w: m.w, fb: m.fb, ...(m.zoom && { zoom: m.zoom }) };
+  return { ...i, coords: i.coords as [number, number] | null, img, color: m.color, blur: m.blur };
 });
 export const selectedItems: MediaItem[] = portfolio.selected.map((id) => items.find((i) => i.id === id)!);
 export const itemsByCategory = (slug: CategorySlug) => items.filter((i) => i.category === slug);

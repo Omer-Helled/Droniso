@@ -71,6 +71,7 @@ console.log(`  ${checks - failures}/${checks} passed`);
     for (const w of m.w) ok(await onDisk(`${mediaBase}/${m.key}/${w}.avif`), `${m.key}/${w}.avif exists`);
     for (const w of m.fb) ok(await onDisk(`${mediaBase}/${m.key}/${w}.jpg`), `${m.key}/${w}.jpg exists`);
     if (i.type === "video") for (const q of ["hd", "sd"]) ok(await onDisk(`${mediaBase}/${m.key}/${q}.mp4`), `${m.key}/${q}.mp4 exists`);
+    if (i.width / i.height >= 2) ok(m.zoom && (await onDisk(`${mediaBase}/${m.key}/${m.zoom}.avif`)), `panorama ${m.key} has its zoom file`);
     if (covers.has(i.id)) ok(await onDisk(`${mediaBase}/${m.key}/og.jpg`), `${m.key}/og.jpg (category cover) exists`);
   }
   ok(media.profile && (await onDisk(`${mediaBase}/${media.profile.key}/og.jpg`)), "profile photo exists");
@@ -179,8 +180,11 @@ for (const i of portfolio.items) {
   const canonical = html.match(/<link rel="canonical" href="([^"]+)"/)?.[1] ?? "";
   const ogImage = html.match(/<meta property="og:image" content="([^"]+)"/)?.[1] ?? "";
   // The canonical address must serve this site (not, say, a domain that still points at Wix)
-  const live = canonical ? await fetch(canonical).then((r) => (r.ok ? r.text() : ""), () => "") : "";
+  const res = canonical ? await fetch(canonical).catch(() => null) : null;
+  const live = res?.ok ? await res.text() : "";
   ok(live.includes("/media/hero/poster-1080"), `canonical link points at a live copy of this site (${canonical})`);
+  // e.g. droniso.com when the site's main address is www.droniso.com: search engines prefer the final address
+  ok(res && !res.redirected, `canonical link is the site's main address, not one that redirects (${canonical} → ${res?.url})`);
   const img = ogImage ? await fetch(ogImage).catch(() => null) : null;
   ok(img?.ok && /^image\//.test(img.headers.get("content-type") ?? ""), `social preview image loads (${ogImage})`);
 }

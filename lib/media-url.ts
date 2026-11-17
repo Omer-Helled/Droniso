@@ -4,8 +4,9 @@ import config from "@/content/media-config.json";
 
 export const MEDIA_BASE = config.base;
 
-/** One image as stored on disk: its folder and the widths that exist as AVIF (w) and as JPEG fallback (fb) */
-export type ImageRef = { key: string; w: number[]; fb: number[] };
+/** One image as stored on disk: its folder, the widths that exist as AVIF (w) and as JPEG fallback (fb),
+ *  and for panoramas the width of the extra-wide AVIF used by the lightbox's zoom view */
+export type ImageRef = { key: string; w: number[]; fb: number[]; zoom?: number };
 
 export const avifSrcSet = (img: ImageRef) => img.w.map((w) => `${MEDIA_BASE}/${img.key}/${w}.avif ${w}w`).join(", ");
 export const jpgSrcSet = (img: ImageRef) => img.fb.map((w) => `${MEDIA_BASE}/${img.key}/${w}.jpg ${w}w`).join(", ");
@@ -13,6 +14,9 @@ export const jpgSrcSet = (img: ImageRef) => img.fb.map((w) => `${MEDIA_BASE}/${i
 /** Plain JPEG, for places that can't negotiate formats: <img src>, video posters, structured data */
 export const jpgUrl = (img: ImageRef, size: "small" | "large" = "large") =>
   `${MEDIA_BASE}/${img.key}/${size === "small" ? img.fb[0] : img.fb[img.fb.length - 1]}.jpg`;
+
+/** The extra-wide panorama for the zoom view (exists only when img.zoom is set) */
+export const zoomUrl = (img: ImageRef) => `${MEDIA_BASE}/${img.key}/${img.zoom}.avif`;
 
 export const videoUrl = (key: string, quality: "hd" | "sd") => `${MEDIA_BASE}/${key}/${quality}.mp4`;
 

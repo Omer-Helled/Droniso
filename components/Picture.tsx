@@ -1,4 +1,4 @@
-import type { CSSProperties } from "react";
+import type { CSSProperties, MouseEventHandler } from "react";
 import { avifSrcSet, jpgSrcSet, jpgUrl, type ImageRef } from "@/lib/media-url";
 
 type Props = {
@@ -11,11 +11,12 @@ type Props = {
   fetchPriority?: "high" | "low" | "auto";
   className?: string;
   style?: CSSProperties;
+  onDoubleClick?: MouseEventHandler<HTMLImageElement>;
 };
 
 /** Responsive image: AVIF for current browsers, JPEG for the rest. The <picture> itself takes no space
  *  (display: contents), so the <img> can be styled as if it were a direct child of its container. */
-export function Picture({ img, sizes, alt, width, height, loading = "lazy", fetchPriority, className, style }: Props) {
+export function Picture({ img, sizes, alt, width, height, loading = "lazy", fetchPriority, className, style, onDoubleClick }: Props) {
   return (
     <picture className="contents">
       <source type="image/avif" srcSet={avifSrcSet(img)} sizes={sizes} />
@@ -31,6 +32,7 @@ export function Picture({ img, sizes, alt, width, height, loading = "lazy", fetc
         decoding="async"
         className={className}
         style={style}
+        onDoubleClick={onDoubleClick}
       />
     </picture>
   );
