@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { Logo } from "@/components/brand/Logo";
 import { Close, Instagram, LinkedIn, Mail, Menu, WhatsApp } from "@/components/Icons";
+import { clampedScrollY, stableViewportHeight } from "@/lib/scroll";
 
 export type NavItem = { href: string; label: string; children?: { href: string; label: string }[] };
 
@@ -30,16 +31,33 @@ export function Header({ homeHref, homeLabel, nav, contact, langSwitch, menuLabe
   const solid = !overHero || pastHero;
 
   // Hide while scrolling down, show on scroll up. Over a hero, turn solid once past it.
+  // A deliberate movement is required before the header changes state: small or jittery scroll steps
+  // (momentum scrolling on phones, the browser bar resizing, overscroll bounce) used to toggle it
+  // on and off every few frames, which looked like flickering.
   useEffect(() => {
-    let last = window.scrollY;
+    const HIDE_AFTER = 40; // px scrolled down in one go before hiding
+    const SHOW_AFTER = 24; // px scrolled up in one go before showing again
+    const TOP_ZONE = 120; // always visible near the top of the page
+    const viewport = stableViewportHeight();
+    let last = clampedScrollY();
+    let travel = 0; // distance moved in the current direction (+ down, - up)
     let ticking = false;
     const update = () => {
-      const y = window.scrollY;
-      setPastHero(y > window.innerHeight * 0.85 - 72);
-      setHidden(y > 240 && y > last + 4);
-      if (y < last - 4 || y < 240) setHidden(false);
-      last = y;
       ticking = false;
+      const y = clampedScrollY();
+      const dy = y - last;
+      last = y;
+      setPastHero(y > viewport.get() * 0.85 - 72);
+      if (y <= TOP_ZONE) {
+        travel = 0;
+        setHidden(false);
+        return;
+      }
+      if (dy === 0) return;
+      if (Math.sign(dy) !== Math.sign(travel)) travel = 0;
+      travel += dy;
+      if (travel > HIDE_AFTER) setHidden(true);
+      else if (travel < -SHOW_AFTER) setHidden(false);
     };
     const onScroll = () => {
       if (!ticking) {
@@ -49,7 +67,10 @@ export function Header({ homeHref, homeLabel, nav, contact, langSwitch, menuLabe
     };
     update();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      viewport.dispose();
+    };
   }, []);
 
   useEffect(() => {
@@ -67,6 +88,8 @@ export function Header({ homeHref, homeLabel, nav, contact, langSwitch, menuLabe
   return (
     <>
       <header
+        // Keyboard users tabbing into a hidden header bring it back
+        onFocusCapture={() => setHidden(false)}
         className={`fixed inset-x-0 top-0 z-40 transition-[transform,background-color,border-color] duration-500 ${
           hidden && !open ? "-translate-y-full" : "translate-y-0"
         } ${solid ? "border-b border-line bg-bg/95" : "border-b border-transparent bg-transparent"}`}

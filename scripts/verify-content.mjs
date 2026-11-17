@@ -172,6 +172,19 @@ for (const i of portfolio.items) {
   ok((await post({ elapsedMs: 9000 }, { Origin: "https://example.invalid" })).status === 403, "contact API rejects other sites");
 }
 
+// Canonical link and social preview image must point at a live copy of this site (Safari's share
+// sheet and Favorites use the canonical link; WhatsApp and Facebook fetch og:image)
+{
+  const html = (await page("/")).html;
+  const canonical = html.match(/<link rel="canonical" href="([^"]+)"/)?.[1] ?? "";
+  const ogImage = html.match(/<meta property="og:image" content="([^"]+)"/)?.[1] ?? "";
+  // The canonical address must serve this site (not, say, a domain that still points at Wix)
+  const live = canonical ? await fetch(canonical).then((r) => (r.ok ? r.text() : ""), () => "") : "";
+  ok(live.includes("/media/hero/poster-1080"), `canonical link points at a live copy of this site (${canonical})`);
+  const img = ogImage ? await fetch(ogImage).catch(() => null) : null;
+  ok(img?.ok && /^image\//.test(img.headers.get("content-type") ?? ""), `social preview image loads (${ogImage})`);
+}
+
 // Google Search Console verification tokens carried over
 const home = (await page("/")).html;
 for (const token of wix.seo.googleSiteVerification) ok(home.includes(token), `Search Console token ${token.slice(0, 8)}… is kept`);

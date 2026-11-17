@@ -383,7 +383,6 @@ export const site = {
   whatsapp: "https://wa.me/972509023898",
   instagram: "https://www.instagram.com/omerhelled/",
   linkedin: "https://www.linkedin.com/in/omerhelled/",
-  url: "https://www.droniso.com",
   /** Year Omer started flying — "years of experience" is computed from it */
   flyingSince: 2021,
 };

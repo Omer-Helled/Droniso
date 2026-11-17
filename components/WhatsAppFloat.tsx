@@ -2,16 +2,21 @@
 
 import { useEffect, useState } from "react";
 import { WhatsApp } from "@/components/Icons";
+import { clampedScrollY, stableViewportHeight } from "@/lib/scroll";
 
 /** Floating WhatsApp button (kept from the Wix site). On pages with a video hero it waits until the hero is scrolled past. */
 export function WhatsAppFloat({ href, label, delayed = false }: { href: string; label: string; delayed?: boolean }) {
   const [pastHero, setPastHero] = useState(false);
   useEffect(() => {
     if (!delayed) return;
-    const onScroll = () => setPastHero(window.scrollY > window.innerHeight * 0.7);
+    const viewport = stableViewportHeight();
+    const onScroll = () => setPastHero(clampedScrollY() > viewport.get() * 0.7);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      viewport.dispose();
+    };
   }, [delayed]);
   const show = !delayed || pastHero;
   return (
