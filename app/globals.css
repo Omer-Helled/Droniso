@@ -42,6 +42,12 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Tailwind leaves buttons with the plain arrow cursor; every clickable control shows the pointing hand */
+button:not(:disabled),
+select {
+  cursor: pointer;
+}
+
 /* In-page links (#faq, #main) stop below the fixed header. Set on the targets rather than as
    scroll-padding on <html>, which made Next.js think a freshly opened page was scrolled out of view. */
 [id] {
@@ -338,25 +344,37 @@ body {
   }
 }
 
-/* Services index: show the preview of the hovered/focused row (desktop) */
+/* Services index (desktop): the preview shows the category in data-active, set by ServicesRotator. It cycles
+   on its own and follows the row under the pointer or keyboard focus. Without JavaScript it stays on the first. */
 .services-preview > * {
   opacity: 0;
-  transition: opacity 0.45s var(--ease-out);
+  transition: opacity 0.9s var(--ease-out);
 }
-.services-preview > [data-default] {
+/* Pointing at a row answers faster than the slow automatic crossfade */
+.services[data-held] .services-preview > * {
+  transition-duration: 0.4s;
+}
+.services[data-active="0"] .services-preview > [data-i="0"],
+.services[data-active="1"] .services-preview > [data-i="1"],
+.services[data-active="2"] .services-preview > [data-i="2"],
+.services[data-active="3"] .services-preview > [data-i="3"],
+.services[data-active="4"] .services-preview > [data-i="4"],
+.services[data-active="5"] .services-preview > [data-i="5"] {
   opacity: 1;
 }
-.services:has(li:hover) .services-preview > [data-default],
-.services:has(li:focus-within) .services-preview > [data-default] {
-  opacity: 0;
-}
-.services:has(li[data-i="0"]:is(:hover, :focus-within)) .services-preview > [data-i="0"],
-.services:has(li[data-i="1"]:is(:hover, :focus-within)) .services-preview > [data-i="1"],
-.services:has(li[data-i="2"]:is(:hover, :focus-within)) .services-preview > [data-i="2"],
-.services:has(li[data-i="3"]:is(:hover, :focus-within)) .services-preview > [data-i="3"],
-.services:has(li[data-i="4"]:is(:hover, :focus-within)) .services-preview > [data-i="4"],
-.services:has(li[data-i="5"]:is(:hover, :focus-within)) .services-preview > [data-i="5"] {
-  opacity: 1;
+/* The row whose photo is showing gets its number in the accent colour */
+@media (min-width: 64rem) {
+  .services .svc-num {
+    transition: color 0.4s var(--ease-out);
+  }
+  .services[data-active="0"] li[data-i="0"] .svc-num,
+  .services[data-active="1"] li[data-i="1"] .svc-num,
+  .services[data-active="2"] li[data-i="2"] .svc-num,
+  .services[data-active="3"] li[data-i="3"] .svc-num,
+  .services[data-active="4"] li[data-i="4"] .svc-num,
+  .services[data-active="5"] li[data-i="5"] .svc-num {
+    color: var(--accent);
+  }
 }
 
 /* Lightbox */

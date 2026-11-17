@@ -1,11 +1,10 @@
 import { fmt, getDictionary, localePath, site, type Locale } from "@/lib/i18n";
-import { items } from "@/lib/portfolio";
 import { breadcrumbJsonLd, pageMetadata, personJsonLd, profileOgImage } from "@/lib/seo";
 import { Chrome } from "@/components/Chrome";
 import { JsonLd } from "@/components/JsonLd";
 import { ContactCta, PageHeader, Process, ProfilePhoto, Services, yearsFlying } from "@/components/Sections";
 
-const ownerName = { he: "עומר הלד", en: "Omer Helled" } as const;
+const ownerName = { he: "עומר חלד", en: "Omer Helled" } as const;
 
 export function aboutMetadata(locale: Locale) {
   const t = getDictionary(locale);
@@ -32,10 +31,7 @@ export async function AboutView({ locale }: { locale: Locale }) {
         <div className="grid gap-10 md:grid-cols-12 md:gap-8">
           <figure className="md:col-span-5" data-reveal>
             <ProfilePhoto alt={t.about.photoAlt} sizes="(min-width: 768px) 40vw, 100vw" className="aspect-[4/5]" />
-            <figcaption className="telemetry mt-3 flex justify-between">
-              <span>{site.owner}</span>
-              <span>{t.about.places}</span>
-            </figcaption>
+            <figcaption className="telemetry mt-3">{site.owner}</figcaption>
           </figure>
           <div className="flex flex-col gap-6 md:col-span-6 md:col-start-7 md:pt-4">
             <h2 id="about-lead" className="text-[clamp(1.6rem,3vw,2.6rem)] font-light leading-[1.2]" data-reveal>
@@ -47,14 +43,6 @@ export async function AboutView({ locale }: { locale: Locale }) {
               ))}
               <p>{t.about.closing}</p>
             </div>
-            <dl className="mt-4 grid grid-cols-2 gap-px overflow-hidden border border-line bg-line" data-reveal>
-              {t.about.facts.map((f) => (
-                <div key={f.k} className="flex flex-col gap-1 bg-bg p-4 sm:p-5">
-                  <dt className="text-[0.8125rem] text-muted">{f.k}</dt>
-                  <dd className="text-[1.0625rem]">{fmt(f.v, { since: site.flyingSince, count: items.length })}</dd>
-                </div>
-              ))}
-            </dl>
           </div>
         </div>
       </section>

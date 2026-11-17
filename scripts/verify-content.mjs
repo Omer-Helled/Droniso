@@ -151,6 +151,8 @@ for (const l of ["he", "en"]) {
 
 // The site no longer depends on Wix: no page may load anything from it
 for (const [p, { html }] of pages) ok(!/wixstatic\.com|wix\.com|wixstudio/i.test(html), `${p} has no reference to Wix`);
+// The owner's name in Hebrew is עומר חלד
+for (const [p, { html }] of pages) ok(!html.includes("הלד"), `${p} spells the owner's name עומר חלד`);
 
 // Media is really served (one image per work, and every video)
 for (const i of portfolio.items) {

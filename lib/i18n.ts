@@ -22,7 +22,7 @@ const he = {
   meta: {
     title: "DronISO — צילום ווידאו אווירי עם רחפן",
     description:
-      "עומר הלד, צלם רחפן: צילום ווידאו אווירי לנדל״ן, מלונות, אירועים, פרסומות ונופים. צפו בעבודות וקבלו הצעת מחיר.",
+      "עומר חלד, צלם רחפן: צילום ווידאו אווירי לנדל״ן, מלונות, אירועים, פרסומות ונופים. צפו בעבודות וקבלו הצעת מחיר.",
   },
   skip: "דלג לתוכן",
   nav: {
@@ -58,17 +58,10 @@ const he = {
       "אני עובד עם ציוד מתקדם ודואג שכל פריים ייצא מושלם, תוך הקפדה על מקצועיות ודיוק עד הפרט הקטן ביותר.",
     ],
     closing: "כאן באתר תוכלו לראות איך העבודה שלי הופכת כל רגע לסיפור עוצר נשימה.",
-    photoAlt: "עומר הלד משחרר רחפן לטיסה על רקע החוף בשקיעה",
-    places: "ישראל · אוסטרליה · ניו זילנד",
+    photoAlt: "עומר חלד משחרר רחפן לטיסה על רקע החוף בשקיעה",
     more: "עוד עליי",
     pageTitle: "אודות",
     pageIntro: "צלם אווירי ומטיס רחפנים מאז {since}. צילום ווידאו מהאוויר לעסקים, לנדל״ן, למלונות, לאירועים ולפרסום.",
-    facts: [
-      { k: "מטיס מאז", v: "{since}" },
-      { k: "עבודות באתר", v: "{count}" },
-      { k: "צילמתי ב", v: "ישראל, אוסטרליה, ניו זילנד" },
-      { k: "עריכה", v: "DaVinci Resolve" },
-    ],
     whatLabel: "מה אני מצלם",
   },
   process: {
@@ -77,7 +70,7 @@ const he = {
       { t: "שיחת היכרות", d: "מספרים לי מה צריך לצלם, איפה ומתי, ובשביל מה התוצרים: אתר, רשתות חברתיות, פרסום או תיעוד." },
       { t: "תכנון", d: "בודקים את המיקום, את התחזית ואת האישורים הנדרשים לטיסה, ובונים יחד תוכנית צילום." },
       { t: "יום הצילום", d: "מגיע עם הציוד ומצלם תמונות ווידאו מכל הזוויות, תוך הקפדה על בטיחות לאורך כל הטיסה." },
-      { t: "עריכה ומסירה", d: "עורך את התמונות והסרטונים ב-DaVinci Resolve ומוסר קבצים מוכנים לשימוש." },
+      { t: "עריכה ומסירה", d: "עורך את התמונות והסרטונים ומוסר קבצים מוכנים לשימוש." },
     ],
   },
   selected: {
@@ -86,20 +79,19 @@ const he = {
   },
   services: {
     label: "תחומים",
-    works: "{n} עבודות",
   },
   work: {
     title: "עבודות",
-    intro: "{n} צילומים וסרטונים בשישה תחומים: נופים, נדל״ן, מלונות, אקסטרים, פרסומות ואירועים.",
+    intro: "צילומים וסרטונים מהאוויר: נופים, נדל״ן, מלונות, אקסטרים, פרסומות ואירועים.",
     metaDescription: "כל העבודות של DronISO: צילומי רחפן וסרטונים אוויריים של נופים, נדל״ן, מלונות, ספורט אקסטרים, פרסומות ואירועים.",
     otherCategories: "תחומים נוספים",
   },
   categoryIntro: {
-    landscapes: "צילומי נוף הם ההתמחות העיקרית שלי. מהרי הגעש של ניו זילנד ועד פטריות המלח בים המלח – מבט מלמעלה שמראה מקומות מוכרים בדרך חדשה.",
+    landscapes: "צילומי נוף הם ההתמחות העיקרית שלי: מבט מלמעלה שמראה מקומות מוכרים בדרך חדשה.",
     "real-estate": "צילום אווירי לפרויקטים, למגדלים ולנכסים: תמונות שמראות את הנכס ואת הסביבה שלו, ותיעוד שוטף של התקדמות בנייה וכבישים.",
     hotels: "מלונות, אתרי נופש ומתחמי גלמפינג מהזווית שמראה את כל המתחם – הבריכות, החוף והנוף שמסביב. צילומים לאתר, לרשתות ולפרסום.",
     extreme: "גלישה, סנפלינג וספורט ימי: וידאו מהאוויר שעוקב אחרי התנועה ומראה את הפעולה מזווית שאי אפשר להשיג מהקרקע.",
-    commercials: "סרטוני פרסומת למותגים ולעסקים, כולל עריכה מלאה ב-DaVinci Resolve.",
+    commercials: "סרטוני פרסומת למותגים ולעסקים, כולל עריכה מלאה.",
     "weddings-events": "חתונות, הצעות נישואין, הופעות ואירועים: צילום מהאוויר שמראה את כל המקום ואת האנשים בו – מהרגע הגדול ועד הקהל.",
   },
   gallery: {
@@ -124,7 +116,7 @@ const he = {
     label: "שאלות ותשובות",
     items: [
       { q: "אילו סוגי צילום אתה מציע?", a: "אני מתמחה בצילום אירועים, חתונות, נדל״ן, מלונות, פרסומות, הצעות נישואין ובעיקר נופים." },
-      { q: "האם אתה גם עורך את הסרטונים?", a: "כן, במידת הצורך אני עורך את הסרטונים באיכות הכי גבוהה שיש, לפי הצרכים שלכם. אני עובד עם DaVinci Resolve כדי להגיע לתוצאה הטובה ביותר." },
+      { q: "האם אתה גם עורך את הסרטונים?", a: "כן, במידת הצורך אני עורך את הסרטונים באיכות הכי גבוהה שיש, לפי הצרכים שלכם." },
       { q: "אפשר לצלם גם באזורים שקשה להגיע אליהם?", a: "תלוי בתנאי השטח. יש לי רחפנים שנותנים פתרון במצבים כאלה, גם בתוך חללים סגורים כשמתאפשר. נבחן את זה יחד." },
       { q: "מה טווח המחירים לצילום עם רחפן?", a: "המחירים משתנים לפי סוג הפרויקט, המיקום, אורך הסרטון ובקשות מיוחדות, אם יש. צרו קשר ונכין הצעת מחיר מותאמת." },
       { q: "מה קורה אם מזג האוויר לא מתאים לצילום?", a: "נבדוק את התחזית מראש, ובמידת הצורך נתאם תאריך חלופי." },
@@ -240,16 +232,9 @@ const en: Dictionary = {
     ],
     closing: "Here on my website, you can see how my work turns every moment into a breathtaking story.",
     photoAlt: "Omer Helled launching a drone above the coastline at sunset",
-    places: "Israel · Australia · New Zealand",
     more: "More about me",
     pageTitle: "About",
     pageIntro: "Aerial photographer, flying drones since {since}. Aerial photography and video for businesses, real estate, hotels, events and advertising.",
-    facts: [
-      { k: "Flying since", v: "{since}" },
-      { k: "Works on this site", v: "{count}" },
-      { k: "Shot in", v: "Israel, Australia, New Zealand" },
-      { k: "Editing", v: "DaVinci Resolve" },
-    ],
     whatLabel: "What I shoot",
   },
   process: {
@@ -258,7 +243,7 @@ const en: Dictionary = {
       { t: "Intro call", d: "Tell me what needs to be shot, where and when, and what the footage is for: website, social media, advertising or documentation." },
       { t: "Planning", d: "We check the location, the forecast and the flight permissions required, and put together a shot plan." },
       { t: "Shoot day", d: "I arrive with the equipment and capture photos and video from every angle, keeping the flight safe throughout." },
-      { t: "Editing & delivery", d: "I edit the photos and videos in DaVinci Resolve and deliver files that are ready to use." },
+      { t: "Editing & delivery", d: "I edit the photos and videos and deliver files that are ready to use." },
     ],
   },
   selected: {
@@ -267,20 +252,19 @@ const en: Dictionary = {
   },
   services: {
     label: "Services",
-    works: "{n} works",
   },
   work: {
     title: "Work",
-    intro: "{n} photos and videos across six fields: landscapes, real estate, hotels, extreme, commercials and events.",
+    intro: "Aerial photos and videos: landscapes, real estate, hotels, extreme, commercials and events.",
     metaDescription: "All DronISO work: drone photography and aerial video of landscapes, real estate, hotels, extreme sports, commercials and events.",
     otherCategories: "More categories",
   },
   categoryIntro: {
-    landscapes: "Landscapes are my main specialty. From New Zealand’s volcanoes to the Dead Sea’s salt formations – a view from above that shows familiar places in a new way.",
+    landscapes: "Landscapes are my main specialty: a view from above that shows familiar places in a new way.",
     "real-estate": "Aerial photography for developments, towers and properties: images that show the property and its surroundings, and ongoing documentation of construction and road works.",
     hotels: "Hotels, resorts and glamping sites from the angle that shows the whole place – the pools, the beach and the view around it. Photos for the website, social media and advertising.",
     extreme: "Surfing, abseiling and water sports: aerial video that follows the movement and shows the action from an angle you can’t get from the ground.",
-    commercials: "Commercial videos for brands and businesses, including full editing in DaVinci Resolve.",
+    commercials: "Commercial videos for brands and businesses, including full editing.",
     "weddings-events": "Weddings, proposals, concerts and events: aerial footage that shows the whole venue and the people in it – from the big moment to the crowd.",
   },
   gallery: {
@@ -305,7 +289,7 @@ const en: Dictionary = {
     label: "Q&A",
     items: [
       { q: "What types of drone photography do you offer?", a: "I specialize in photography for events, weddings, real estate, hotels, commercials, marriage proposals, and especially landscapes." },
-      { q: "Can you edit the footage?", a: "Yes, if needed, I will edit your videos to the highest quality. I use DaVinci Resolve to achieve the best results." },
+      { q: "Can you edit the footage?", a: "Yes, if needed, I will edit your videos to the highest quality." },
       { q: "Can you film in hard-to-reach locations?", a: "It depends on the conditions. I have drones capable of providing solutions in such situations, including indoors when possible. We will evaluate this together." },
       { q: "What is the price range for drone photography services?", a: "Prices vary depending on the type of project, location, length of the video and any special requests. Contact me for a personalized quote." },
       { q: "What happens if the weather isn’t suitable for filming?", a: "We’ll check the forecast in advance and reschedule if necessary." },

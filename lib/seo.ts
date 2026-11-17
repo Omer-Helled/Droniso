@@ -92,7 +92,7 @@ export function personJsonLd(locale: Locale) {
     "@type": "Person",
     "@id": PERSON_ID,
     name: site.owner,
-    alternateName: locale === "he" ? "עומר הלד" : undefined,
+    alternateName: locale === "he" ? "עומר חלד" : undefined,
     jobTitle: locale === "he" ? "צלם אווירי" : "Aerial photographer",
     worksFor: { "@id": BUSINESS_ID },
     url: siteUrl + localePath(locale, "/about"),

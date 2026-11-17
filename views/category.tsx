@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { fmt, getDictionary, localePath, type Locale } from "@/lib/i18n";
+import { getDictionary, localePath, type Locale } from "@/lib/i18n";
 import { categories, categoryCover, itemsByCategory, toClientItem, type CategorySlug } from "@/lib/portfolio";
 import { breadcrumbJsonLd, galleryJsonLd, itemImage, pageMetadata } from "@/lib/seo";
 import { Chrome } from "@/components/Chrome";
@@ -47,7 +47,7 @@ export function CategoryView({ locale, slug }: { locale: Locale; slug: string })
         crumbs={crumbs}
         title={cat.title[locale]}
         intro={t.categoryIntro[cat.slug]}
-        meta={`${num} / 06 · ${fmt(t.services.works, { n: list.length }).toUpperCase()}`}
+        meta={`${num} / 06`}
       />
       <section aria-label={cat.title[locale]} className="container-x pt-12 md:pt-16">
         <Gallery
