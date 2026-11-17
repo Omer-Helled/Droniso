@@ -14,7 +14,7 @@ PLACES = {  # coordinates only for well-known landmarks
 }
 
 CATEGORIES = {
-    'landscapes': {'he': 'צילומי נוף', 'en': 'Landscapes', 'blurb': {'he': 'הרים, חופים ואגמים בישראל, באוסטרליה ובניו זילנד', 'en': 'Mountains, coastlines and lakes in Israel, Australia and New Zealand'}},
+    'landscapes': {'he': 'צילומי נוף', 'en': 'Landscapes', 'blurb': {'he': 'הרים, חופים ואגמים', 'en': 'Mountains, coastlines and lakes'}},
     'real-estate': {'he': 'נדל״ן', 'en': 'Real Estate', 'blurb': {'he': 'פרויקטים, מגדלים ומעקב אחרי אתרי בנייה', 'en': 'Developments, towers and construction progress'}},
     'hotels': {'he': 'מלונות', 'en': 'Hotels', 'blurb': {'he': 'מלונות, אתרי נופש וגלמפינג', 'en': 'Hotels, resorts and glamping'}},
     'extreme': {'he': 'אקסטרים', 'en': 'Extreme', 'blurb': {'he': 'גלישה, סנפלינג וספורט ימי', 'en': 'Surfing, abseiling and water sports'}},

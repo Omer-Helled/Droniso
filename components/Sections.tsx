@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { fmt, getDictionary, localePath, site, type Dictionary, type Locale } from "@/lib/i18n";
 import { categories, categoryCover, profileImage, type CategorySlug } from "@/lib/portfolio";
 import { Picture } from "@/components/Picture";
+import { ServicesRotator } from "@/components/ServicesRotator";
 import { ArrowEnd, ArrowUpRight, Instagram, LinkedIn, Mail, Plus, WhatsApp } from "@/components/Icons";
 import { LogoMark } from "@/components/brand/Logo";
 
@@ -104,10 +105,7 @@ export async function AboutTeaser({ t, locale, num }: { t: Dictionary; locale: L
         </h2>
         <figure className="md:col-span-4 md:col-start-9 md:row-span-2 md:row-start-1" data-reveal style={{ ["--d" as string]: 1 }}>
           <ProfilePhoto alt={t.about.photoAlt} sizes="(min-width: 768px) 30vw, 100vw" className="aspect-[4/5]" />
-          <figcaption className="telemetry mt-3 flex justify-between">
-            <span>{site.owner}</span>
-            <span>{t.about.places}</span>
-          </figcaption>
+          <figcaption className="telemetry mt-3">{site.owner}</figcaption>
         </figure>
         <div className="flex max-w-[60ch] flex-col gap-4 text-text/80 md:col-span-7 md:col-start-1" data-reveal>
           {t.about.body.slice(0, 2).map((p, i) => (
@@ -148,14 +146,14 @@ export function Services({
       <SectionLabel num={num}>
         <span id={headingId}>{label ?? t.services.label}</span>
       </SectionLabel>
-      <div className="services mt-10 grid gap-10 md:mt-14 lg:grid-cols-12 lg:gap-8">
+      <ServicesRotator count={list.length} className="services mt-10 grid gap-10 md:mt-14 lg:grid-cols-12 lg:gap-8">
         <ol className="border-t border-line lg:col-span-7">
           {list.map((c, i) => {
             const cover = covers[i];
             return (
               <li key={c.slug} data-i={i} className="border-b border-line" data-reveal style={{ ["--d" as string]: i }}>
                 <Link href={localePath(locale, `/work/${c.slug}`)} className="group flex items-center gap-4 py-5 sm:gap-6 sm:py-7">
-                  <span className="telemetry w-6 shrink-0 !text-[0.75rem]">
+                  <span className="svc-num telemetry w-6 shrink-0 !text-[0.75rem]">
                     {String(categories.indexOf(c) + 1).padStart(2, "0")}
                   </span>
                   <span className="min-w-0 flex-1">
@@ -164,12 +162,10 @@ export function Services({
                     </span>
                     <span className="mt-1 block text-[0.875rem] text-muted">{c.blurb[locale]}</span>
                   </span>
-                  <span className="telemetry hidden shrink-0 sm:block">{fmt(t.services.works, { n: c.count })}</span>
                   <span className="media-frame size-14 shrink-0 lg:hidden" style={{ ["--ph-color" as string]: cover.color }}>
                     <Picture img={cover.img} sizes="56px" alt="" />
                   </span>
                   <ArrowEnd className="hidden size-5 shrink-0 text-muted transition-transform group-hover:translate-x-1 group-hover:text-text rtl:-scale-x-100 rtl:group-hover:-translate-x-1 lg:block" />
-                  <span className="sr-only sm:hidden"> ({fmt(t.services.works, { n: c.count })})</span>
                 </Link>
               </li>
             );
@@ -183,7 +179,6 @@ export function Services({
             <div
               key={cover.id}
               data-i={i}
-              {...(i === 0 ? { "data-default": "" } : {})}
               className="media-frame absolute inset-0"
               style={{ ["--ph-color" as string]: cover.color, ["--ph-blur" as string]: `url("${cover.blur}")` }}
             >
@@ -192,7 +187,7 @@ export function Services({
             </div>
           ))}
         </div>
-      </div>
+      </ServicesRotator>
     </section>
   );
 }

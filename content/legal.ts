@@ -9,7 +9,7 @@ export const UPDATED: Record<Locale, string> = { he: "נובמבר 2026", en: "N
 export type LegalSection = { h: string; p?: string[]; list?: string[] };
 export type LegalDoc = { title: string; intro: string; description: string; sections: LegalSection[] };
 
-const contactHe = `עומר הלד · טלפון ${site.phoneDisplay} · אימייל ${site.email}`;
+const contactHe = `עומר חלד · טלפון ${site.phoneDisplay} · אימייל ${site.email}`;
 const contactEn = `Omer Helled · phone +972 50-902-3898 · email ${site.email}`;
 
 export const accessibility: Record<Locale, LegalDoc> = {
@@ -113,7 +113,7 @@ export const privacy: Record<Locale, LegalDoc> = {
     description: "מדיניות הפרטיות של DronISO: איזה מידע נאסף באתר, למה, כמה זמן הוא נשמר ואיך לבקש למחוק אותו.",
     intro: "המדיניות הזו מסבירה איזה מידע נאסף כשאתם משתמשים באתר DronISO, מה אני עושה איתו ומה הזכויות שלכם.",
     sections: [
-      { h: "מי אחראי על המידע", p: [`האתר מופעל על ידי ${"עומר הלד"} (DronISO). לכל שאלה בנושא פרטיות: ${site.email}.`] },
+      { h: "מי אחראי על המידע", p: [`האתר מופעל על ידי ${"עומר חלד"} (DronISO). לכל שאלה בנושא פרטיות: ${site.email}.`] },
       {
         h: "איזה מידע נאסף",
         list: [

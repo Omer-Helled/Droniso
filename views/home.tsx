@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getDictionary, localePath, type Locale } from "@/lib/i18n";
-import { items, selectedItems, toClientItem } from "@/lib/portfolio";
+import { selectedItems, toClientItem } from "@/lib/portfolio";
 import { businessJsonLd, faqJsonLd, pageMetadata } from "@/lib/seo";
 import { Chrome } from "@/components/Chrome";
 import { Hero } from "@/components/Hero";
@@ -49,7 +49,6 @@ export function HomeView({ locale }: { locale: Locale }) {
           className="mt-12 inline-flex items-center gap-3 border-b border-line-strong pb-1 text-[0.9375rem] hover:border-text"
         >
           {t.selected.all}
-          <span className="telemetry">{items.length}</span>
         </Link>
       </section>
 

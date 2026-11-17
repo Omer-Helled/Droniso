@@ -11,7 +11,7 @@ type Props = {
   /** Show the category filter buttons (the /work page); category pages pass false */
   showFilter?: boolean;
   items: ClientItem[];
-  categories: { slug: CategorySlug; title: string; count: number }[];
+  categories: { slug: CategorySlug; title: string }[];
   labels: { all: string; filterLabel: string; open: string } & LightboxLabels;
   dir: "rtl" | "ltr";
 };
@@ -45,7 +45,7 @@ export function Gallery({ items, categories, labels, dir, showFilter = true }: P
     return () => window.removeEventListener("hashchange", fromHash);
   }, [items, categories]);
 
-  const filters = [{ slug: "all" as const, title: labels.all, count: items.length }, ...categories];
+  const filters = [{ slug: "all" as const, title: labels.all }, ...categories];
 
   return (
     <>
@@ -64,7 +64,6 @@ export function Gallery({ items, categories, labels, dir, showFilter = true }: P
               }`}
             >
               {f.title}
-              <span className={`font-mono text-[0.6875rem] ${active ? "text-bg/60" : "text-muted"}`}>{f.count}</span>
             </button>
           );
         })}

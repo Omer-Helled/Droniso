@@ -206,7 +206,7 @@
 - כותרת, תיאור, canonical ו-hreflang (עברית ↔ אנגלית) לכל עמוד.
 - תמונות שיתוף (OG) שנוצרות אוטומטית לכל עמוד מתוך הצילומים שלו.
 - `sitemap.xml` ו-`robots.txt`.
-- **נתונים מובנים (JSON-LD):** ‏ProfessionalService/LocalBusiness (שם, טלפון, אזור שירות, קישורים לרשתות), ‏Person (עומר הלד), FAQPage, ‏ImageObject ו-VideoObject לפריטים בגלריה, BreadcrumbList.
+- **נתונים מובנים (JSON-LD):** ‏ProfessionalService/LocalBusiness (שם, טלפון, אזור שירות, קישורים לרשתות), ‏Person (עומר חלד), FAQPage, ‏ImageObject ו-VideoObject לפריטים בגלריה, BreadcrumbList.
 - טקסטים בעברית ובאנגלית שכתובים לביטויים שאנשים מחפשים: צילום רחפן, צלם רחפן, צילום אווירי לנדל״ן, צילום רחפן לחתונה, וכו'.
 - **נשמור את 2 קודי האימות הקיימים של Google Search Console**, כדי לא לאבד את ההיסטוריה.
 - אחרי ההשקה: נגיש את ה-sitemap לגוגל, ונפתח או נעדכן פרופיל Google Business.

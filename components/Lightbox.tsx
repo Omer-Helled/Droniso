@@ -166,7 +166,7 @@ export function Lightbox({ items, index, onClose, labels, dir }: Props) {
                   ref={zoomButtonRef}
                   type="button"
                   onClick={() => setZoomId(item.id)}
-                  className="pointer-events-auto inline-flex h-11 items-center gap-2 px-2 text-white/90 hover:text-white"
+                  className="pointer-events-auto inline-flex h-11 items-center gap-2 px-3 text-white/90 transition-colors hover:bg-white/12 hover:text-white active:bg-white/20"
                 >
                   <ZoomIn className="size-6" />
                   <span className="sr-only sm:not-sr-only">{labels.zoom}</span>
@@ -175,7 +175,7 @@ export function Lightbox({ items, index, onClose, labels, dir }: Props) {
               <button
                 type="button"
                 onClick={close}
-                className="pointer-events-auto inline-flex h-11 items-center gap-2 px-2 text-white/90 hover:text-white"
+                className="pointer-events-auto inline-flex h-11 items-center gap-2 px-3 text-white/90 transition-colors hover:bg-white/12 hover:text-white active:bg-white/20"
                 autoFocus
               >
                 <Close className="size-6" />
@@ -189,7 +189,7 @@ export function Lightbox({ items, index, onClose, labels, dir }: Props) {
             onClick={() => go(-1)}
             disabled={current === 0}
             aria-label={labels.prev}
-            className="fixed start-2 top-1/2 hidden size-12 -translate-y-1/2 place-items-center text-white/80 hover:text-white disabled:opacity-20 md:grid"
+            className="fixed start-2 top-1/2 hidden size-12 -translate-y-1/2 place-items-center text-white/80 transition-colors hover:bg-white/12 hover:text-white active:bg-white/20 disabled:pointer-events-none disabled:opacity-20 md:grid"
           >
             <ChevronStart className="size-7 rtl:rotate-180" />
           </button>
@@ -198,7 +198,7 @@ export function Lightbox({ items, index, onClose, labels, dir }: Props) {
             onClick={() => go(1)}
             disabled={current === items.length - 1}
             aria-label={labels.next}
-            className="fixed end-2 top-1/2 hidden size-12 -translate-y-1/2 place-items-center text-white/80 hover:text-white disabled:opacity-20 md:grid"
+            className="fixed end-2 top-1/2 hidden size-12 -translate-y-1/2 place-items-center text-white/80 transition-colors hover:bg-white/12 hover:text-white active:bg-white/20 disabled:pointer-events-none disabled:opacity-20 md:grid"
           >
             <ChevronEnd className="size-7 rtl:rotate-180" />
           </button>
@@ -285,7 +285,7 @@ function PanoramaView({ item, labels, onClose }: { item: ClientItem; labels: Lig
         <button
           type="button"
           onClick={onClose}
-          className="pointer-events-auto inline-flex h-11 items-center gap-2 bg-black/40 px-3 text-white/90 backdrop-blur-sm hover:text-white"
+          className="pointer-events-auto inline-flex h-11 items-center gap-2 bg-black/40 px-3 text-white/90 backdrop-blur-sm transition-colors hover:bg-black/70 hover:text-white active:bg-black/80"
         >
           <Close className="size-6" />
           <span>{labels.zoomOut}</span>
