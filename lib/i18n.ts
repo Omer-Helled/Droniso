@@ -125,7 +125,7 @@ const he = {
   },
   contact: {
     label: "צור קשר",
-    title: "בואו נצלם את זה מלמעלה.",
+    title: "בואו נתכנן את הצילום.",
     sub: "ספרו לי על הפרויקט, ואחזור אליכם עם הצעת מחיר.",
     whatsapp: "וואטסאפ",
     email: "אימייל",
@@ -298,7 +298,7 @@ const en: Dictionary = {
   },
   contact: {
     label: "Contact",
-    title: "Let’s see it from above.",
+    title: "Let’s plan the shoot.",
     sub: "Tell me about your project and I’ll get back to you with a quote.",
     whatsapp: "WhatsApp",
     email: "Email",
