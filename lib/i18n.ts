@@ -374,7 +374,7 @@ export const site = {
   instagram: "https://www.instagram.com/omerhelled/",
   linkedin: "https://www.linkedin.com/in/omerhelled/",
   /** Year Omer started flying — "years of experience" is computed from it */
-  flyingSince: 2021,
+  flyingSince: 2017,
 };
 
 /** Set NEXT_PUBLIC_SITE_LIVE=true in Vercel (production only) to let search engines index the site */

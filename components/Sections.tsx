@@ -5,6 +5,7 @@ import { fmt, getDictionary, localePath, site, type Dictionary, type Locale } fr
 import { categories, categoryCover, profileImage, type CategorySlug } from "@/lib/portfolio";
 import { Picture } from "@/components/Picture";
 import { ServicesRotator } from "@/components/ServicesRotator";
+import { BackToTop } from "@/components/BackToTop";
 import { ArrowEnd, ArrowUpRight, Instagram, LinkedIn, Mail, Plus, WhatsApp } from "@/components/Icons";
 import { LogoMark } from "@/components/brand/Logo";
 
@@ -370,9 +371,7 @@ export async function Footer({ t, locale, nav }: { t: Dictionary; locale: Locale
             </Link>
           </li>
           <li>
-            <a href="#top" className="hover:text-text">
-              ↑ {t.footer.top}
-            </a>
+            <BackToTop className="hover:text-text">↑ {t.footer.top}</BackToTop>
           </li>
         </ul>
       </div>

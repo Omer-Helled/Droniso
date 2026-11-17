@@ -44,7 +44,7 @@ export function Chrome({
       <a href="#main" className="sr-only z-50 bg-text px-4 py-2 text-bg focus:not-sr-only focus:fixed focus:start-4 focus:top-4">
         {t.skip}
       </a>
-      <span id="top" />
+      <div id="top" tabIndex={-1} className="outline-none" />
       <Header
         homeHref={home}
         homeLabel={t.nav.home}
