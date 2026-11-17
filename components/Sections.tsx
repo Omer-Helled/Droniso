@@ -98,7 +98,7 @@ export async function AboutTeaser({ t, locale, num }: { t: Dictionary; locale: L
   return (
     <section id="about" aria-labelledby="about-title" className={`container-x ${SECTION_PAD}`}>
       <SectionLabel num={num}>{t.about.label}</SectionLabel>
-      <div className="mt-10 grid gap-10 md:mt-14 md:grid-cols-12 md:gap-8">
+      <div className="mt-10 grid gap-10 md:mt-14 md:grid-cols-12 md:grid-rows-[auto_1fr] md:gap-8">
         <h2 id="about-title" className="text-[clamp(1.6rem,3.4vw,3.1rem)] font-light leading-[1.18] md:col-span-8" data-reveal>
           {t.about.lead}
         </h2>
@@ -109,7 +109,7 @@ export async function AboutTeaser({ t, locale, num }: { t: Dictionary; locale: L
             <span>{t.about.places}</span>
           </figcaption>
         </figure>
-        <div className="flex max-w-[60ch] flex-col gap-4 text-text/80 md:col-span-6 md:col-start-3" data-reveal>
+        <div className="flex max-w-[60ch] flex-col gap-4 text-text/80 md:col-span-7 md:col-start-1" data-reveal>
           {t.about.body.slice(0, 2).map((p, i) => (
             <p key={i}>{fmt(p, { years })}</p>
           ))}
@@ -175,7 +175,10 @@ export function Services({
             );
           })}
         </ol>
-        <div className="services-preview relative hidden aspect-[4/5] lg:col-span-4 lg:col-start-9 lg:block" aria-hidden>
+        <div
+          className="services-preview relative hidden aspect-[4/5] self-start lg:sticky lg:top-[calc(var(--header-h)+1.5rem)] lg:col-span-5 lg:col-start-8 lg:block"
+          aria-hidden
+        >
           {covers.map((cover, i) => (
             <div
               key={cover.id}
@@ -184,7 +187,7 @@ export function Services({
               className="media-frame absolute inset-0"
               style={{ ["--ph-color" as string]: cover.color, ["--ph-blur" as string]: `url("${cover.blur}")` }}
             >
-              <Picture img={cover.img} sizes="34vw" alt="" />
+              <Picture img={cover.img} sizes="40vw" alt="" />
               <span className="viewfinder" style={{ ["--vf-inset" as string]: "12px" }} />
             </div>
           ))}
@@ -355,7 +358,8 @@ export async function Footer({ t, locale, nav }: { t: Dictionary; locale: Locale
           </li>
         </ul>
       </div>
-      <div className="container-x flex flex-col gap-3 border-t border-line py-6 text-[0.8125rem] text-muted sm:flex-row sm:items-center sm:justify-between">
+      {/* The bottom padding (phones) and end padding (wider screens) keep these links clear of the floating WhatsApp button */}
+      <div className="container-x flex flex-col gap-3 border-t border-line pb-24 pt-6 text-[0.8125rem] text-muted sm:flex-row sm:items-center sm:justify-between sm:py-6 sm:pe-24">
         <p>
           <bdi dir="ltr">© {year} DRONISO</bdi> · {t.footer.rights}
         </p>

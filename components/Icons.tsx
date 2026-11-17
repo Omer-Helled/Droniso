@@ -17,6 +17,12 @@ export const ArrowEnd = (p: P) => (
   </svg>
 );
 
+export const ZoomIn = (p: P) => (
+  <svg {...base} {...p}>
+    <path d="M10.5 18a7.5 7.5 0 1 0 0-15 7.5 7.5 0 0 0 0 15ZM21 21l-5.2-5.2M10.5 7.5v6M7.5 10.5h6" {...stroke} />
+  </svg>
+);
+
 export const ArrowDown = (p: P) => (
   <svg {...base} {...p}>
     <path d="M12 4v15m-5-5 5 5 5-5" {...stroke} />

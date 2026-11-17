@@ -2,12 +2,12 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { ClientItem } from "@/lib/portfolio";
-import { ChevronEnd, ChevronStart, Close } from "@/components/Icons";
+import { ChevronEnd, ChevronStart, Close, ZoomIn } from "@/components/Icons";
 import { fmt } from "@/lib/i18n";
-import { jpgUrl } from "@/lib/media-url";
+import { jpgUrl, zoomUrl } from "@/lib/media-url";
 import { Picture } from "@/components/Picture";
 
-export type LightboxLabels = { close: string; next: string; prev: string; of: string };
+export type LightboxLabels = { close: string; next: string; prev: string; of: string; zoom: string; zoomOut: string; pan: string };
 
 type Props = {
   items: ClientItem[];
@@ -21,6 +21,8 @@ export function Lightbox({ items, index, onClose, labels, dir }: Props) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const [current, setCurrent] = useState(index ?? 0);
+  // id of the panorama shown in the zoom view, if any
+  const [zoomId, setZoomId] = useState<string | null>(null);
   const open = index !== null;
 
   // Open/close the native modal dialog (focus trap, Esc and inert background for free)
@@ -85,11 +87,34 @@ export function Lightbox({ items, index, onClose, labels, dir }: Props) {
   };
 
   const item = items[current];
+  const zoomed = open && item?.img.zoom && zoomId === item.id ? item : null;
+  const zoomButtonRef = useRef<HTMLButtonElement>(null);
+  const unzoom = () => {
+    setZoomId(null);
+    requestAnimationFrame(() => zoomButtonRef.current?.focus());
+  };
+  const close = () => {
+    setZoomId(null);
+    onClose();
+  };
 
   return (
-    <dialog ref={dialogRef} className="lightbox" onClose={onClose} onKeyDown={onKeyDown} aria-label={item?.title ?? ""}>
+    <dialog
+      ref={dialogRef}
+      className="lightbox"
+      onClose={close}
+      // Esc leaves the zoom view first, then the lightbox
+      onCancel={(e) => {
+        if (zoomed) {
+          e.preventDefault();
+          unzoom();
+        }
+      }}
+      onKeyDown={onKeyDown}
+      aria-label={item?.title ?? ""}
+    >
       {open && (
-        <>
+        <div className="contents" inert={!!zoomed}>
           {/* Focusable so keyboard users can reach the scrolling area itself; arrow keys move between items */}
           <div ref={trackRef} className="lb-track focus-visible:-outline-offset-4" dir={dir} tabIndex={0} role="group" aria-label={fmt(labels.of, { i: current + 1, n: items.length })}>
             {items.map((it, i) => {
@@ -115,6 +140,7 @@ export function Lightbox({ items, index, onClose, labels, dir }: Props) {
                     ) : null
                   ) : near ? (
                     <Picture
+                      onDoubleClick={it.img.zoom ? () => setZoomId(it.id) : undefined}
                       img={it.img}
                       // The image is limited by the viewport's height as well as its width
                       sizes={`min(100vw, ${Math.round((it.width / it.height) * 100)}vh)`}
@@ -134,15 +160,28 @@ export function Lightbox({ items, index, onClose, labels, dir }: Props) {
             <span className="font-mono text-[0.75rem] text-white/75" dir="ltr" aria-label={fmt(labels.of, { i: current + 1, n: items.length })}>
               {current + 1} / {items.length}
             </span>
-            <button
-              type="button"
-              onClick={onClose}
-              className="pointer-events-auto inline-flex h-11 items-center gap-2 px-2 text-white/90 hover:text-white"
-              autoFocus
-            >
-              <Close className="size-6" />
-              <span className="hidden sm:inline">{labels.close}</span>
-            </button>
+            <div className="flex items-center gap-1">
+              {item?.img.zoom && (
+                <button
+                  ref={zoomButtonRef}
+                  type="button"
+                  onClick={() => setZoomId(item.id)}
+                  className="pointer-events-auto inline-flex h-11 items-center gap-2 px-2 text-white/90 hover:text-white"
+                >
+                  <ZoomIn className="size-6" />
+                  <span className="sr-only sm:not-sr-only">{labels.zoom}</span>
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={close}
+                className="pointer-events-auto inline-flex h-11 items-center gap-2 px-2 text-white/90 hover:text-white"
+                autoFocus
+              >
+                <Close className="size-6" />
+                <span className="sr-only sm:not-sr-only">{labels.close}</span>
+              </button>
+            </div>
           </div>
 
           <button
@@ -172,8 +211,92 @@ export function Lightbox({ items, index, onClose, labels, dir }: Props) {
               {item.telemetry && <p className="telemetry mt-1 !text-white/60">{item.telemetry}</p>}
             </div>
           )}
-        </>
+        </div>
       )}
+      {zoomed && <PanoramaView item={zoomed} labels={labels} onClose={unzoom} />}
     </dialog>
+  );
+}
+
+/** A panorama at full screen height, panned sideways by swiping, dragging, the mouse wheel or the arrow keys */
+function PanoramaView({ item, labels, onClose }: { item: ClientItem; labels: LightboxLabels; onClose: () => void }) {
+  const scrollerRef = useRef<HTMLDivElement>(null);
+  const [moved, setMoved] = useState(false);
+
+  // Start in the middle of the panorama, with the keyboard ready to pan
+  useEffect(() => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    el.scrollLeft = (el.scrollWidth - el.clientWidth) / 2;
+    el.focus({ preventScroll: true });
+  }, []);
+
+  // Mouse: drag to pan (touch screens scroll natively)
+  const drag = useRef<{ x: number; left: number } | null>(null);
+  const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType !== "mouse" || e.button !== 0) return;
+    setMoved(true);
+    drag.current = { x: e.clientX, left: e.currentTarget.scrollLeft };
+    e.currentTarget.setPointerCapture(e.pointerId);
+  };
+  const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (drag.current) e.currentTarget.scrollLeft = drag.current.left - (e.clientX - drag.current.x);
+  };
+  const onPointerUp = () => {
+    drag.current = null;
+  };
+
+  return (
+    <div className="fixed inset-0 z-10 bg-[#070808]">
+      <div
+        ref={scrollerRef}
+        dir="ltr"
+        tabIndex={0}
+        role="img"
+        aria-label={`${item.alt}. ${labels.pan}`}
+        className="no-scrollbar h-full cursor-grab overflow-x-auto overflow-y-hidden overscroll-contain focus-visible:-outline-offset-4 active:cursor-grabbing"
+        // The hint goes away on the first touch (not on scroll: centering the view scrolls it too)
+        onTouchStart={() => setMoved(true)}
+        // A vertical mouse wheel pans sideways
+        onWheel={(e) => {
+          setMoved(true);
+          if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) e.currentTarget.scrollLeft += e.deltaY;
+        }}
+        // The lightbox moves between items on arrow keys; here they pan instead
+        onKeyDown={(e) => {
+          if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+            e.stopPropagation();
+            setMoved(true);
+          }
+        }}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerCancel={onPointerUp}
+      >
+        <div className="relative h-full w-max" style={{ aspectRatio: `${item.width} / ${item.height}`, backgroundColor: item.color }}>
+          {/* The regular size is already loaded, so something shows at once; the wide file replaces it */}
+          <Picture img={item.img} sizes={`${Math.round((item.width / item.height) * 100)}vh`} alt="" className="absolute inset-0 size-full" loading="eager" />
+          <img src={zoomUrl(item.img)} alt="" draggable={false} decoding="async" className="absolute inset-0 size-full" />
+        </div>
+      </div>
+
+      <div className="pointer-events-none fixed inset-x-0 top-0 flex items-center justify-end px-3 py-3 sm:px-6">
+        <button
+          type="button"
+          onClick={onClose}
+          className="pointer-events-auto inline-flex h-11 items-center gap-2 bg-black/40 px-3 text-white/90 backdrop-blur-sm hover:text-white"
+        >
+          <Close className="size-6" />
+          <span>{labels.zoomOut}</span>
+        </button>
+      </div>
+      <p
+        aria-hidden
+        className={`telemetry pointer-events-none fixed inset-x-0 bottom-[max(20px,env(safe-area-inset-bottom))] text-center !text-white/80 transition-opacity duration-500 ${moved ? "opacity-0" : "opacity-100"}`}
+      >
+        ← {labels.pan} →
+      </p>
+    </div>
   );
 }
