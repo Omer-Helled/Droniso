@@ -35,8 +35,12 @@ export function Chrome({
   ];
   const contact = { href: L("/contact"), label: t.nav.contact };
 
+  // One plain wrapper that starts at the very top of the page. After a client-side navigation Next.js
+  // checks whether the new page's first element is in view; the visually hidden skip link sits 1px
+  // above the top, so without the wrapper it judged the page out of view and scrolled it, landing
+  // near the bottom.
   return (
-    <>
+    <div>
       <a href="#main" className="sr-only z-50 bg-text px-4 py-2 text-bg focus:not-sr-only focus:fixed focus:start-4 focus:top-4">
         {t.skip}
       </a>
@@ -58,6 +62,6 @@ export function Chrome({
       <aside aria-label={t.contact.whatsapp}>
         <WhatsAppFloat href={site.whatsapp} label={t.contact.whatsappFloat} delayed={overHero} />
       </aside>
-    </>
+    </div>
   );
 }
