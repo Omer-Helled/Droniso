@@ -32,6 +32,9 @@ export function Lightbox({ items, index, onClose, labels, dir }: Props) {
     if (open && !d.open) {
       setCurrent(index!);
       d.showModal();
+      // Same as the menu: showModal focuses the first focusable element (the photo strip), which iOS Safari
+      // outlines even after a tap. The dialog takes focus instead; arrow keys and Esc work from there.
+      d.focus();
       document.documentElement.style.overflow = "hidden";
       requestAnimationFrame(() => {
         trackRef.current?.children[index!]?.scrollIntoView({ behavior: "instant", inline: "center", block: "nearest" });
@@ -89,9 +92,10 @@ export function Lightbox({ items, index, onClose, labels, dir }: Props) {
   const item = items[current];
   const zoomed = open && item?.img.zoom && zoomId === item.id ? item : null;
   const zoomButtonRef = useRef<HTMLButtonElement>(null);
-  const unzoom = () => {
+  /** Leave the zoom view. Keyboard users go back to the zoom button; after a tap focus rests on the dialog (no ring). */
+  const unzoom = (viaKeyboard: boolean) => {
     setZoomId(null);
-    requestAnimationFrame(() => zoomButtonRef.current?.focus());
+    requestAnimationFrame(() => (viaKeyboard ? zoomButtonRef.current : dialogRef.current)?.focus());
   };
   const close = () => {
     setZoomId(null);
@@ -101,13 +105,14 @@ export function Lightbox({ items, index, onClose, labels, dir }: Props) {
   return (
     <dialog
       ref={dialogRef}
-      className="lightbox"
+      tabIndex={-1}
+      className="lightbox outline-none"
       onClose={close}
       // Esc leaves the zoom view first, then the lightbox
       onCancel={(e) => {
         if (zoomed) {
           e.preventDefault();
-          unzoom();
+          unzoom(true);
         }
       }}
       onKeyDown={onKeyDown}
@@ -176,7 +181,6 @@ export function Lightbox({ items, index, onClose, labels, dir }: Props) {
                 type="button"
                 onClick={close}
                 className="pointer-events-auto inline-flex h-11 items-center gap-2 px-3 text-white/90 transition-colors hover:bg-white/12 hover:text-white active:bg-white/20"
-                autoFocus
               >
                 <Close className="size-6" />
                 <span className="sr-only sm:not-sr-only">{labels.close}</span>
@@ -219,16 +223,17 @@ export function Lightbox({ items, index, onClose, labels, dir }: Props) {
 }
 
 /** A panorama at full screen height, panned sideways by swiping, dragging, the mouse wheel or the arrow keys */
-function PanoramaView({ item, labels, onClose }: { item: ClientItem; labels: LightboxLabels; onClose: () => void }) {
+function PanoramaView({ item, labels, onClose }: { item: ClientItem; labels: LightboxLabels; onClose: (viaKeyboard: boolean) => void }) {
+  const rootRef = useRef<HTMLDivElement>(null);
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [moved, setMoved] = useState(false);
 
-  // Start in the middle of the panorama, with the keyboard ready to pan
+  // Start in the middle of the panorama. Focus goes to the view itself (no ring after a tap); arrow keys pan from there.
   useEffect(() => {
     const el = scrollerRef.current;
     if (!el) return;
     el.scrollLeft = (el.scrollWidth - el.clientWidth) / 2;
-    el.focus({ preventScroll: true });
+    rootRef.current?.focus({ preventScroll: true });
   }, []);
 
   // Mouse: drag to pan (touch screens scroll natively)
@@ -247,7 +252,19 @@ function PanoramaView({ item, labels, onClose }: { item: ClientItem; labels: Lig
   };
 
   return (
-    <div className="fixed inset-0 z-10 bg-[#070808]">
+    <div
+      ref={rootRef}
+      tabIndex={-1}
+      className="fixed inset-0 z-10 bg-[#070808] outline-none"
+      onKeyDown={(e) => {
+        if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+        // The lightbox moves between items on arrow keys; here they pan the panorama instead
+        e.preventDefault();
+        e.stopPropagation();
+        setMoved(true);
+        scrollerRef.current?.scrollBy({ left: e.key === "ArrowRight" ? 160 : -160, behavior: "smooth" });
+      }}
+    >
       <div
         ref={scrollerRef}
         dir="ltr"
@@ -284,7 +301,8 @@ function PanoramaView({ item, labels, onClose }: { item: ClientItem; labels: Lig
       <div className="pointer-events-none fixed inset-x-0 top-0 flex items-center justify-end px-3 py-3 sm:px-6">
         <button
           type="button"
-          onClick={onClose}
+          // detail is 0 when the button was pressed with the keyboard
+          onClick={(e) => onClose(e.detail === 0)}
           className="pointer-events-auto inline-flex h-11 items-center gap-2 bg-black/40 px-3 text-white/90 backdrop-blur-sm transition-colors hover:bg-black/70 hover:text-white active:bg-black/80"
         >
           <Close className="size-6" />

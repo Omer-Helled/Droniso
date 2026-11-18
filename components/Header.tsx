@@ -76,7 +76,13 @@ export function Header({ homeHref, homeLabel, nav, contact, langSwitch, menuLabe
   useEffect(() => {
     const d = dialogRef.current;
     if (!d) return;
-    if (open && !d.open) d.showModal();
+    if (open && !d.open) {
+      d.showModal();
+      // showModal focuses the first link (the logo), and iOS Safari draws a focus ring around it even after a
+      // tap. Focus the dialog itself instead, in the same task so the ring is never painted; Tab still reaches
+      // the links in order.
+      d.focus();
+    }
     if (!open && d.open) d.close();
     document.documentElement.style.overflow = open ? "hidden" : "";
   }, [open]);
@@ -164,7 +170,8 @@ export function Header({ homeHref, homeLabel, nav, contact, langSwitch, menuLabe
         ref={dialogRef}
         onClose={closeMenu}
         aria-label={menuLabel}
-        className="m-0 h-dvh max-h-none w-screen max-w-none bg-bg p-0 text-text backdrop:bg-bg"
+        tabIndex={-1}
+        className="m-0 h-dvh max-h-none w-screen max-w-none bg-bg p-0 text-text outline-none backdrop:bg-bg"
       >
         <div className="container-x flex min-h-full flex-col">
           <div className="flex h-[var(--header-h)] shrink-0 items-center justify-between">
