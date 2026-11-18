@@ -132,6 +132,16 @@ for (const l of ["he", "en"]) {
     ok(phrase(key).test(home), `${L(l, "/")} has the answer starting "${key.join(" ")}"`);
   }
 
+  // Years of experience: computed from the year Omer started flying, so it must match this year
+  const since = Number((await readFile(path.join(root, "lib/i18n.ts"), "utf8")).match(/flyingSince:\s*(\d{4})/)?.[1]);
+  const years = new Date().getFullYear() - since;
+  for (const p of ["/", "/about"]) {
+    const html = decode((await page(L(l, p))).html);
+    const shown = [...html.matchAll(l === "he" ? /ניסיון של (\d+) שנים/g : /(\d+) years of experience/g)].map((m) => Number(m[1]));
+    ok(shown.length > 0 && shown.every((n) => n === years), `${L(l, p)} says ${years} years of experience (found ${[...new Set(shown)].join(", ") || "none"})`);
+  }
+  ok(decode((await page(L(l, "/about"))).html).includes(l === "he" ? `מאז ${since}` : `since ${since}`), `${L(l, "/about")} says flying since ${since}`);
+
   // About: the profile photo and every About paragraph (years are computed now, typos fixed)
   const about = decode((await page(L(l, "/about"))).html);
   ok(about.includes(`${mediaBase}/profile/`), `${L(l, "/about")} has the profile photo`);

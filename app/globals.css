@@ -185,7 +185,7 @@ body {
     transform 0.5s var(--ease-out);
 }
 .media-hover:hover .viewfinder,
-.media-hover:focus-visible .viewfinder {
+html:not([data-input="pointer"]) .media-hover:focus-visible .viewfinder {
   opacity: 1;
   transform: none;
 }
@@ -446,4 +446,11 @@ dialog.lightbox[open] {
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+}
+
+/* Focus rings are for keyboard users. After a tap or click (html[data-input="pointer"], set in root-document.tsx),
+   a ring that the browser draws because a script moved focus is hidden: iOS Safari does this when a dialog opens.
+   Any key press switches back, so keyboard users always see where focus is. Outside @layer, so it wins over utilities. */
+html[data-input="pointer"] :focus-visible {
+  outline: none;
 }
