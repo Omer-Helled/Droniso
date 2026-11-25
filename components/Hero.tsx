@@ -123,10 +123,11 @@ export function Hero({ sub, ctaWork, ctaQuote, pauseLabel, playLabel, scrollLabe
       <div className="viewfinder hidden sm:block" style={{ ["--vf-inset" as string]: "clamp(14px, 2.2vw, 28px)", top: "calc(var(--header-h) + 8px)" }} aria-hidden />
 
       <div className="container-x flex h-full flex-col justify-end pb-[max(20px,env(safe-area-inset-bottom))]">
-        <h1 id="hero-title" className="font-light uppercase leading-[0.95] tracking-[0.06em] text-text" dir="ltr">
+        {/* The slogan is English in both languages, so it always reads and aligns left to right */}
+        <h1 id="hero-title" lang="en" dir="ltr" className="text-left font-light uppercase leading-[0.95] tracking-[0.06em] text-text">
           <span className="sr-only">Above and beyond photography</span>
           {SLOGAN.map((line, li) => (
-            <span key={li} aria-hidden className="block text-[clamp(2.25rem,8.2vw,8.5rem)] rtl:text-right">
+            <span key={li} aria-hidden className="block text-[clamp(2.25rem,8.2vw,8.5rem)]">
               {line.split("").map((ch, i) => (
                 <span key={i} className="slogan-letter" style={{ ["--i" as string]: offsets[li] + i }}>
                   {ch === " " ? " " : ch}
