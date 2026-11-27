@@ -16,6 +16,8 @@ const wix = JSON.parse(await readFile(path.join(root, "content/wix-export/site-c
 const portfolio = JSON.parse(await readFile(path.join(root, "content/portfolio.json"), "utf8"));
 const media = JSON.parse(await readFile(path.join(root, "content/media-meta.json"), "utf8"));
 const mediaBase = JSON.parse(await readFile(path.join(root, "content/media-config.json"), "utf8")).base;
+// The intro video's folder (versioned: /media/hero/v2, v3, ...), as the site itself uses it
+const heroBase = (await readFile(path.join(root, "lib/hero-video.ts"), "utf8")).match(/HERO_BASE = "([^"]+)"/)?.[1];
 
 let failures = 0;
 let checks = 0;
@@ -75,7 +77,10 @@ console.log(`  ${checks - failures}/${checks} passed`);
     if (covers.has(i.id)) ok(await onDisk(`${mediaBase}/${m.key}/og.jpg`), `${m.key}/og.jpg (category cover) exists`);
   }
   ok(media.profile && (await onDisk(`${mediaBase}/${media.profile.key}/og.jpg`)), "profile photo exists");
-  for (const f of ["hero-1080.mp4", "hero-720.mp4", "hero-vertical.mp4", "poster-1080.jpg", "og.jpg"]) ok(await onDisk(`/media/hero/${f}`), `hero/${f} exists`);
+  // The intro video: 3 sizes x 3 codecs, poster frames and the social preview (lib/hero-video.ts picks among them)
+  ok(heroBase, "lib/hero-video.ts names the intro video folder");
+  const heroFiles = ["1080", "720", "vertical"].flatMap((s) => ["av1", "hevc", "h264"].map((c) => `hero-${s}-${c}.mp4`));
+  for (const f of [...heroFiles, "poster-1080.jpg", "poster-1080.avif", "poster-vertical.jpg", "og.jpg"]) ok(await onDisk(`${heroBase}/${f}`), `${heroBase}/${f} exists`);
   console.log(`  ${checks - start - (failures - startFail)}/${checks - start} passed`);
 }
 const keyOf = (id) => media.items?.[id]?.key ?? "missing-media-key";
@@ -124,7 +129,7 @@ for (const l of ["he", "en"]) {
 
   // Home: intro video, slogan, 6 Q&A, contact details
   const home = decode((await page(L(l, "/"))).html);
-  ok(home.includes("/media/hero/poster-1080"), `${L(l, "/")} has the intro video poster`);
+  ok(home.includes(`${heroBase}/poster-1080`), `${L(l, "/")} has the intro video poster`);
   ok(/Above and beyond photography/i.test(home), `${L(l, "/")} has the slogan`);
   ok((home.match(/<details/g) || []).length === wix.faq.items.length, `${L(l, "/")} has ${wix.faq.items.length} Q&A items`);
   for (const f of wix.faq.items) {
@@ -194,11 +199,15 @@ for (const i of portfolio.items) {
   // The canonical address must serve this site (not, say, a domain that still points at Wix)
   const res = canonical ? await fetch(canonical).catch(() => null) : null;
   const live = res?.ok ? await res.text() : "";
-  ok(live.includes("/media/hero/poster-1080"), `canonical link points at a live copy of this site (${canonical})`);
+  ok(live.includes("/media/hero/"), `canonical link points at a live copy of this site (${canonical})`);
   // e.g. droniso.com when the site's main address is www.droniso.com: search engines prefer the final address
   ok(res && !res.redirected, `canonical link is the site's main address, not one that redirects (${canonical} → ${res?.url})`);
-  const img = ogImage ? await fetch(ogImage).catch(() => null) : null;
-  ok(img?.ok && /^image\//.test(img.headers.get("content-type") ?? ""), `social preview image loads (${ogImage})`);
+  // The image is checked on the site under test (before a deploy, the live site doesn't have a new file yet),
+  // and it must be addressed on the site's main address, like the canonical link
+  const ogPath = ogImage ? new URL(ogImage).pathname : "";
+  const img = ogPath ? await fetch(base + ogPath).catch(() => null) : null;
+  ok(img?.ok && /^image\//.test(img.headers.get("content-type") ?? ""), `social preview image loads (${base}${ogPath})`);
+  ok(canonical && ogImage && new URL(ogImage).origin === new URL(canonical).origin, `social preview image is on the main address (${ogImage})`);
 }
 
 // Google Search Console verification tokens carried over

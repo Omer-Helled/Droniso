@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowDown, Pause, Play } from "@/components/Icons";
 import { useClientValue } from "@/lib/hooks";
-import { autoplayAllowed, pickHeroSource } from "@/lib/hero-video";
+import { autoplayAllowed, fallBackToH264, HERO_BASE, pickHeroSource } from "@/lib/hero-video";
 
 type Props = {
   sub: string;
@@ -90,12 +90,12 @@ export function Hero({ sub, ctaWork, ctaQuote, pauseLabel, playLabel, scrollLabe
     <section aria-labelledby="hero-title" className="relative isolate h-[100svh] min-h-[560px] w-full overflow-hidden bg-black">
       {/* Poster: the video's first frame, so there is no jump when playback starts */}
       <picture>
-        <source media="(max-width: 767px) and (orientation: portrait)" type="image/avif" srcSet="/media/hero/poster-vertical.avif" />
-        <source media="(max-width: 767px) and (orientation: portrait)" type="image/webp" srcSet="/media/hero/poster-vertical.webp" />
-        <source type="image/avif" srcSet="/media/hero/poster-1080.avif" />
-        <source type="image/webp" srcSet="/media/hero/poster-1080.webp" />
+        <source media="(max-width: 767px) and (orientation: portrait)" type="image/avif" srcSet={`${HERO_BASE}/poster-vertical.avif`} />
+        <source media="(max-width: 767px) and (orientation: portrait)" type="image/webp" srcSet={`${HERO_BASE}/poster-vertical.webp`} />
+        <source type="image/avif" srcSet={`${HERO_BASE}/poster-1080.avif`} />
+        <source type="image/webp" srcSet={`${HERO_BASE}/poster-1080.webp`} />
         <img
-          src="/media/hero/poster-1080.jpg"
+          src={`${HERO_BASE}/poster-1080.jpg`}
           alt=""
           fetchPriority="high"
           className="absolute inset-0 -z-20 size-full object-cover"
@@ -115,6 +115,7 @@ export function Hero({ sub, ctaWork, ctaQuote, pauseLabel, playLabel, scrollLabe
           setReady(true);
         }}
         onPause={() => setPlaying(false)}
+        onError={(e) => fallBackToH264(e.currentTarget)}
         className={`absolute inset-0 -z-10 size-full object-cover transition-opacity duration-700 ${ready ? "opacity-100" : "opacity-0"}`}
       />
       {/* Legibility scrim */}

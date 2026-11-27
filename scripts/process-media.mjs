@@ -5,7 +5,7 @@
 //   public/media/v1/<key>/hd.mp4, sd.mp4 videos (lightbox / tile preview)
 //   public/media/v1/<key>/og.jpg         1200x630 social preview (category covers, profile)
 //   public/media/v1/<key>/<zoom>.avif    panoramas only: a wide version for the lightbox's zoom view
-//   public/media/hero/*                  the intro video in three renditions, with poster frames
+//   public/media/hero/v2/*               the intro video: 3 sizes x 3 codecs (AV1, HEVC, H.264), poster frames, og.jpg
 // and writes content/media-meta.json (key, widths, placeholder colour + blur per item).
 // Finished files are skipped, so it is safe to re-run. Use --force to redo everything.
 // If an image is ever re-encoded differently, bump "base" in content/media-config.json (files are cached for a year).
@@ -139,37 +139,48 @@ await Promise.all(
   }),
 );
 
-/** The intro video: three renditions (desktop, small screens, vertical for phones) and their poster frames */
+/** The intro video, from the owner's master export (media/originals/hero-master). Three sizes, each in three codecs:
+ *  the site plays the most efficient one the browser supports (lib/hero-video.ts), so each visitor downloads one file.
+ *  The master is encoded once, never re-compressed from an already compressed copy. Quality settings were chosen by
+ *  comparing every frame with the master (SSIM ≈ 0.96 for AV1/HEVC at about the old file sizes; the copy taken from Wix
+ *  scored 0.90). A new encode goes in a new folder (v3, ...) because /media is cached for a year. */
 async function hero() {
-  const src = path.join(orig, "site/hero-video.mp4");
-  const dir = path.join(root, "public/media/hero");
+  const src = path.join(orig, "hero-master/Website_Video.mov");
+  const dir = path.join(root, "public/media/hero/v2");
   await mkdir(dir, { recursive: true });
-  const x264 = ["-an", "-c:v", "libx264", "-preset", "slower", "-profile:v", "high", "-pix_fmt", "yuv420p", "-movflags", "+faststart"];
-  const vertical = "crop=608:1080:656:0,scale=720:1280:flags=lanczos"; // centre 9:16 crop
-  const renditions = {
-    "hero-1080.mp4": ["-b:v", "1800k", "-maxrate", "3000k", "-bufsize", "3600k"],
-    "hero-720.mp4": ["-vf", "scale=1280:720", "-crf", "25", "-maxrate", "1100k", "-bufsize", "2200k"],
-    "hero-vertical.mp4": ["-vf", vertical, "-crf", "25", "-maxrate", "950k", "-bufsize", "1500k"],
+  const color = ["-color_primaries", "bt709", "-color_trc", "bt709", "-colorspace", "bt709"];
+  const common = ["-map", "0:v:0", "-an", "-pix_fmt", "yuv420p", ...color, "-movflags", "+faststart"];
+  const sizes = {
+    1080: "scale=-2:1080:flags=lanczos",
+    720: "scale=-2:720:flags=lanczos",
+    vertical: "scale=-2:1080:flags=lanczos,crop=608:1080", // centre 9:16 crop at full height, not upscaled
   };
-  for (const [name, args] of Object.entries(renditions)) {
-    const f = path.join(dir, name);
-    if (!(await exists(f))) await run("ffmpeg", ["-v", "error", "-y", "-i", src, ...x264, ...args, f], { maxBuffer: 1 << 26 });
+  const codecs = {
+    av1: ["-c:v", "libsvtav1", "-preset", "4", "-crf", "46", "-svtav1-params", "tune=0:enable-tf=1"],
+    hevc: ["-c:v", "libx265", "-preset", "slow", "-crf", "30", "-tag:v", "hvc1", "-x265-params", "log-level=error"], // hvc1 tag: Safari needs it
+    h264: ["-c:v", "libx264", "-preset", "slower", "-profile:v", "high", "-crf", "28"],
+  };
+  for (const [size, vf] of Object.entries(sizes)) {
+    for (const [codec, args] of Object.entries(codecs)) {
+      const f = path.join(dir, `hero-${size}-${codec}.mp4`);
+      if (!(await exists(f))) await run("ffmpeg", ["-v", "error", "-y", "-i", src, ...common, "-vf", vf, ...args, f], { maxBuffer: 1 << 26 });
+    }
   }
   // Posters are the first frame, so nothing jumps when playback starts
-  const frame = async (filter) =>
-    (await run("ffmpeg", ["-v", "error", "-i", src, "-frames:v", "1", ...(filter ? ["-vf", filter] : []), "-f", "image2pipe", "-vcodec", "png", "-"], { encoding: "buffer", maxBuffer: 1 << 27 })).stdout;
-  for (const [name, filter] of [["poster-1080", null], ["poster-vertical", vertical]]) {
+  const frame = async (vf) =>
+    (await run("ffmpeg", ["-v", "error", "-i", src, "-frames:v", "1", "-vf", vf, "-f", "image2pipe", "-vcodec", "png", "-"], { encoding: "buffer", maxBuffer: 1 << 27 })).stdout;
+  for (const [name, vf] of [["poster-1080", sizes[1080]], ["poster-vertical", sizes.vertical]]) {
     if (await exists(path.join(dir, `${name}.jpg`))) continue;
-    const base = sharp(await frame(filter));
-    await base.clone().avif({ quality: 55 }).toFile(path.join(dir, `${name}.avif`));
-    await base.clone().webp({ quality: 72 }).toFile(path.join(dir, `${name}.webp`));
-    await base.clone().jpeg({ quality: 78, mozjpeg: true }).toFile(path.join(dir, `${name}.jpg`));
+    const base = sharp(await frame(vf));
+    await base.clone().avif({ quality: 60 }).toFile(path.join(dir, `${name}.avif`));
+    await base.clone().webp({ quality: 78 }).toFile(path.join(dir, `${name}.webp`));
+    await base.clone().jpeg({ quality: 82, mozjpeg: true }).toFile(path.join(dir, `${name}.jpg`));
   }
   const og = path.join(dir, "og.jpg"); // social preview for the home page
   if (!(await exists(og))) await sharp(path.join(dir, "poster-1080.jpg")).resize(1200, 630, { fit: "cover" }).jpeg({ quality: 82, mozjpeg: true }).toFile(og);
 }
 
-if (!only) {
+if (!only || only === "hero") {
   out.profile = await images(path.join(orig, "site/profile-2.jpg"), "profile", { og: true });
   await hero();
 }
