@@ -1,3 +1,4 @@
+import { HERO_BASE } from "@/lib/hero-video";
 import type { Metadata } from "next";
 import { getDictionary, isLive, localePath, site, type Locale } from "@/lib/i18n";
 import { categories, profileImage, type MediaItem } from "@/lib/portfolio";
@@ -34,7 +35,7 @@ type PageMeta = { locale: Locale; path: string; title?: string; description: str
 export function pageMetadata({ locale, path, title, description, image, absoluteTitle }: PageMeta): Metadata {
   const url = localePath(locale, path);
   const ogTitle = absoluteTitle ?? (title ? `${title} · ${site.name}` : site.name);
-  const images = [{ url: image ?? "/media/hero/og.jpg", width: 1200, height: 630 }];
+  const images = [{ url: image ?? `${HERO_BASE}/og.jpg`, width: 1200, height: 630 }];
   return {
     title: absoluteTitle ? { absolute: absoluteTitle } : title,
     description,
@@ -77,7 +78,7 @@ export function businessJsonLd(locale: Locale) {
     url: siteUrl + localePath(locale, "/"),
     email: site.email,
     telephone: site.phoneE164,
-    image: `${siteUrl}/media/hero/og.jpg`,
+    image: `${siteUrl}${HERO_BASE}/og.jpg`,
     logo: `${siteUrl}/brand/droniso-logo.svg`,
     areaServed: { "@type": "Country", name: "Israel" },
     knowsAbout: categories.map((c) => c.title[locale]),
