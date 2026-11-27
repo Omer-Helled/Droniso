@@ -87,7 +87,7 @@ export function Hero({ sub, ctaWork, ctaQuote, pauseLabel, playLabel, scrollLabe
 
   const offsets = SLOGAN.map((_, li) => SLOGAN.slice(0, li).reduce((n, l) => n + l.length, 0));
   return (
-    <section aria-labelledby="hero-title" className="relative isolate h-[100svh] min-h-[560px] w-full overflow-hidden bg-black">
+    <section aria-labelledby="hero-title" className="screen-full relative isolate min-h-[560px] w-full overflow-hidden bg-black">
       {/* Poster: the video's first frame, so there is no jump when playback starts */}
       <picture>
         <source media="(max-width: 767px) and (orientation: portrait)" type="image/avif" srcSet={`${HERO_BASE}/poster-vertical.avif`} />
@@ -123,7 +123,7 @@ export function Hero({ sub, ctaWork, ctaQuote, pauseLabel, playLabel, scrollLabe
 
       <div className="viewfinder hidden sm:block" style={{ ["--vf-inset" as string]: "clamp(14px, 2.2vw, 28px)", top: "calc(var(--header-h) + 8px)" }} aria-hidden />
 
-      <div className="container-x flex h-full flex-col justify-end pb-[max(20px,env(safe-area-inset-bottom))]">
+      <div className="screen-full-pad container-x flex h-full flex-col justify-end">
         {/* The slogan is English in both languages, so it always reads and aligns left to right */}
         <h1 id="hero-title" lang="en" dir="ltr" className="text-left font-light uppercase leading-[0.95] tracking-[0.06em] text-text">
           <span className="sr-only">Above and beyond photography</span>

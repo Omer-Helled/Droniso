@@ -42,6 +42,23 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Full-screen video sections (home intro, contact page). The background fills the whole screen: 100lvh is the
+   viewport height with the browser's bars hidden, so on phones the video also runs behind Safari's floating bar
+   instead of stopping above it. The content keeps clear of the bars: the bottom padding adds the difference
+   between the largest and the smallest viewport (0 on desktop). Older browsers use the first, plain value. */
+.screen-full {
+  height: 100vh;
+  height: 100lvh;
+}
+.screen-min {
+  min-height: 100vh;
+  min-height: 100lvh;
+}
+.screen-full-pad {
+  padding-bottom: max(20px, env(safe-area-inset-bottom));
+  padding-bottom: calc(100lvh - 100svh + max(20px, env(safe-area-inset-bottom)));
+}
+
 /* Tailwind leaves buttons with the plain arrow cursor; every clickable control shows the pointing hand */
 button:not(:disabled),
 select {

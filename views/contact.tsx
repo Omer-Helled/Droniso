@@ -24,7 +24,7 @@ export function ContactView({ locale }: { locale: Locale }) {
   return (
     <Chrome locale={locale} path="/contact" overHero>
       <JsonLd data={[businessJsonLd(locale), breadcrumbJsonLd([{ name: t.nav.homeCrumb, href: localePath(locale, "/") }, ...crumbs])]} />
-      <section aria-labelledby="contact-page-title" className="relative isolate min-h-[100svh]">
+      <section aria-labelledby="contact-page-title" className="screen-min relative isolate">
         <AmbientVideo pauseLabel={t.hero.pause} playLabel={t.hero.play} />
         <div className="container-x pb-20 pt-[calc(var(--header-h)+clamp(40px,7vw,96px))]">
           <nav aria-label="Breadcrumb">
